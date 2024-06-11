@@ -1,0 +1,91 @@
+{
+  "name": "airline",
+  "private": "true",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=16.13.0"
+  },
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "start": "ncc run src/index.ts",
+    "build": "ncc build src/index.ts -sm",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "test": "c8 ava",
+    "jwt": "node scripts/jwt.js",
+    "dbm:generate": "drizzle-kit generate:pg",
+    "dbm:update": "ts-node --project tsconfig-migration.json scripts/migrate.ts",
+    "drop": "drizzle-kit drop --config=drizzle.config.ts",
+    "test:dev": "ts-node --project tsconfig-migration.json scripts/test.ts",
+    "schemas": "ts-node --project tsconfig-migration.json scripts/schemas.ts"
+  },
+  "dependencies": {
+    "@ethereum-attestation-service/eas-sdk": "1.2.0-beta.0",
+    "@fastify/awilix": "3.0.1",
+    "@fastify/cookie": "^9.2.0",
+    "@fastify/cors": "8.2.0",
+    "@fastify/helmet": "11.0.0",
+    "@fastify/jwt": "^8.0.0",
+    "@fastify/session": "10.6.0",
+    "@fastify/swagger": "8.5.1",
+    "@fastify/swagger-ui": "1.8.1",
+    "@t3-oss/env-core": "0.3.1",
+    "awilix": "8.0.1",
+    "axios": "1.4.0",
+    "dotenv": "16.0.3",
+    "drizzle-orm": "0.26.2",
+    "drizzle-zod": "0.4.2",
+    "ethers": "6.7.1",
+    "fastify": "4.10.2",
+    "fastify-raw-body": "4.2.0",
+    "fastify-type-provider-zod": "1.1.9",
+    "node-schedule": "2.1.0",
+    "pg": "8.10.0",
+    "siwe": "^2.1.4",
+    "zod": "3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "16.18.3",
+    "@types/node-schedule": "2.1.0",
+    "@types/pg": "8.10.2",
+    "@vercel/ncc": "^0.38.1",
+    "ava": "4.3.3",
+    "c8": "7.12.0",
+    "drizzle-kit": "0.18.1",
+    "gts": "4.0.0",
+    "nodemon": "3.0.1",
+    "prettier": "2.7.1",
+    "prettier-plugin-organize-imports": "3.2.0",
+    "ts-node": "10.9.1",
+    "typescript": "4.7.4"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "timeout": "180s",
+    "failFast": true,
+    "environmentVariables": {
+      "WALLET_ADDRESS_WHITELIST": "0xb2c36a26322ecd950be84b87618b2d9bcc12ddca,0x0e3f28be55db146d99f6797b49f79521a4b7cea7"
+    }
+  },
+  "c8": {
+    "exclude": [
+      "test",
+      "src/*.ts",
+      "src/_core/type.ts",
+      "src/_core/constant.ts"
+    ],
+    "reporter": [
+      "text",
+      "cobertura",
+      "html",
+      "json-summary"
+    ]
+  }
+}
