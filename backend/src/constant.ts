@@ -1,5 +1,5 @@
 import { EAS, SchemaRegistry } from "@ethereum-attestation-service/eas-sdk";
-import { InfuraProvider, Wallet } from "ethers";
+import { InfuraProvider, Network, Wallet, ethers } from "ethers";
 import { z } from "zod";
 import { env } from "./env";
 
@@ -14,9 +14,11 @@ export const errorResponseSchema = z.object({
   return this.toString();
 };
 
-export const serverProvider = new InfuraProvider(
-  env.CHAIN_ID,
-  env.INFURA_PROJECT_ID
+const staticNetwork = Network.from(84532);
+export const serverProvider = new ethers.JsonRpcProvider(
+  'https://base-sepolia.blockpi.network/v1/rpc/public',
+  staticNetwork,
+  { staticNetwork }
 );
 export const serverWallet = new Wallet(env.ATTESTER_SK, serverProvider);
 
@@ -37,6 +39,10 @@ export const contracts = {
     schemaRegistry: "0x7876EEF51A891E737AF8ba5A5E0f0Fd29073D5a7",
     eas: "0x5E634ef5355f45A855d02D66eCD687b1502AF790",
   },
+  1001: {
+    schemaRegistry: "0x4200000000000000000000000000000000000020",
+    eas: "0x4200000000000000000000000000000000000021",
+  }
 }[env.CHAIN_ID];
 
 if (!contracts) {
@@ -94,6 +100,20 @@ export const SCHEMAS = {
     id: [
       "string idType, string id, address subject, string scriptURI",
       "0x79b84a21253707c939a9dde579dcc048c208a46170b184a8240cb205075ed01c",
+    ],
+  },
+  1001: {
+    offerForSelling: [
+      "address token, uint id, string receiverIdType, string receiver, address erc20, uint price, bytes sellerSignature, string scriptURI",
+      "0x49e5d2bd5ca331e8fa2f986201d084564795bfea2b4ec8fe673cd3a8f86b88c1",
+    ],
+    offerForClaiming: [
+      "address token, uint amount, string receiverIdType, address erc20, uint price, bytes sellerSignature, string scriptURI",
+      "0x550025ca785a39a7ab70f10776e03bf74ecff2a4d4f5f9d1d822399f0d2061ad",
+    ],
+    id: [
+      "string idType, string id, address subject, string scriptURI",
+      "0x9775cfbff5ebe8ec1e54b36028b3c00e02603eaa3c2178cc0eb445f7a9c163d8",
     ],
   },
 }[env.CHAIN_ID];

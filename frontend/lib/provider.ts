@@ -58,10 +58,7 @@ export async function signAttestation(offer: any) {
 }
 
 const errorMsg = "please connect a wallet first."
-const infuraProvider = new ethers.InfuraProvider(
-  env.NEXT_PUBLIC_CHAIN_ID,
-  "6e1527648cc24374bbb19680d506bce8"
-)
+const rpcProvider = new ethers.JsonRpcProvider('https://base-sepolia.blockpi.network/v1/rpc/public')
 
 export const CONFIRMATIONS = 1
 
@@ -99,7 +96,7 @@ export async function approve(
   committedHandler: any,
   mintedHandler: any
 ) {
-  if (!infuraProvider) {
+  if (!rpcProvider) {
     console.error(errorMsg)
     return
   }
@@ -220,7 +217,7 @@ export async function approveForClaim(
   committedHandler: any,
   mintedHandler: any
 ) {
-  if (!infuraProvider) {
+  if (!rpcProvider) {
     console.error(errorMsg)
     return
   }

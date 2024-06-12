@@ -34,7 +34,7 @@ export function OfferSection({}: {}) {
   const [error, setError] = useState("")
   const [shareLink, setShareLink] = useState("")
   const [token, setToken] = useState(
-    "0x6A55eE0A3E9CE2db407bCDBf88Dd185384404133" //token
+    "0x36903D0f03eBf70Bf3AeEA4e81c871bBb268f433" //token
   )
   const [receiverIdType, setReceiverIdType] = useState(ID_TYPE_REDBRICK_WALLET)
 

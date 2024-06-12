@@ -20,19 +20,13 @@ import "@rainbow-me/rainbowkit/styles.css"
 import type { ReactNode } from "react"
 import { Provider } from "jotai"
 import { WagmiConfig, configureChains, createConfig } from "wagmi"
-import {
-  goerli,
-  localhost,
-  mainnet,
-  polygon,
-  polygonMumbai,
-  sepolia,
-} from "wagmi/chains"
 import { infuraProvider } from "wagmi/providers/infura"
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc"
 
+import { baseSepolia } from "@/lib/viem/chains/definitions/baseSepolia"
+
 console.log("isprod", isProd)
-const chainList = [sepolia, polygonMumbai, localhost]
+const chainList = [baseSepolia]
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   chainList,
   [

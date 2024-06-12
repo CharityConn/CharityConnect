@@ -37,7 +37,7 @@ async function main() {
   
   const C = await ethers.getContractFactory('CharityPass');
   const contractFactory = C.connect(admin);
-  const testErc20 = await contractFactory.deploy('CharityPass', 'CPS');
+  const testErc20 = await contractFactory.deploy('CharityPass', 'CPS', 1_000);
   
   await testErc20.waitForDeployment();
 
