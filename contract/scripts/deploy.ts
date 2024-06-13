@@ -31,13 +31,11 @@ async function main() {
     await tx.wait()
   }
   
-  // const [deployer, owner, w1, w2] = await ethers.getSigners();
-  const decimals = 8n;
-  const initialOwnerBalance = 10n * 10n ** 18n; // 100_000_000
-  
-  const C = await ethers.getContractFactory('CharityPass');
+  // const C = await ethers.getContractFactory('CharityPass');
+  const C = await ethers.getContractFactory('CharityPoints');
   const contractFactory = C.connect(admin);
-  const testErc20 = await contractFactory.deploy('CharityPass', 'CPS', 1_000);
+  // const testErc20 = await contractFactory.deploy('CharityPass', 'CPS');
+  const testErc20 = await contractFactory.deploy(10n * 10n ** 18n);
   
   await testErc20.waitForDeployment();
 
