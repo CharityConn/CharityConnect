@@ -55,9 +55,8 @@ schemaRegistry.connect(serverProvider);
 export const eas = new EAS(contracts.eas);
 eas.connect(serverProvider);
 
-export const easVersion = await eas.getVersion();
-
-export const offchain = await eas.getOffchain();
+//export const easVersion = await eas.getVersion();
+//export const offchain = await eas.getOffchain();
 
 export const SCHEMAS = {
   11155111: {
