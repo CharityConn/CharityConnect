@@ -1,0 +1,114 @@
+/*
+  Global App CSS
+  ----------------------
+  Use this file for styles that should be applied to all components.
+  For example, "font-family" within the "body" selector is a CSS property
+  most apps will want applied to all components.
+
+  Any global CSS variables should also be applied here.
+*/
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: "Rubik", Helvetica, Arial, sans-serif;
+	min-height: 100vh;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+input[type=text], select {
+	height: 36px;
+	padding: 0 10px;
+	border: 1px #b0b0b0 solid;
+	border-radius: 5px;
+}
+
+select {
+	background: #fff;
+}
+
+select:hover {
+	background: linear-gradient(0deg, #CECECE, #CECECE), #DDDDDD;
+}
+
+.btn {
+	border-radius: 10px;
+	height: 36px;
+	min-width: 112px;
+	background: #EEEEEE;
+	color: #0B0B0B;
+	border: none;
+	cursor: pointer;
+}
+
+.ts-card-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn > span {
+	margin: 0;
+	font-size: 14px;
+	color: inherit;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.btn-primary {
+	color: #fff;
+	background: linear-gradient(234.79deg, #001AFF 37.73%, #4F95FF 118.69%), #8A9CB8;
+}
+
+.btn-primary:hover {
+	background: linear-gradient(214.82deg, #001AFF -21.14%, #4F95FF 89.22%);
+}
+
+.btn-primary:disabled {
+	background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), linear-gradient(234.79deg, #001AFF 37.73%, #4F95FF 118.69%) !important;
+}
+
+/* TODO: Secondary button hover & disable states are not distinct enough */
+.btn-secondary {
+	border: 2px solid #001AFF;
+	background: #fff;
+	color: #001AFF;
+}
+
+.btn-secondary:hover {
+	border-color: #4F95FF;
+	color: #4F95FF !important;
+}
+
+.btn-secondary:disabled {
+	border-color: #4F95FF !important;
+	color: #4F95FF !important;
+	pointer-events: auto !important;
+}
+
+.btn-featured {
+	color: #fff;
+	border: 2px solid #FF6B00;
+	background: linear-gradient(0deg, #FF6B00 0%, #FF6B00 100%);
+}
+
+.btn-featured:hover {
+	border: 2px solid rgba(255, 107, 0, 0.90);
+	background: linear-gradient(0deg, rgba(255, 107, 0, 0.90) 0%, rgba(255, 107, 0, 0.90) 100%);
+}
+
+.btn-featured:disabled {
+	background: linear-gradient(0deg, rgba(255, 107, 0, 0.6) 0%, rgba(255, 107, 0, 0.6) 100%), #8A9CB8; !important;
+}
+
+a {
+	color: #001AFF;
+	text-decoration: underline;
+	cursor: pointer;
+}

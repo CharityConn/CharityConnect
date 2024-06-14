@@ -1,0 +1,63 @@
+
+.ts-button {
+	width: 250px;
+	height: 60px;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	background-color: #FFFEFE;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+	.ts-button {
+		width: 300px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.ts-button {
+		min-width: 250px;
+		width: 100%;
+	}
+}
+
+.ts-button.disabled {
+	opacity: 0.6;
+}
+
+.ts-details {
+	padding: 10px;
+	flex-grow: 1;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.ts-details > span {
+	font-size: 12px;
+	color: #545454;
+}
+
+.ts-details > h5 {
+	margin: 2px 0;
+}
+
+.ts-button > token-icon {
+	margin-left: 5px;
+	border-radius: 5px;
+	width: 50px;
+	height: 50px;
+	flex-shrink: 0;
+}
+
+.ts-button > .remove-btn {
+	align-self: start;
+	background: none;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+	color: #0B0B0B;
+}

@@ -1,0 +1,94 @@
+
+viewer-popover {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	top: 0;
+	left: 0;
+	display: none;
+	flex-direction: column;
+}
+
+tokens-grid {
+	flex-grow: 1;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+}
+
+viewer-popover.open {
+	display: flex;
+}
+
+viewer-popover .view-heading {
+	flex-wrap: nowrap;
+}
+
+viewer-popover .view-toolbar-buttons {
+	flex-wrap: nowrap;
+}
+
+viewer-popover .view-heading, viewer-popover .view-toolbar-buttons {
+	display: flex;
+	padding: 10px 20px;
+	align-items: center;
+}
+
+viewer-popover .view-heading > h3 {
+	margin: 0 0 0 10px;
+	flex-shrink: 0;
+	font-weight: 600;
+	font-size: 24px;
+}
+
+viewer-popover .view-heading > button {
+	min-width: 30px;
+	font-weight: 600;
+	font-size: 24px;
+	background: none;
+}
+
+viewer-popover .meta-details {
+	margin: 0 25px 24px;
+}
+
+viewer-popover .meta-details p {
+	color: #545454;
+	font-weight: 400;
+	font-size: 16px;
+}
+
+viewer-popover .meta-details a {
+	font-weight: 500;
+	text-decoration: none;
+	display: flex;
+
+}
+
+viewer-popover .meta-details a:hover {
+	filter: opacity(80%);
+}
+
+viewer-popover a.how-it-works {
+	width: fit-content;
+}
+
+viewer-popover .meta-details a img {
+	margin: 0 5px;
+}
+
+viewer-popover .onboarding-cards {
+	margin: 0 25px 24px;
+}
+
+.onboarding-cards {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.onboarding-cards button {
+	padding: 0 15px;
+}

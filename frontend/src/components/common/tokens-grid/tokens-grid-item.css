@@ -1,0 +1,100 @@
+
+.tokens-grid-item {
+	margin: 10px;
+	border-radius: 10px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+	width: 300px;
+	max-width: 350px;
+	overflow: hidden;
+	background: #FFFEFE;
+	position: relative;
+}
+
+.tokens-grid-item token-icon img {
+	width: 100%;
+}
+
+.tg-item-details {
+	padding: 10px;
+	overflow: hidden;
+	position: relative;
+}
+
+.tokens-grid-item h5 {
+	margin: 10px 20px 5px 0;
+	font-size: 18px;
+	display: flex;
+	align-items: center;
+}
+
+.tokens-grid-item span {
+	font-size: 14px;
+	margin-bottom: 5px;
+	display: block;
+}
+
+.tokens-grid-item span, .tokens-grid-item h5 {
+	overflow: hidden;
+	max-width: 100%;
+	text-overflow: ellipsis ellipsis;
+}
+
+.actions {
+	text-align: center;
+}
+
+.actions > button {
+	display: block;
+	width: 100%;
+	margin: 8px 0;
+}
+
+.more-actions-btn {
+	background: none !important;
+	border: none !important;
+	font-weight: bold;
+	color: rgb(84, 84, 84);
+}
+
+.info-btn {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 25px;
+	min-width: unset !important;
+	font-weight: bold;
+	height: 25px !important;
+	margin: 18px 10px;
+	border-radius: 25px !important;
+	border: none !important;
+	padding: 0;
+	background: transparent !important;
+}
+
+.info-btn svg:hover {
+	filter: opacity(80%);
+}
+
+token-security-status {
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 10px;
+}
+
+.delete-attest-btn {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 10px;
+	background: none;
+	border: none;
+	font-weight: bold;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.tokens-grid-item > token-icon {
+	/*background: rgba(0, 26, 255, 0.13);*/
+	background: #0000000a;
+}

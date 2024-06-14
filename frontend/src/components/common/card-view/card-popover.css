@@ -1,0 +1,65 @@
+
+card-popover .popover-container {
+	padding: 0 !important;
+}
+
+.card-container {
+	position: relative;
+	max-width: 500px;
+	border-radius: 4px;
+	max-height: 700px;
+	display: flex;
+	flex-direction: column;
+	height: calc(100dvh - 80px);
+	overflow: hidden;
+}
+
+.card-container.fullscreen {
+	max-width: unset !important;
+	max-height: unset !important;
+	height: calc(100dvh - 50px);
+}
+
+.view-loader {
+	z-index: 50;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(87, 87, 87, 0.50)
+}
+
+.iframe-wrapper {
+	position: relative;
+	flex-grow: 1;
+	display: flex;
+}
+
+.tokenscript-frame {
+	background: #fff;
+	width: 100%;
+	flex-grow: 1;
+	border: none;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.action-bar {
+	height: 35px;
+	margin: 4px 0;
+	padding: 0 5px;
+}
+
+.action-btn {
+	width: 100%;
+	height: 100%;
+}
+
+#iframe-template {
+	display: none;
+}

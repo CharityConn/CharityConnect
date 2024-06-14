@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js" integrity="sha512-FDcVY+g7vc5CXANbrTSg1K5qLyriCsGDYCE02Li1tXEYdNQPvLPHNE+rT2Mjei8N7fZbe0WLhw27j2SrGRpdMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	</head>
+	<body style="margin: 0;">
+		<div style="width: 100%; margin: 0 auto; position: relative; height: 100dvh;">
+			<iframe id="frame" src=""
+					style="border: 0; width: 100%; height: 100%;"></iframe>
+		</div>
+		<div style="padding: 10px;">
+			<button class="frame-btn" data-params="chain=11155111&contract=0xa532D3c016aA0B44b7228aCcd701A5F03112CD22&tokenId=1">Sepolia SmartCat</button>
+			<button class="frame-btn" data-params="chain=11155111&contract=0x0404ab3994ed48c300ce219546f757ad34484dc7&tokenscriptUrl=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FSmartTokenLabs%2Fresources%2Ftokenscript-sln-sepolia.tsml">Sepolia SLN</button>
+			<button class="frame-btn" data-params="chain=1&contract=0x3c7e352481f4b2fdec1e642a3f0018661c77513d&tokenId=398233297468566556333642">Eth Devcon</button>
+			<button class="frame-btn" data-params="chain=11155111&contract=0xdE915aFf3649568E15A94fe9b623Db3e7A0944F9&tokenId=1">Seplia ERC1155</button>
+			<button class="frame-btn" data-params="chain=137&contract=0xD5cA946AC1c1F24Eb26dae9e1A53ba6a02bd97Fe&tokenId=3803829543">Polygon SmartCat</button>
+		</div>
+		<script>
+			// Load iframe
+			const BASE_URL = //"https://viewer-staging.tokenscript.org";
+				"http://localhost:3333";
+
+			const VIEW_TYPE = //"joyid-token";
+								"sts-token";
+							  //"alphawallet";
+
+			let params;
+
+			const currentParams = new URLSearchParams(document.location.search);
+
+			if (currentParams.has("chain") && currentParams.has("contract") && currentParams.has("tokenId")){
+				params = new URLSearchParams();
+				params.set("chain", currentParams.get("chain"));
+				params.set("contract", currentParams.get("contract"));
+				params.set("tokenId", currentParams.get("tokenId"));
+			} else {
+				//params = new URLSearchParams("chain=11155111&contract=0xbb14e71e54e03808a6271722192d03ebdc2eab7f&tokenId=3446746621659278273178542360570905268274680596831489800398881977304212307968&tokenscriptUrl=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FSmartTokenLabs%2Fresources%2Ftokenscript%2Frb-sepolia-0xbb14e71e54e03808a6271722192d03ebdc2eab7f-v5.tsml")
+				//params = new URLSearchParams("chain=11155111&contract=0xa532D3c016aA0B44b7228aCcd701A5F03112CD22&tokenId=1"); // smart cat sepolia
+				//params = new URLSearchParams("chain=8217&contract=0xE39dC2CBe826EAC3d736C54Ef0c4045B2054a43e&tokenId=0&emulator=http%3A%2F%2Flocalhost%3A8090%2F");
+				params = new URLSearchParams("chain=1001&contract=0x73148b2c977586305f5aaa63b473a7af96619296&tokenId=15&emulator=http%3A%2F%2Flocalhost%3A8090%2F");
+				//params = new URLSearchParams("chain=11155111&contract=0xa532D3c016aA0B44b7228aCcd701A5F03112CD22&tokenId=1&tokenscriptUrl=http%3A%2F%2Flocalhost%3A8090%2Ftokenscript.tsml"); // smart cat sepolia emulator
+				//params = new URLSearchParams("chain=1&contract=0x3c7e352481f4b2fdec1e642a3f0018661c77513d&tokenId=398233297468566556333642"); // devcon
+				//params = new URLSearchParams("chain=11155111&contract=0xdE915aFf3649568E15A94fe9b623Db3e7A0944F9&tokenId=1"); // ERC1155
+			}
+
+			params.set("viewType", VIEW_TYPE);
+			//params.set("actionsEnabled", "false");
+			params.set("fullScreen", "true");
+
+			loadIframeUrl(BASE_URL + "?" + params.toString())
+
+			function loadIframeUrl(url){
+				document.getElementById("frame").src = url;
+			}
+
+			for (const button of document.getElementsByClassName("frame-btn")){
+				button.addEventListener("click", (evt) => {
+					const params = new URLSearchParams(evt.target.getAttribute("data-params"));
+					params.set("viewType", VIEW_TYPE);
+					loadIframeUrl(BASE_URL + "?" + params.toString())
+				});
+			}
+		</script>
+		<script>
+			// Metamask provider
+
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			const iframe = document.getElementById("frame");
+
+			window.addEventListener("message", async (message) => {
+				if (message.origin !== BASE_URL)
+					return;
+
+				if (message.data.jsonrpc !== "2.0")
+					return;
+
+				console.log("[IFRAME_RPC] request received: ", message);
+
+				try {
+					switch (message.data.method) {
+						case "eth_accounts":
+						case "eth_requestAccounts":
+							await window.ethereum.enable();
+							const accounts = await provider.listAccounts();
+							sendResponse(message.data, accounts);
+							break;
+						case "eth_chainId":
+						case "net_version":
+						case "eth_blockNumber":
+						case "eth_estimateGas":
+						case "eth_sendTransaction":
+						case "eth_getTransactionByHash":
+						case "eth_getTransactionReceipt":
+						case "eth_getTransactionCount":
+						case "personal_sign":
+						case "eth_signTypedData":
+						case "eth_call":
+						case "eth_getBlockByNumber":
+						case "wallet_switchEthereumChain":
+							const result = await provider.send(message.data.method, message.data.params);
+							sendResponse(message.data, result);
+							break;
+
+						default:
+							sendResponse(message.data, null, {code: -1, message: "RPC Method " + message.data.method + " is not implemented"});
+					}
+				} catch (e){
+					console.error(e);
+					sendResponse(message.data, null, {
+						code: e.code,
+						message: e.message,
+						data: e.data
+					});
+				}
+			});
+
+			function sendResponse(messageData, response, error){
+
+				const data = messageData;
+
+				if (error){
+					data.error = error;
+				} else {
+					data.result = response;
+				}
+
+				iframe.contentWindow.postMessage(data, BASE_URL);
+			}
+		</script>
+	</body>
+</html>

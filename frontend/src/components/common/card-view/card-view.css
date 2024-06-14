@@ -1,0 +1,49 @@
+
+.card-container {
+	position: relative;
+	max-width: 500px;
+	margin: 40px auto;
+	border-radius: 4px;
+	max-height: 700px;
+	display: flex;
+	flex-direction: column;
+	height: calc(100% - 60px);;
+}
+
+.view-loader {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(87, 87, 87, 0.67)
+}
+
+.iframe-wrapper {
+	position: relative;
+	flex-grow: 1;
+	display: flex;
+}
+
+.tokenscript-frame {
+	background: #fff;
+	width: 100%;
+	flex-grow: 1;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.action-bar {
+	height: 35px;
+	margin-top: 4px;
+}
+
+.action-btn {
+	width: 100%;
+	height: 100%;
+}
+

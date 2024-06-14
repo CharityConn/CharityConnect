@@ -1,0 +1,13 @@
+
+.ts-grid {
+	display: flex;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+	.ts-grid {
+		justify-content: space-evenly;
+	}
+}
+

@@ -1,0 +1,57 @@
+
+:host {
+	height: 100dvh;
+}
+
+.app-container {
+	min-height: 100dvh;
+	display: flex;
+	flex-direction: column;
+}
+
+html:has(.popover-modal.open){
+	overflow: hidden;
+}
+
+header {
+  background: #000;
+  color: white;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.header-icon {
+	height: 35px;
+	width: auto;
+	padding-left: 25px;
+}
+
+header h1 {
+	margin: 5px 0 0;
+}
+
+h1 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  padding: 0 12px;
+}
+
+main {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+#ts-loader {
+	display: none;
+	position: fixed;
+	z-index: 100;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(87, 87, 87, 0.67)
+}

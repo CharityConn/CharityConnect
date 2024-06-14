@@ -1,0 +1,14 @@
+
+new-viewer {
+	padding: 10px 25px;
+	position: relative;
+	flex-grow: 1;
+}
+
+.toolbar {
+	display: flex;
+	padding: 5px 0;
+	justify-content: space-between;
+	align-items: start;
+	flex-wrap: wrap;
+}
