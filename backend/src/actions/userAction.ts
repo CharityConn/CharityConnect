@@ -32,7 +32,9 @@ async function checkinHandler(
     merchantID: string;
   };
   LOGGER.info(
-    `checkin with wallet: ${userWallet} with merchant ID: ${merchantID}`
+    `checkin with wallet: %s with merchant ID: %s`,
+    userWallet,
+    merchantID
   );
   //TODO server-side sign and send transaction for mint/transfer ERC-20 points to `userWallet` with merchant ID
   return reply.status(200).send({ message: "OK" });
