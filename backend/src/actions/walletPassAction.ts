@@ -1,6 +1,9 @@
+import { ethers } from 'ethers';
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
+import { PASS_CONTRACT } from '../constant';
 import { enqueueWalletPassCreation } from '../services/commonApi';
+import { ownerOf } from '../services/ethersService';
 import {
   buildAppleWalletPassPayload,
   buildGoogleWalletPassPayload,
@@ -15,6 +18,7 @@ export const createWalletPass: Action = {
       body: z.object({
         platform: z.enum(['google', 'apple']),
         passId: z.string(),
+        signature: z.string(),
       }),
     },
   },
@@ -26,10 +30,20 @@ async function createWalletPassHandler(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { platform, passId } = request.body as {
+  const { platform, passId, signature } = request.body as {
     platform: 'google' | 'apple';
     passId: string;
+    signature: string;
   };
+
+  const message = JSON.stringify({
+    platform,
+    passId,
+  });
+  const recovered = ethers.verifyMessage(message, signature);
+  const owner = await ownerOf(PASS_CONTRACT, passId);
+  if (recovered !== owner)
+    return reply.status(400).send({ error: 'Invalid signature' });
 
   const params =
     platform === 'google'
