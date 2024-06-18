@@ -6,7 +6,7 @@ import { externalId } from './walletPassService';
 const logger = LOGGER.child({ from: 'commonApi' });
 
 export async function enqueueWalletPassCreation(
-  tokenId: string,
+  passId: string,
   params: any,
   platform: 'google' | 'apple'
 ) {
@@ -15,7 +15,7 @@ export async function enqueueWalletPassCreation(
     return await axios.post(
       `${env.COMMON_API}/wallet-passes`,
       {
-        id: externalId('google', tokenId),
+        id: externalId('google', passId),
         callbackUrl,
         params,
       },
@@ -30,7 +30,7 @@ export async function enqueueWalletPassCreation(
     return await axios.post(
       `${env.COMMON_API}/wallet-passes`,
       {
-        id: externalId('apple', tokenId),
+        id: externalId('apple', passId),
         callbackUrl,
         params,
       },

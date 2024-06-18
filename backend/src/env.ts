@@ -33,6 +33,7 @@ export const env = createEnv({
       .transform((val) => val?.split(",").map(ethers.getAddress)),
     SLN_ATTESTATION_API: z.string().default("http://127.0.0.1:3106"),
     COMMON_API: z.string().default("http://127.0.0.1:3005"),
+    COMMON_API_CALLBACK_VERIFY_ADDRESS: z.string(),
     PROJECT_API_KEY: z.string(),
     PASS_TEMPLATE_ID: z
       .string()

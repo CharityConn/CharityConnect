@@ -14,7 +14,7 @@ export const createWalletPass: Action = {
     schema: {
       body: z.object({
         platform: z.enum(['google', 'apple']),
-        tokenId: z.string(),
+        passId: z.string(),
       }),
     },
   },
@@ -26,17 +26,17 @@ async function createWalletPassHandler(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { platform, tokenId } = request.body as {
+  const { platform, passId } = request.body as {
     platform: 'google' | 'apple';
-    tokenId: string;
+    passId: string;
   };
 
   const params =
     platform === 'google'
-      ? buildGoogleWalletPassPayload(tokenId)
-      : buildAppleWalletPassPayload(tokenId);
+      ? buildGoogleWalletPassPayload(passId)
+      : buildAppleWalletPassPayload(passId);
 
-  await enqueueWalletPassCreation(tokenId, params, platform);
+  await enqueueWalletPassCreation(passId, params, platform);
 
   return reply.status(201).send();
 }

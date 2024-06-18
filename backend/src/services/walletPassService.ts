@@ -1,134 +1,150 @@
 import { CHAIN_ID, PASS_CONTRACT } from '../constant';
+import { passes } from '../domain/schemas/passes';
 import { env } from '../env';
+import { DbService } from '../_core/services/dbService';
 
-export function externalId(platform: 'google' | 'apple', tokenId: string) {
-  return `charityconnect-${platform}-${tokenId}`;
+export async function updateWalletPassId(
+  dbService: DbService,
+  passId: string,
+  platform: 'google' | 'apple',
+  id: string
+) {
+  const walletPassAttribute =
+    platform === 'google' ? { googleId: id } : { appleId: id };
+
+  return await dbService
+    .db()
+    .insert(passes)
+    .values({
+      passId,
+      ...walletPassAttribute,
+    })
+    .onConflictDoUpdate({
+      target: [passes.passId],
+      set: walletPassAttribute,
+    });
+}
+
+export function externalId(platform: 'google' | 'apple', passId: string) {
+  return `charityconnect-${platform}-${passId}`;
 }
 
 export function decodeExternalId(externalId: string) {
   const parts = externalId.split('-');
   return {
     platform: parts[1] as 'google' | 'apple',
-    tokenId: parts[2],
+    passId: parts[2],
   };
 }
 
-export function buildAppleWalletPassPayload(tokenId: string) {
-  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}#card=battle&tokenId=${tokenId}`;
-  const id = externalId('apple', tokenId);
+export function buildAppleWalletPassPayload(passId: string) {
+  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}#card=battle&tokenId=${passId}`;
+  const id = externalId('apple', passId);
 
   return {
-    id,
-    params: {
-      templateId: env.PASS_TEMPLATE_ID,
-      platform: 'apple',
-      barcode: {
-        redirect: {
-          url: charityConnectUrl,
-        },
-        altText: 'CharityConnect Pass',
+    templateId: env.PASS_TEMPLATE_ID,
+    platform: 'apple',
+    barcode: {
+      redirect: {
+        url: charityConnectUrl,
       },
-      externalId: id,
-      pass: {
-        description: 'CharityConnect',
-        backFields: [
-          {
-            key: 'note',
-            value: 'Please refresh your pass to update your points.',
-          },
-          {
-            key: 'website',
-            label: 'CharityConnect',
-            value: charityConnectUrl,
-          },
-        ],
-        headerFields: [
-          {
-            label: 'POINTS',
-            textAlignment: 'PKTextAlignmentCenter',
-            key: 'points',
-            value: 0,
-          },
-        ],
-        primaryFields: [
-          {
-            label: 'No.',
-            textAlignment: 'PKTextAlignmentCenter',
-            key: 'tokenId',
-            value: tokenId,
-          },
-        ],
-        secondaryFields: [],
-      },
+      altText: 'CharityConnect Pass',
     },
-    callbackUrl: `${env.CALLBACK_URL_ROOT}/webhooks/wallet-pass-created`,
+    externalId: id,
+    pass: {
+      description: 'CharityConnect',
+      backFields: [
+        {
+          key: 'note',
+          value: 'Please refresh your pass to update your points.',
+        },
+        {
+          key: 'website',
+          label: 'CharityConnect',
+          value: charityConnectUrl,
+        },
+      ],
+      headerFields: [
+        {
+          label: 'POINTS',
+          textAlignment: 'PKTextAlignmentCenter',
+          key: 'points',
+          value: 0,
+        },
+      ],
+      primaryFields: [
+        {
+          label: 'No.',
+          textAlignment: 'PKTextAlignmentCenter',
+          key: 'passId',
+          value: passId,
+        },
+      ],
+      secondaryFields: [],
+    },
   };
 }
 
-export function buildGoogleWalletPassPayload(tokenId: string) {
-  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}#card=battle&tokenId=${tokenId}`;
-  const id = externalId('google', tokenId);
+export function buildGoogleWalletPassPayload(passId: string) {
+  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}#card=battle&tokenId=${passId}`;
+  const id = externalId('google', passId);
 
   return {
-    id,
-    params: {
-      templateId: env.PASS_TEMPLATE_ID,
-      platform: 'google',
-      barcode: {
-        redirect: {
-          url: charityConnectUrl,
-        },
-        altText: 'CharityConnect Pass',
+    templateId: env.PASS_TEMPLATE_ID,
+    platform: 'google',
+    barcode: {
+      redirect: {
+        url: charityConnectUrl,
       },
-      externalId: id,
-      pass: {
-        logo: {
-          sourceUri: {
-            uri: 'https://resources.smartlayer.network/wallet-pass/v1/favicon.ico',
-          },
+      altText: 'CharityConnect Pass',
+    },
+    externalId: id,
+    pass: {
+      logo: {
+        sourceUri: {
+          uri: 'https://resources.smartlayer.network/wallet-pass/v1/favicon.ico',
         },
-        heroImage: {
-          sourceUri: {
-            uri: 'https://resources.smartlayer.network/wallet-pass/v1/hero.png',
-          },
+      },
+      heroImage: {
+        sourceUri: {
+          uri: 'https://resources.smartlayer.network/wallet-pass/v1/hero.png',
         },
-        linksModuleData: {
-          uris: [
-            {
-              description: 'CharityConnect',
-              id: 'website',
-              uri: charityConnectUrl,
-            },
-          ],
-        },
-        hexBackgroundColor: '#000000',
-        cardTitle: {
-          defaultValue: {
-            language: 'en',
-            value: 'CharityConnect Pass',
-          },
-        },
-        subheader: {
-          defaultValue: {
-            language: 'en',
-            value: 'No.',
-          },
-        },
-        header: {
-          defaultValue: {
-            language: 'en',
-            value: tokenId,
-          },
-        },
-        textModulesData: [
+      },
+      linksModuleData: {
+        uris: [
           {
-            id: 'oneMiddle',
-            header: 'POINTS',
-            body: 0,
+            description: 'CharityConnect',
+            id: 'website',
+            uri: charityConnectUrl,
           },
         ],
       },
+      hexBackgroundColor: '#000000',
+      cardTitle: {
+        defaultValue: {
+          language: 'en',
+          value: 'CharityConnect Pass',
+        },
+      },
+      subheader: {
+        defaultValue: {
+          language: 'en',
+          value: 'No.',
+        },
+      },
+      header: {
+        defaultValue: {
+          language: 'en',
+          value: passId,
+        },
+      },
+      textModulesData: [
+        {
+          id: 'oneMiddle',
+          header: 'POINTS',
+          body: 0,
+        },
+      ],
     },
-    callbackUrl: `${env.CALLBACK_URL_ROOT}/webhooks/wallet-pass-created`,
   };
 }
