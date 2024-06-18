@@ -1,22 +1,25 @@
 import {
-  bigint,
-  integer,
+  bigserial,
+  numeric,
   pgTable,
-  primaryKey,
+  timestamp,
+  uniqueIndex,
   varchar,
-} from "drizzle-orm/pg-core";
+} from 'drizzle-orm/pg-core';
 
-export const idSecrets = pgTable(
-  "id_secrets",
+export const passes = pgTable(
+  'passes',
   {
-    idType: varchar("id_type", { length: 20 }).notNull(),
-    idValue: varchar("id_value", { length: 50 }).notNull(),
-    secret: integer("secret").notNull(),
-    createdAt: bigint("created_at", { mode: "number" }).notNull(),
+    id: bigserial('id', { mode: 'number' }).primaryKey(),
+    passId: varchar('pass_id', { length: 100 }).notNull(),
+    googleId: varchar('google_id', { length: 100 }),
+    appleId: varchar('apple_id', { length: 100 }),
+    points: numeric('points').notNull().default("0"),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
   },
   (table) => {
     return {
-      pk: primaryKey(table.idType, table.idValue, table.secret),
+      uniquePassId: uniqueIndex('unique_pass_id').on(table.passId),
     };
   }
 );

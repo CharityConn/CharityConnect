@@ -1,50 +1,63 @@
 {
   "version": "5",
   "dialect": "pg",
-  "id": "76cdd266-5fa4-47e8-94e0-d0717969d72b",
+  "id": "a1bdfc9c-6353-43ad-a621-328626a59bef",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "id_secrets": {
-      "name": "id_secrets",
+    "passes": {
+      "name": "passes",
       "schema": "",
       "columns": {
-        "id_type": {
-          "name": "id_type",
-          "type": "varchar(20)",
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "pass_id": {
+          "name": "pass_id",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true
         },
-        "id_value": {
-          "name": "id_value",
-          "type": "varchar(50)",
+        "google_id": {
+          "name": "google_id",
+          "type": "varchar(100)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
-        "secret": {
-          "name": "secret",
-          "type": "integer",
+        "apple_id": {
+          "name": "apple_id",
+          "type": "varchar(100)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "points": {
+          "name": "points",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'0'"
         },
         "created_at": {
           "name": "created_at",
-          "type": "bigint",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "id_secrets_id_type_id_value_secret": {
-          "name": "id_secrets_id_type_id_value_secret",
+      "indexes": {
+        "unique_pass_id": {
+          "name": "unique_pass_id",
           "columns": [
-            "id_type",
-            "id_value",
-            "secret"
-          ]
+            "pass_id"
+          ],
+          "isUnique": true
         }
-      }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
     }
   },
   "enums": {},
