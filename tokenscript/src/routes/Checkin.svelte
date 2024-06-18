@@ -3,7 +3,8 @@
 	import Loader from "../components/Loader.svelte";
 
     //TODO prod too
-    const checkinServerPrefix = "http://localhost:3206"
+    const checkinServerPrefix = "http://localhost:3206" //local dev
+    //const checkinServerPrefix = "https://d37i1m1hx1fc5p.cloudfront.net" //test node
 
 	let token;
     let walletAddress;
