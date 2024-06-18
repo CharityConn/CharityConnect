@@ -299,15 +299,16 @@ export class NewViewer {
         <div class="toolbar">
           <wallet-button></wallet-button>
         </div>
-        {this.tokenId ? (
-          <div class="token-id">
-            Token ID: <span>{this.tokenId}</span>
-          </div>
-        ) : (
-          <button class="btn btn-primary" onClick={this.handleClaim.bind(this)}>
-            Claim
-          </button>
-        )}
+        {this.walletConnection &&
+          (this.tokenId ? (
+            <div class="token-id">
+              Token ID: <span>{this.tokenId}</span>
+            </div>
+          ) : (
+            <button class="btn btn-primary" onClick={this.handleClaim.bind(this)}>
+              Claim
+            </button>
+          ))}
         <add-selector ref={el => (this.addDialog = el as HTMLAddSelectorElement)} onFormSubmit={this.addFormSubmit.bind(this)}></add-selector>
         <viewer-popover ref={el => (this.viewerPopover = el as HTMLViewerPopoverElement)}></viewer-popover>
         <popover-dialog ref={el => (this.aboutDialog = el as HTMLPopoverDialogElement)}>
