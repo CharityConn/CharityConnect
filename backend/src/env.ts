@@ -34,7 +34,11 @@ export const env = createEnv({
     SLN_ATTESTATION_API: z.string().default("http://127.0.0.1:3106"),
     COMMON_API: z.string().default("http://127.0.0.1:3005"),
     PROJECT_API_KEY: z.string(),
-    REDBRICK_API: z.string().default("https://api-dev.redbrick.land"),
+    PASS_TEMPLATE_ID: z
+      .string()
+      .default("e7e74bbd-5a14-4a43-95a6-cfdf2f8eeb16"),
+    CALLBACK_URL_ROOT: z.string().default('http://127.0.0.1:3006'),
+    FRONTEND_URL_ROOT: z.string().default('http://127.0.0.1:3000'),
     LAUNCHPAD_BACKEND_URL: z.string().default("https://store-backend-stage.smartlayer.network"),
     JWT_SECRET: z.string().default("SuPeRpaSsW0rd"),
   },

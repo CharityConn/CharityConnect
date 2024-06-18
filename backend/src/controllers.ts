@@ -1,12 +1,11 @@
-import { verifyWallet as verifyCatLootWallet } from "./actions/catLootAction";
-import { Controller, SecurityFilterRule } from "./_core/type";
+import { Controller, SecurityFilterRule } from './_core/type';
+import {createWalletPass} from './actions/walletPassAction';
 
 export const controllers: Controller[] = [
   {
-    prefix: "cat-loot",
-    actions: [verifyCatLootWallet],
+    prefix: 'wallet-pass',
+    actions: [createWalletPass],
   },
 ];
 
-export const securityRules: SecurityFilterRule[] = [
-];
+export const securityRules: SecurityFilterRule[] = [];
