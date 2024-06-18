@@ -1446,3 +1446,9 @@ export const ERC20_ABI_JSON = [
     type: 'function',
   },
 ];
+
+export const CC_PASS_ABI = [
+  'function claim() public',
+  'function balanceOf(address) public view returns (uint256)',
+  'function tokenOfOwnerByIndex(address, uint256) public view returns (uint256)',
+];

@@ -1,12 +1,13 @@
 import { Component, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core';
 import { TokenScript } from '@tokenscript/engine-js/dist/lib.esm/TokenScript';
 import { getKnownTokenScriptMetaById, knownTokenScripts } from '../../../constants/knownTokenScripts';
-import { CHAIN_MAP } from '../../../integration/constants';
+import { CC_PASS_ABI, CHAIN_MAP } from '../../../integration/constants';
 import { DiscoveryAdapter } from '../../../integration/discoveryAdapter';
 import { dbProvider, TokenScriptsMeta } from '../../../providers/databaseProvider';
 import { AppRoot, ShowToastEventArgs, TokenScriptSource } from '../../app/app';
 import { WalletConnection, Web3WalletProvider } from '../../wallet/Web3WalletProvider';
 import { connectEmulatorSocket } from '../util/connectEmulatorSocket';
+import { ethers } from 'ethers';
 
 type LoadedTokenScript = TokenScriptsMeta & { tokenScript?: TokenScript };
 
@@ -35,6 +36,12 @@ export class NewViewer {
   @State()
   private popularTokenscripts: TokenScriptsMeta[] = [];
 
+  @State()
+  private walletConnection: WalletConnection;
+
+  @State()
+  private tokenId: number;
+
   @Event({
     eventName: 'showToast',
     composed: true,
@@ -45,17 +52,28 @@ export class NewViewer {
 
   componentWillLoad() {
     Web3WalletProvider.registerWalletChangeListener(async (walletConnection?: WalletConnection) => {
-      for (const id in this.myTokenScripts) {
-        if (!this.myTokenScripts[id].tokenScript) continue;
+      this.walletConnection = walletConnection;
 
-        if (walletConnection) {
-          this.myTokenScripts[id].tokenScript.getTokenMetadata(true);
-        } else {
-          this.myTokenScripts[id].tokenScript.setTokenMetadata([]);
-        }
+      if (this.walletConnection) {
+        const provider = this.walletConnection.provider;
+        const ccPassContract = new ethers.Contract('0x1C0d1dAE51B37017BB6950E48D8690B085647E63', CC_PASS_ABI, provider);
+
+        try {
+          this.tokenId = await ccPassContract.tokenOfOwnerByIndex(this.walletConnection.address, 0);
+        } catch {}
       }
+
+      // for (const id in this.myTokenScripts) {
+      //   if (!this.myTokenScripts[id].tokenScript) continue;
+
+      //   if (walletConnection) {
+      //     this.myTokenScripts[id].tokenScript.getTokenMetadata(true);
+      //   } else {
+      //     this.myTokenScripts[id].tokenScript.setTokenMetadata([]);
+      //   }
+      // }
     });
-    this.init();
+    // this.init();
     this.processUrlLoad();
   }
 
@@ -247,97 +265,48 @@ export class NewViewer {
     }
   }
 
+  private async handleClaim() {
+    const provider = this.walletConnection.provider;
+    const ccPassContract = new ethers.Contract('0x1C0d1dAE51B37017BB6950E48D8690B085647E63', CC_PASS_ABI, await provider.getSigner());
+
+    try {
+      const receipt = await ccPassContract.claim();
+      this.showToast.emit({
+        type: 'success',
+        title: 'CharityConnect Pass claimed',
+        description: (
+          <span>
+            <a href={`https://sepolia.basescan.org/tx/${receipt.hash}`} target="_blank">
+              {'View On Block Scanner'}
+            </a>
+          </span>
+        ),
+      });
+    } catch (e) {
+      this.showToast.emit({
+        type: 'error',
+        title: 'Failed to claim',
+        description: e.message,
+      });
+    }
+  }
+
   render() {
     return (
       <Host>
-        <h3>Smart Token Viewer</h3>
-        <p>
-          Connect your wallet to use your TokenScript enabled tokens. <a onClick={() => this.aboutDialog.openDialog()}>Learn More</a>.
-        </p>
+        <h3>Charity Connect</h3>
+        {!this.walletConnection && <p>Connect your wallet.</p>}
         <div class="toolbar">
           <wallet-button></wallet-button>
-          <button
-            class="btn"
-            onClick={() => {
-              this.addDialog.openDialog();
-            }}
-          >
-            + Add Token
-          </button>
         </div>
-        <div style={{ padding: '10px 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h4>Your Tokens</h4>
-            <button
-              class="btn"
-              style={{ marginRight: '5px', minWidth: '35px', fontSize: '16px' }}
-              onClick={() => {
-                for (const id in this.myTokenScripts) {
-                  if (!this.myTokenScripts[id].tokenScript) continue;
-                  this.myTokenScripts[id].tokenScript.getTokenMetadata(true, true);
-                }
-              }}
-            >
-              ↻
-            </button>
-          </div>
-          {this.scriptsLoading ? (
-            <loading-spinner color="#1A42FF" size="small"></loading-spinner>
-          ) : Object.values(this.myTokenScripts).length > 0 ? (
-            <tokenscript-grid>
-              {Object.values(this.myTokenScripts).map(ts => {
-                return (
-                  <tokenscript-button
-                    key={ts.tokenScriptId}
-                    tsId={ts.tokenScriptId}
-                    name={ts.name}
-                    imageUrl={ts.iconUrl}
-                    tokenScript={ts.tokenScript}
-                    onClick={() => {
-                      if (!ts.tokenScript) {
-                        this.showToast.emit({
-                          type: 'error',
-                          title: 'TokenScript not available',
-                          description: 'This tokenscript could not be resolved',
-                        });
-                        return;
-                      }
-                      this.viewerPopover.open(ts.tokenScript);
-                    }}
-                    onRemove={async (tsId: string) => {
-                      this.removeTokenScript(tsId);
-                    }}
-                  ></tokenscript-button>
-                );
-              })}
-            </tokenscript-grid>
-          ) : (
-            <div>
-              <strong style={{ fontSize: '13px' }}>You don't have any TokenScripts in your library yet</strong>
-              <br />
-              <span style={{ fontSize: '12px' }}>Add TokenScripts by selecting popular ones below or adding them manually via the Add Tokens button.</span>
-            </div>
-          )}
-        </div>
-        {this.popularTokenscripts.length > 0 ? (
-          <div>
-            <h4>Popular Smart Tokens</h4>
-            <tokenscript-grid>
-              {this.popularTokenscripts.map(ts => {
-                return (
-                  <tokenscript-button
-                    name={ts.name}
-                    imageUrl={ts.iconUrl}
-                    onClick={() => {
-                      this.addPopularTokenScript(ts);
-                    }}
-                  ></tokenscript-button>
-                );
-              })}
-            </tokenscript-grid>
+        {this.tokenId ? (
+          <div class="token-id">
+            Token ID: <span>{this.tokenId}</span>
           </div>
         ) : (
-          ''
+          <button class="btn btn-primary" onClick={this.handleClaim.bind(this)}>
+            Claim
+          </button>
         )}
         <add-selector ref={el => (this.addDialog = el as HTMLAddSelectorElement)} onFormSubmit={this.addFormSubmit.bind(this)}></add-selector>
         <viewer-popover ref={el => (this.viewerPopover = el as HTMLViewerPopoverElement)}></viewer-popover>

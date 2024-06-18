@@ -12,3 +12,7 @@ new-viewer {
 	align-items: start;
 	flex-wrap: wrap;
 }
+
+.token-id {
+	margin-top: 10px
+}
