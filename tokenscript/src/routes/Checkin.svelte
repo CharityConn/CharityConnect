@@ -2,6 +2,9 @@
 	import context from "../lib/context";
 	import Loader from "../components/Loader.svelte";
 
+    //TODO prod too
+    const checkinServerPrefix = "http://localhost:3206"
+
 	let token;
     let walletAddress;
 	let merchantID = "";
@@ -29,8 +32,7 @@
                 "Accept": "application/json",
             };
             const userWallet = walletAddress;
-            //TODO change URL. How to read from a config?
-            const res = await fetch(`http://localhost:3206/user/${userWallet}/checkin`, {
+            const res = await fetch(`${checkinServerPrefix}/user/${userWallet}/checkin`, {
                 method,
                 headers,
                 body: JSON.stringify({ merchantID })
