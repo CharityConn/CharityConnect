@@ -1,0 +1,77 @@
+name: "charity-connect frontend CI"
+
+on:
+  push:
+    paths:
+      - frontend/**
+  pull_request:
+    paths:
+      - frontend/**
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-west-1
+  PROJ_PATH: frontend
+  PROD_URL: https://charity-connect.tokenscript.org/
+  STAGE_URL: https://charity-connect-staging.tokenscript.org/
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "npm"
+          cache-dependency-path: ${{ env.PROJ_PATH }}/package-lock.json
+      - run: |
+          echo -n "Node version: "
+          node -v
+          echo -n "Npm version: "
+          npm -v
+      - name: build
+        run: |
+          cd "${PROJ_PATH}"
+          npm ci
+          npm run build
+        # env:
+          # INFURA_API_KEY: ${{ vars.INFURA_API_KEY }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: charity-connect
+          path: ${{ env.PROJ_PATH }}/www/
+
+  deploy:
+    environment:
+      name: charity-connect-${{ (github.ref_name == 'main' && 'prod') || 'stage' }}
+      url: ${{ github.ref_name == 'main' && env.PROD_URL || env.STAGE_URL }}
+    if: contains(fromJson('["main", "staging"]'), github.ref_name)
+    runs-on: ubuntu-latest
+    needs:
+      - build
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: charity-connect
+          path: ${{ env.PROJ_PATH }}/www/
+      - name: inject env based on branch
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            echo "S3_BUCKET=charity-connect-prod" >> $GITHUB_ENV
+            echo "CLOUDFRONT_ID=E1KBMQ49JB6S8V" >> $GITHUB_ENV
+          else
+            echo "S3_BUCKET=charity-connect-stage" >> $GITHUB_ENV
+            echo "CLOUDFRONT_ID=E1KBMQ49JB6S8V" >> $GITHUB_ENV
+          fi
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: deploy
+        run: |
+          aws s3 sync "${PROJ_PATH}/www/" "s3://${S3_BUCKET}/" --cache-control 'max-age=31536000' --quiet \
+          && find "${PROJ_PATH}/www/" -type f \( -name 'index.html' -o -name 'app.css' -o -name 'app.js' -o -name 'app.esm.js' -o -name '*.tsml' \) -printf '%P\0' | xargs -r -0 -I'{}' aws s3 cp "s3://${S3_BUCKET}/{}" "s3://${S3_BUCKET}/{}" --cache-control 'max-age=600,s-maxage=2592000' \
+          && aws cloudfront create-invalidation --distribution-id "${CLOUDFRONT_ID}" --paths "/*"
