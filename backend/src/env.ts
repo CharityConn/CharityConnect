@@ -2,6 +2,7 @@ import { createEnv } from "@t3-oss/env-core";
 import dotenv from "dotenv";
 import { ethers } from "ethers";
 import { z } from "zod";
+import { zEthereumAddress } from "./lib/zod-validations";
 
 dotenv.config();
 
@@ -24,6 +25,9 @@ export const env = createEnv({
     DB_PASSWORD: z.string().default("admin"),
     DB_DATABASE: z.string().default("eevy"),
     INFURA_PROJECT_ID: z.string(),
+    CONTRACTS_INFURA_PREFIX: z
+      .string()
+      .default("https://base-sepolia.infura.io/v3/"),
     ATTESTER_SK: z.string(),
     CHAIN_ID: z.coerce.number().default(1337),
     SECRET_TTL: z.coerce.number().default(300 * 1000), // default to 5 minutes
@@ -38,10 +42,15 @@ export const env = createEnv({
     PASS_TEMPLATE_ID: z
       .string()
       .default("e7e74bbd-5a14-4a43-95a6-cfdf2f8eeb16"),
-    CALLBACK_URL_ROOT: z.string().default('http://127.0.0.1:3006'),
-    FRONTEND_URL_ROOT: z.string().default('http://127.0.0.1:3000'),
-    LAUNCHPAD_BACKEND_URL: z.string().default("https://store-backend-stage.smartlayer.network"),
+    CALLBACK_URL_ROOT: z.string().default("http://127.0.0.1:3006"),
+    FRONTEND_URL_ROOT: z.string().default("http://127.0.0.1:3000"),
+    LAUNCHPAD_BACKEND_URL: z
+      .string()
+      .default("https://store-backend-stage.smartlayer.network"),
     JWT_SECRET: z.string().default("SuPeRpaSsW0rd"),
+    POINTS_CONTRACT: zEthereumAddress().default(
+      "0xc7177825307A9717C8d79d41136a311a8Ccd65e9"
+    ),
   },
   client: {},
   runtimeEnv: process.env,
