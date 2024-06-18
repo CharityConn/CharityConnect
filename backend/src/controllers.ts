@@ -1,4 +1,4 @@
-import { createWalletPass } from "./actions/walletPassAction";
+import { createWalletPass, getWalletPass } from "./actions/walletPassAction";
 import { walletPassCreated } from "./actions/webhookActions";
 import { Controller, SecurityFilterRule } from "./_core/type";
 import { checkin } from "./actions/userAction";
@@ -6,7 +6,7 @@ import { checkin } from "./actions/userAction";
 export const controllers: Controller[] = [
   {
     prefix: "wallet-pass",
-    actions: [createWalletPass],
+    actions: [createWalletPass, getWalletPass],
   },
   {
     prefix: "webhooks",

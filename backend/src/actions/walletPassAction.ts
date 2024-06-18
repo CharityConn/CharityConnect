@@ -2,12 +2,15 @@ import { ethers } from 'ethers';
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import { PASS_CONTRACT } from '../constant';
+import { env } from '../env';
 import { enqueueWalletPassCreation } from '../services/commonApi';
 import { ownerOf } from '../services/ethersService';
 import {
   buildAppleWalletPassPayload,
   buildGoogleWalletPassPayload,
+  getPassByPassId,
 } from '../services/walletPassService';
+import { DbService } from '../_core/services/dbService';
 import { Action } from '../_core/type';
 
 export const createWalletPass: Action = {
@@ -53,4 +56,41 @@ async function createWalletPassHandler(
   await enqueueWalletPassCreation(passId, params, platform);
 
   return reply.status(201).send();
+}
+
+// TODO: auth
+export const getWalletPass: Action = {
+  path: '/:id',
+  method: 'get',
+  options: {
+    schema: {
+      params: z.object({
+        id: z.string(),
+      }),
+    },
+  },
+  handler: getWalletPassHandler,
+};
+
+async function getWalletPassHandler(
+  this: FastifyInstance,
+  request: FastifyRequest,
+  reply: FastifyReply
+) {
+  const dbService: DbService = this.diContainer.resolve('dbService');
+  const { id } = request.params as {
+    id: string;
+  };
+
+  const pass = await getPassByPassId(dbService, id);
+  if (!pass) {
+    return reply.status(404).send({ error: 'Pass not found' });
+  }
+
+  return reply.status(200).send({
+    appleId:
+      pass.appleId && `${env.COMMON_API}/link/wallet-pass/${pass.appleId}`,
+    google:
+      pass.googleId && `${env.COMMON_API}/link/wallet-pass/${pass.googleId}`,
+  });
 }

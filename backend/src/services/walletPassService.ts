@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import { CHAIN_ID, PASS_CONTRACT } from '../constant';
 import { passes } from '../domain/schemas/passes';
 import { env } from '../env';
@@ -23,6 +24,21 @@ export async function updateWalletPassId(
       target: [passes.passId],
       set: walletPassAttribute,
     });
+}
+
+export async function getPassByPassId(dbService: DbService, passId: string) {
+  const result = await dbService
+    .db()
+    .select({
+      id: passes.id,
+      googleId: passes.googleId,
+      appleId: passes.appleId,
+    })
+    .from(passes)
+    .where(eq(passes.passId, passId))
+    .limit(1);
+
+  return result.length ? result[0] : undefined;
 }
 
 export function externalId(platform: 'google' | 'apple', passId: string) {
