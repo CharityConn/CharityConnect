@@ -1,0 +1,97 @@
+<ts:token xmlns:ethereum="urn:ethereum:constantinople" xmlns:ts="http://tokenscript.org/2022/09/tokenscript" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="foo" xsi:schemaLocation="http://tokenscript.org/2022/09/tokenscript https://www.tokenscript.org/schemas/2022-09/tokenscript.xsd">
+	<ts:label>
+		<ts:plurals xml:lang="en">
+			<ts:string quantity="one">foo Token</ts:string>
+			<ts:string quantity="other">foo Tokens</ts:string>
+		</ts:plurals>
+	</ts:label>
+	<ts:meta>
+		<ts:description xml:lang="en">foo</ts:description>
+		<ts:aboutUrl xml:lang="en">https://foo.com</ts:aboutUrl>
+		<ts:iconUrl xml:lang="en">https://foo.com</ts:iconUrl>
+	</ts:meta>
+	<ts:contract interface="erc721" name="Token">
+		<ts:address network="84532">0x38c970b4c26a8eb14aecca1d2535ea83a92eca60</ts:address>
+	</ts:contract>
+	<ts:origins>
+		
+		<ts:ethereum contract="Token"/>
+	</ts:origins>
+
+	<ts:cards>
+		<ts:viewContent xmlns="http://www.w3.org/1999/xhtml" name="common">
+			
+			
+		<style>/*&lt;![CDATA[*/ 
+
+.loader-container.svelte-i4cppe.svelte-i4cppe{width:100%;height:100%;display:flex;justify-content:center;align-items:center}.lds-ring.svelte-i4cppe.svelte-i4cppe{display:inline-block;position:relative;width:80px;height:80px}.lds-ring.svelte-i4cppe div.svelte-i4cppe{box-sizing:border-box;display:block;position:absolute;width:64px;height:64px;margin:8px;border:8px solid #656565;border-radius:50%;animation:svelte-i4cppe-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border-color:#656565 transparent transparent transparent}.lds-ring.svelte-i4cppe div.svelte-i4cppe:nth-child(1){animation-delay:-.45s}.lds-ring.svelte-i4cppe div.svelte-i4cppe:nth-child(2){animation-delay:-.3s}.lds-ring.svelte-i4cppe div.svelte-i4cppe:nth-child(3){animation-delay:-.15s}@keyframes svelte-i4cppe-lds-ring{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+
+ /*//]]&gt;*/</style>
+<script type="module" crossorigin="">//&lt;![CDATA[
+
+var oe=Object.defineProperty;var ce=(e,t,n)=&gt;t in e?oe(e,t,{enumerable:!0,configurable:!0,writable:!0,value:n}):e[t]=n;var q=(e,t,n)=&gt;(ce(e,typeof t!="symbol"?t+"":t,n),n);(function(){const t=document.createElement("link").relList;if(t&amp;&amp;t.supports&amp;&amp;t.supports("modulepreload"))return;for(const i of document.querySelectorAll('link[rel="modulepreload"]'))r(i);new MutationObserver(i=&gt;{for(const s of i)if(s.type==="childList")for(const l of s.addedNodes)l.tagName==="LINK"&amp;&amp;l.rel==="modulepreload"&amp;&amp;r(l)}).observe(document,{childList:!0,subtree:!0});function n(i){const s={};return i.integrity&amp;&amp;(s.integrity=i.integrity),i.referrerPolicy&amp;&amp;(s.referrerPolicy=i.referrerPolicy),i.crossOrigin==="use-credentials"?s.credentials="include":i.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function r(i){if(i.ep)return;i.ep=!0;const s=n(i);fetch(i.href,s)}})();function g(){}function ee(e){return e()}function U(){return Object.create(null)}function N(e){e.forEach(ee)}function te(e){return typeof e=="function"}function E(e,t){return e!=e?t==t:e!==t||e&amp;&amp;typeof e=="object"||typeof e=="function"}function le(e){return Object.keys(e).length===0}function O(e,t){e.appendChild(t)}function _(e,t,n){e.insertBefore(t,n||null)}function h(e){e.parentNode&amp;&amp;e.parentNode.removeChild(e)}function $(e){return document.createElement(e)}function j(e){return document.createTextNode(e)}function L(){return j(" ")}function ne(){return j("")}function K(e,t,n,r){return e.addEventListener(t,n,r),()=&gt;e.removeEventListener(t,n,r)}function b(e,t,n){n==null?e.removeAttribute(t):e.getAttribute(t)!==n&amp;&amp;e.setAttribute(t,n)}function fe(e){return Array.from(e.childNodes)}function ue(e,t){t=""+t,e.data!==t&amp;&amp;(e.data=t)}function V(e,t){e.value=t??""}function D(e,t,n,r){n==null?e.style.removeProperty(t):e.style.setProperty(t,n,r?"important":"")}function G(e,t){return new e(t)}let R;function x(e){R=e}const k=[],Q=[];let C=[];const X=[],de=Promise.resolve();let z=!1;function ae(){z||(z=!0,de.then(re))}function B(e){C.push(e)}const F=new Set;let v=0;function re(){if(v!==0)return;const e=R;do{try{for(;v&lt;k.length;){const t=k[v];v++,x(t),pe(t.$$)}}catch(t){throw k.length=0,v=0,t}for(x(null),k.length=0,v=0;Q.length;)Q.pop()();for(let t=0;t&lt;C.length;t+=1){const n=C[t];F.has(n)||(F.add(n),n())}C.length=0}while(k.length);for(;X.length;)X.pop()();z=!1,F.clear(),x(e)}function pe(e){if(e.fragment!==null){e.update(),N(e.before_update);const t=e.dirty;e.dirty=[-1],e.fragment&amp;&amp;e.fragment.p(e.ctx,t),e.after_update.forEach(B)}}function he(e){const t=[],n=[];C.forEach(r=&gt;e.indexOf(r)===-1?t.push(r):n.push(r)),n.forEach(r=&gt;r()),C=t}const S=new Set;let y;function _e(){y={r:0,c:[],p:y}}function me(){y.r||N(y.c),y=y.p}function P(e,t){e&amp;&amp;e.i&amp;&amp;(S.delete(e),e.i(t))}function W(e,t,n,r){if(e&amp;&amp;e.o){if(S.has(e))return;S.add(e),y.c.push(()=&gt;{S.delete(e),r&amp;&amp;(n&amp;&amp;e.d(1),r())}),e.o(t)}else r&amp;&amp;r()}function H(e){e&amp;&amp;e.c()}function A(e,t,n){const{fragment:r,after_update:i}=e.$$;r&amp;&amp;r.m(t,n),B(()=&gt;{const s=e.$$.on_mount.map(ee).filter(te);e.$$.on_destroy?e.$$.on_destroy.push(...s):N(s),e.$$.on_mount=[]}),i.forEach(B)}function I(e,t){const n=e.$$;n.fragment!==null&amp;&amp;(he(n.after_update),N(n.on_destroy),n.fragment&amp;&amp;n.fragment.d(t),n.on_destroy=n.fragment=null,n.ctx=[])}function ge(e,t){e.$$.dirty[0]===-1&amp;&amp;(k.push(e),ae(),e.$$.dirty.fill(0)),e.$$.dirty[t/31|0]|=1&lt;&lt;t%31}function M(e,t,n,r,i,s,l=null,c=[-1]){const f=R;x(e);const o=e.$$={fragment:null,ctx:[],props:s,update:g,not_equal:i,bound:U(),on_mount:[],on_destroy:[],on_disconnect:[],before_update:[],after_update:[],context:new Map(t.context||(f?f.$$.context:[])),callbacks:U(),dirty:c,skip_bound:!1,root:t.target||f.$$.root};l&amp;&amp;l(o.root);let m=!1;if(o.ctx=n?n(e,t.props||{},(u,p,...d)=&gt;{const a=d.length?d[0]:p;return o.ctx&amp;&amp;i(o.ctx[u],o.ctx[u]=a)&amp;&amp;(!o.skip_bound&amp;&amp;o.bound[u]&amp;&amp;o.bound[u](a),m&amp;&amp;ge(e,u)),p}):[],o.update(),m=!0,N(o.before_update),o.fragment=r?r(o.ctx):!1,t.target){if(t.hydrate){const u=fe(t.target);o.fragment&amp;&amp;o.fragment.l(u),u.forEach(h)}else o.fragment&amp;&amp;o.fragment.c();t.intro&amp;&amp;P(e.$$.fragment),A(e,t.target,t.anchor),re()}x(f)}class T{constructor(){q(this,"$$");q(this,"$$set")}$destroy(){I(this,1),this.$destroy=g}$on(t,n){if(!te(n))return g;const r=this.$$.callbacks[t]||(this.$$.callbacks[t]=[]);return r.push(n),()=&gt;{const i=r.indexOf(n);i!==-1&amp;&amp;r.splice(i,1)}}$set(t){this.$$set&amp;&amp;!le(t)&amp;&amp;(this.$$.skip_bound=!0,this.$$set(t),this.$$.skip_bound=!1)}}const $e="4";typeof window&lt;"u"&amp;&amp;(window.__svelte||(window.__svelte={v:new Set})).v.add($e);const w=[];function ye(e,t=g){let n;const r=new Set;function i(c){if(E(e,c)&amp;&amp;(e=c,n)){const f=!w.length;for(const o of r)o[1](),w.push(o,e);if(f){for(let o=0;o&lt;w.length;o+=2)w[o][0](w[o+1]);w.length=0}}}function s(c){i(c(e))}function l(c,f=g){const o=[c,f];return r.add(o),r.size===1&amp;&amp;(n=t(i,s)||g),c(e),()=&gt;{r.delete(o),r.size===0&amp;&amp;n&amp;&amp;(n(),n=null)}}return{set:i,update:s,subscribe:l}}const J=ye({token:null});function be(e){J.set({...J,token:e})}const ie={data:J,setToken:be};function ve(e){let t;return{c(){t=$("h1"),t.textContent="404"},m(n,r){_(n,t,r)},p:g,i:g,o:g,d(n){n&amp;&amp;h(t)}}}class we extends T{constructor(t){super(),M(this,t,null,ve,E,{})}}function Y(e){let t;return{c(){t=$("div"),t.innerHTML='&lt;div class="lds-ring svelte-i4cppe"&gt;&lt;div class="svelte-i4cppe"&gt;&lt;/div&gt; &lt;div class="svelte-i4cppe"&gt;&lt;/div&gt; &lt;div class="svelte-i4cppe"&gt;&lt;/div&gt; &lt;div class="svelte-i4cppe"&gt;&lt;/div&gt;&lt;/div&gt;',b(t,"class","loader-container svelte-i4cppe")},m(n,r){_(n,t,r)},d(n){n&amp;&amp;h(t)}}}function ke(e){let t,n=e[0]&amp;&amp;Y();return{c(){n&amp;&amp;n.c(),t=ne()},m(r,i){n&amp;&amp;n.m(r,i),_(r,t,i)},p(r,[i]){r[0]?n||(n=Y(),n.c(),n.m(t.parentNode,t)):n&amp;&amp;(n.d(1),n=null)},i:g,o:g,d(r){r&amp;&amp;h(t),n&amp;&amp;n.d(r)}}}function Ce(e,t,n){let{show:r}=t;return e.$$set=i=&gt;{"show"in i&amp;&amp;n(0,r=i.show)},[r]}class xe extends T{constructor(t){super(),M(this,t,Ce,ke,E,{show:0})}}function Z(e){let t,n,r,i,s,l,c,f,o;function m(d,a){return d[3].length?Oe:Ne}let u=m(e),p=u(e);return{c(){t=$("h3"),t.textContent="Checkin",n=L(),r=$("div"),r.textContent="Merchant ID:",i=L(),s=$("textarea"),l=L(),p.c(),c=ne(),b(r,"id","message-title"),b(s,"class","message-input"),b(s,"placeholder","e.g 1234"),s.disabled=e[4]},m(d,a){_(d,t,a),_(d,n,a),_(d,r,a),_(d,i,a),_(d,s,a),V(s,e[2]),_(d,l,a),p.m(d,a),_(d,c,a),f||(o=K(s,"input",e[6]),f=!0)},p(d,a){a&amp;16&amp;&amp;(s.disabled=d[4]),a&amp;4&amp;&amp;V(s,d[2]),u===(u=m(d))&amp;&amp;p?p.p(d,a):(p.d(1),p=u(d),p&amp;&amp;(p.c(),p.m(c.parentNode,c)))},d(d){d&amp;&amp;(h(t),h(n),h(r),h(i),h(s),h(l),h(c)),p.d(d),f=!1,o()}}}function Oe(e){let t,n;return{c(){t=$("p"),n=j(e[3])},m(r,i){_(r,t,i),O(t,n)},p(r,i){i&amp;8&amp;&amp;ue(n,r[3])},d(r){r&amp;&amp;h(t)}}}function Ne(e){let t,n,r,i,s,l;return{c(){t=$("div"),n=$("button"),r=j("Checkin"),b(n,"type","button"),n.disabled=i=e[4]||!e[1].length||!e[2].length||!!e[3].length,b(t,"class","link-button"),D(t,"position","relative"),D(t,"margin","0 auto"),D(t,"max-width","200px")},m(c,f){_(c,t,f),O(t,n),O(n,r),s||(l=K(n,"click",e[7]),s=!0)},p(c,f){f&amp;30&amp;&amp;i!==(i=c[4]||!c[1].length||!c[2].length||!!c[3].length)&amp;&amp;(n.disabled=i)},d(c){c&amp;&amp;h(t),s=!1,l()}}}function Ee(e){let t,n,r,i,s=e[0]&amp;&amp;Z(e);return r=new xe({props:{show:e[4]}}),{c(){t=$("div"),s&amp;&amp;s.c(),n=L(),H(r.$$.fragment)},m(l,c){_(l,t,c),s&amp;&amp;s.m(t,null),O(t,n),A(r,t,null),i=!0},p(l,[c]){l[0]?s?s.p(l,c):(s=Z(l),s.c(),s.m(t,n)):s&amp;&amp;(s.d(1),s=null);const f={};c&amp;16&amp;&amp;(f.show=l[4]),r.$set(f)},i(l){i||(P(r.$$.fragment,l),i=!0)},o(l){W(r.$$.fragment,l),i=!1},d(l){l&amp;&amp;h(t),s&amp;&amp;s.d(),I(r)}}}const Le="https://d37i1m1hx1fc5p.cloudfront.net";function Se(e,t,n){let r,i,s="",l="",c=!0;ie.data.subscribe(async u=&gt;{u.token&amp;&amp;(n(0,r=u.token),n(1,i=u.token.ownerAddress),n(4,c=!1))});async function f(){console.log("Checkin..."),n(4,c=!0);try{const u="POST",p={"Content-type":"application/json",Accept:"application/json"},a=await fetch(`${Le}/user/${i}/checkin`,{method:u,headers:p,body:JSON.stringify({merchantID:s})});let se;se=await a.json(),console.log(`Status code: ${a.status}`),n(3,l="Done checkin")}catch(u){n(3,l="Failed to checkin"),console.error(u)}n(4,c=!1)}function o(){s=this.value,n(2,s)}return[r,i,s,l,c,f,o,()=&gt;f()]}class Pe extends T{constructor(t){super(),M(this,t,Se,Ee,E,{})}}function Ae(e){let t,n,r,i,s,l;var c=e[0];function f(o,m){return{}}return c&amp;&amp;(r=G(c,f())),{c(){t=$("div"),n=$("div"),r&amp;&amp;H(r.$$.fragment),b(n,"id","token-container")},m(o,m){_(o,t,m),O(t,n),r&amp;&amp;A(r,n,null),i=!0,s||(l=K(window,"hashchange",e[1]),s=!0)},p(o,[m]){if(m&amp;1&amp;&amp;c!==(c=o[0])){if(r){_e();const u=r;W(u.$$.fragment,1,0,()=&gt;{I(u,1)}),me()}c?(r=G(c,f()),H(r.$$.fragment),P(r.$$.fragment,1),A(r,n,null)):r=null}},i(o){i||(r&amp;&amp;P(r.$$.fragment,o),i=!0)},o(o){r&amp;&amp;W(r.$$.fragment,o),i=!1},d(o){o&amp;&amp;h(t),r&amp;&amp;I(r),s=!1,l()}}}function Ie(e,t,n){let r,i=!1;const s={"#checkin":Pe};let l;function c(){n(0,l=s[r.level==0?"#adopt":document.location.hash]||we)}return web3.tokens.dataChanged=async(f,o,m)=&gt;{i||(ie.setToken(o.currentInstance),r=o.currentInstance,i=!0,c())},[l,c]}class je extends T{constructor(t){super(),M(this,t,Ie,Ae,E,{})}}new je({target:document.body});
+
+
+//]]&gt;</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+
+
+<style>
+					/* <![CDATA[ */
+					
+* {
+	font-family: "Rubik", sans-serif;
+	box-sizing: border-box;
+}
+
+body {
+	color: #0B0B0B;
+}
+
+h1 {
+	font-size: 22px;
+}
+
+h2 {
+	font-size: 20px;
+}
+
+h3 {
+	font-size: 18px;
+}
+
+h5 {
+	font-size: 16px;
+	margin-bottom: 12px;
+}
+
+p.light {
+	color: #545454;
+}
+
+.loader-modal {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+					/* ]]> */
+				</style></ts:viewContent>
+
+		<ts:card name="Checkin" type="action">
+			<ts:label>
+				<ts:string xml:lang="en">Checkin</ts:string>
+			</ts:label>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="checkin" xml:lang="en">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
+	</ts:cards>
+
+</ts:token>
