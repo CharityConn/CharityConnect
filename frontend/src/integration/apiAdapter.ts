@@ -2,8 +2,8 @@ class ApiAdapter {
   private baseURI: string;
 
   constructor() {
-    this.baseURI = 'http://localhost:3006';
-    // this.baseURI = 'https://d37i1m1hx1fc5p.cloudfront.net';
+    // this.baseURI = 'http://localhost:3006';
+    this.baseURI = 'https://d37i1m1hx1fc5p.cloudfront.net';
   }
 
   async generateWalletPass(platform: 'google' | 'apple', passId: string) {
