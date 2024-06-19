@@ -67,18 +67,22 @@ export class PassSection {
   }
 
   render() {
+    if (!this.walletConnection) return null;
+
     return (
-      <div>
-        {this.walletConnection &&
-          (this.tokenId ? (
-            <div class="token-id">
-              Token ID: <span>{this.tokenId}</span>
+      <div class="pass-section">
+        {this.tokenId ? (
+          <div class="pass">
+            <div class="pass-title">CharityConnect Pass</div>
+            <div class="pass-no">
+              No. <strong>{this.tokenId}</strong>
             </div>
-          ) : (
-            <button class="btn btn-primary" onClick={this.handleClaim.bind(this)}>
-              Claim
-            </button>
-          ))}
+          </div>
+        ) : (
+          <button class="btn btn-primary" onClick={this.handleClaim.bind(this)}>
+            Claim
+          </button>
+        )}
       </div>
     );
   }
