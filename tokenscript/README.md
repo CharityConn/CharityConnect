@@ -8,7 +8,7 @@
 
 - `/App.svelte` is an entry point which new views can be added to the Svelte application. 
 
-- `/src/routes/` contains example views `Mint` and `Info` which can be built upon or used as a reference towards your project.
+- `/src/routes/` contains views like `Checkin`.
 
 - `/out/tokenscript.tsml` is the finalised project output. This is generated when you start or build this application. 
 

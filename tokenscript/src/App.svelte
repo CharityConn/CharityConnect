@@ -1,18 +1,13 @@
 
 <script lang="ts">
 	import context from "./lib/context";
-	import Info from "./routes/Info.svelte";
 	import NotFound from "./routes/NotFound.svelte";
-
-	import Mint from "./routes/Mint.svelte";
 	import Checkin from "./routes/Checkin.svelte";
 
 	let token;
 	let initialised = false;
 
 	const routingMap = {
-		'#info': Info,
-		'#mint': Mint,
 		'#checkin': Checkin
 	};
 
