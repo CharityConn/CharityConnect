@@ -21,7 +21,7 @@ export const createWalletPass: Action = {
       body: z.object({
         platform: z.enum(['google', 'apple']),
         passId: z.string(),
-        signature: z.string(),
+        // signature: z.string(),
       }),
     },
   },
@@ -33,20 +33,20 @@ async function createWalletPassHandler(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { platform, passId, signature } = request.body as {
+  const { platform, passId, /*signature*/ } = request.body as {
     platform: 'google' | 'apple';
     passId: string;
-    signature: string;
+    // signature: string;
   };
 
-  const message = JSON.stringify({
-    platform,
-    passId,
-  });
-  const recovered = ethers.verifyMessage(message, signature);
-  const owner = await ownerOf(PASS_CONTRACT, passId);
-  if (recovered !== owner)
-    return reply.status(400).send({ error: 'Invalid signature' });
+  // const message = JSON.stringify({
+  //   platform,
+  //   passId,
+  // });
+  // const recovered = ethers.verifyMessage(message, signature);
+  // const owner = await ownerOf(PASS_CONTRACT, passId);
+  // if (recovered !== owner)
+  //   return reply.status(400).send({ error: 'Invalid signature' });
 
   const params =
     platform === 'google'
@@ -88,7 +88,7 @@ async function getWalletPassHandler(
   }
 
   return reply.status(200).send({
-    appleId:
+    apple:
       pass.appleId && `${env.COMMON_API}/link/wallet-pass/${pass.appleId}`,
     google:
       pass.googleId && `${env.COMMON_API}/link/wallet-pass/${pass.googleId}`,
