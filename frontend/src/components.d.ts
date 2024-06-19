@@ -83,6 +83,8 @@ export namespace Components {
     interface NewViewer {
         "app": AppRoot;
     }
+    interface PassSection {
+    }
     interface PopoverDialog {
         "closeDialog": () => Promise<void>;
         "dialogClasses": string[];
@@ -197,6 +199,10 @@ export interface CardPopoverCustomEvent<T> extends CustomEvent<T> {
 export interface NewViewerCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLNewViewerElement;
+}
+export interface PassSectionCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLPassSectionElement;
 }
 export interface TokensGridCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -337,6 +343,23 @@ declare global {
     var HTMLNewViewerElement: {
         prototype: HTMLNewViewerElement;
         new (): HTMLNewViewerElement;
+    };
+    interface HTMLPassSectionElementEventMap {
+        "showToast": ShowToastEventArgs;
+    }
+    interface HTMLPassSectionElement extends Components.PassSection, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLPassSectionElementEventMap>(type: K, listener: (this: HTMLPassSectionElement, ev: PassSectionCustomEvent<HTMLPassSectionElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLPassSectionElementEventMap>(type: K, listener: (this: HTMLPassSectionElement, ev: PassSectionCustomEvent<HTMLPassSectionElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLPassSectionElement: {
+        prototype: HTMLPassSectionElement;
+        new (): HTMLPassSectionElement;
     };
     interface HTMLPopoverDialogElement extends Components.PopoverDialog, HTMLStencilElement {
     }
@@ -528,6 +551,7 @@ declare global {
         "integration-viewer": HTMLIntegrationViewerElement;
         "loading-spinner": HTMLLoadingSpinnerElement;
         "new-viewer": HTMLNewViewerElement;
+        "pass-section": HTMLPassSectionElement;
         "popover-dialog": HTMLPopoverDialogElement;
         "security-status": HTMLSecurityStatusElement;
         "select-field": HTMLSelectFieldElement;
@@ -601,6 +625,9 @@ declare namespace LocalJSX {
     interface NewViewer {
         "app"?: AppRoot;
         "onShowToast"?: (event: NewViewerCustomEvent<ShowToastEventArgs>) => void;
+    }
+    interface PassSection {
+        "onShowToast"?: (event: PassSectionCustomEvent<ShowToastEventArgs>) => void;
     }
     interface PopoverDialog {
         "dialogClasses"?: string[];
@@ -717,6 +744,7 @@ declare namespace LocalJSX {
         "integration-viewer": IntegrationViewer;
         "loading-spinner": LoadingSpinner;
         "new-viewer": NewViewer;
+        "pass-section": PassSection;
         "popover-dialog": PopoverDialog;
         "security-status": SecurityStatus;
         "select-field": SelectField;
@@ -759,6 +787,7 @@ declare module "@stencil/core" {
             "integration-viewer": LocalJSX.IntegrationViewer & JSXBase.HTMLAttributes<HTMLIntegrationViewerElement>;
             "loading-spinner": LocalJSX.LoadingSpinner & JSXBase.HTMLAttributes<HTMLLoadingSpinnerElement>;
             "new-viewer": LocalJSX.NewViewer & JSXBase.HTMLAttributes<HTMLNewViewerElement>;
+            "pass-section": LocalJSX.PassSection & JSXBase.HTMLAttributes<HTMLPassSectionElement>;
             "popover-dialog": LocalJSX.PopoverDialog & JSXBase.HTMLAttributes<HTMLPopoverDialogElement>;
             "security-status": LocalJSX.SecurityStatus & JSXBase.HTMLAttributes<HTMLSecurityStatusElement>;
             "select-field": LocalJSX.SelectField & JSXBase.HTMLAttributes<HTMLSelectFieldElement>;

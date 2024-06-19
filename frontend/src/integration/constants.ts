@@ -1452,3 +1452,7 @@ export const CC_PASS_ABI = [
   'function balanceOf(address) public view returns (uint256)',
   'function tokenOfOwnerByIndex(address, uint256) public view returns (uint256)',
 ];
+
+export const CHAIN_ID = 84532;
+export const PASS_CONTRACT = "0x1C0d1dAE51B37017BB6950E48D8690B085647E63";
+export const POINTS_CONTRACT = "0xc7177825307A9717C8d79d41136a311a8Ccd65e9";

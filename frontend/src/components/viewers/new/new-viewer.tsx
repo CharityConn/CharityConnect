@@ -1,13 +1,11 @@
 import { Component, Event, EventEmitter, h, Host, Prop, State, Watch } from '@stencil/core';
 import { TokenScript } from '@tokenscript/engine-js/dist/lib.esm/TokenScript';
 import { getKnownTokenScriptMetaById, knownTokenScripts } from '../../../constants/knownTokenScripts';
-import { CC_PASS_ABI, CHAIN_MAP } from '../../../integration/constants';
+import { CHAIN_MAP } from '../../../integration/constants';
 import { DiscoveryAdapter } from '../../../integration/discoveryAdapter';
 import { dbProvider, TokenScriptsMeta } from '../../../providers/databaseProvider';
 import { AppRoot, ShowToastEventArgs, TokenScriptSource } from '../../app/app';
-import { WalletConnection, Web3WalletProvider } from '../../wallet/Web3WalletProvider';
 import { connectEmulatorSocket } from '../util/connectEmulatorSocket';
-import { ethers } from 'ethers';
 
 type LoadedTokenScript = TokenScriptsMeta & { tokenScript?: TokenScript };
 
@@ -36,12 +34,6 @@ export class NewViewer {
   @State()
   private popularTokenscripts: TokenScriptsMeta[] = [];
 
-  @State()
-  private walletConnection: WalletConnection;
-
-  @State()
-  private tokenId: number;
-
   @Event({
     eventName: 'showToast',
     composed: true,
@@ -51,28 +43,6 @@ export class NewViewer {
   showToast: EventEmitter<ShowToastEventArgs>;
 
   componentWillLoad() {
-    Web3WalletProvider.registerWalletChangeListener(async (walletConnection?: WalletConnection) => {
-      this.walletConnection = walletConnection;
-
-      if (this.walletConnection) {
-        const provider = this.walletConnection.provider;
-        const ccPassContract = new ethers.Contract('0x1C0d1dAE51B37017BB6950E48D8690B085647E63', CC_PASS_ABI, provider);
-
-        try {
-          this.tokenId = await ccPassContract.tokenOfOwnerByIndex(this.walletConnection.address, 0);
-        } catch {}
-      }
-
-      // for (const id in this.myTokenScripts) {
-      //   if (!this.myTokenScripts[id].tokenScript) continue;
-
-      //   if (walletConnection) {
-      //     this.myTokenScripts[id].tokenScript.getTokenMetadata(true);
-      //   } else {
-      //     this.myTokenScripts[id].tokenScript.setTokenMetadata([]);
-      //   }
-      // }
-    });
     // this.init();
     this.processUrlLoad();
   }
@@ -265,50 +235,17 @@ export class NewViewer {
     }
   }
 
-  private async handleClaim() {
-    const provider = this.walletConnection.provider;
-    const ccPassContract = new ethers.Contract('0x1C0d1dAE51B37017BB6950E48D8690B085647E63', CC_PASS_ABI, await provider.getSigner());
-
-    try {
-      const receipt = await ccPassContract.claim();
-      this.showToast.emit({
-        type: 'success',
-        title: 'CharityConnect Pass claimed',
-        description: (
-          <span>
-            <a href={`https://sepolia.basescan.org/tx/${receipt.hash}`} target="_blank">
-              {'View On Block Scanner'}
-            </a>
-          </span>
-        ),
-      });
-    } catch (e) {
-      this.showToast.emit({
-        type: 'error',
-        title: 'Failed to claim',
-        description: e.message,
-      });
-    }
-  }
-
   render() {
     return (
       <Host>
         <h3>Charity Connect</h3>
-        {!this.walletConnection && <p>Connect your wallet.</p>}
+        <p>Connect your wallet.</p>
         <div class="toolbar">
           <wallet-button></wallet-button>
         </div>
-        {this.walletConnection &&
-          (this.tokenId ? (
-            <div class="token-id">
-              Token ID: <span>{this.tokenId}</span>
-            </div>
-          ) : (
-            <button class="btn btn-primary" onClick={this.handleClaim.bind(this)}>
-              Claim
-            </button>
-          ))}
+        <div>
+          <pass-section></pass-section>
+        </div>
         <add-selector ref={el => (this.addDialog = el as HTMLAddSelectorElement)} onFormSubmit={this.addFormSubmit.bind(this)}></add-selector>
         <viewer-popover ref={el => (this.viewerPopover = el as HTMLViewerPopoverElement)}></viewer-popover>
         <popover-dialog ref={el => (this.aboutDialog = el as HTMLPopoverDialogElement)}>
