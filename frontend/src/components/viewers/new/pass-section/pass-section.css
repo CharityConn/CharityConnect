@@ -12,6 +12,15 @@
 	max-width: fit-content;
 }
 
+.pass-link {
+	text-decoration: none;
+	color: inherit;
+}
+
+.pass:hover {
+	background-color: #e0e0e0;
+}
+
 .wallet-pass {
 	display: flex;
 	gap: 20px;

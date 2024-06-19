@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, h, State } from '@stencil/core';
-import { CC_PASS_ABI, PASS_CONTRACT } from '../../../../integration/constants';
+import { CC_PASS_ABI, CHAIN_ID, PASS_CONTRACT } from '../../../../integration/constants';
 import { WalletConnection, Web3WalletProvider } from '../../../wallet/Web3WalletProvider';
 import { ShowToastEventArgs } from '../../../app/app';
 import { ethers } from 'ethers';
@@ -155,12 +155,14 @@ export class PassSection {
 
     return (
       <div class="section-gap">
-        <div class="pass">
-          <div class="pass-title">CharityConnect Pass</div>
-          <div class="pass-no">
-            No. <strong>{this.tokenId}</strong>
+        <a class="pass-link" href={`/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${this.tokenId}`}>
+          <div class="pass">
+            <div class="pass-title">CharityConnect Pass</div>
+            <div class="pass-no">
+              No. <strong>{this.tokenId}</strong>
+            </div>
           </div>
-        </div>
+        </a>
         <div class="wallet-pass section-gap">
           {this.googleLink ? (
             <button class="btn btn-primary" onClick={this.installGoogleWalletPass.bind(this)}>
