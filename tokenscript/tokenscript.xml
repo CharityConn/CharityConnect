@@ -4,15 +4,15 @@
 		  xsi:schemaLocation="http://tokenscript.org/2022/09/tokenscript https://www.tokenscript.org/schemas/2022-09/tokenscript.xsd"
 		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xmlns:ethereum="urn:ethereum:constantinople"
-		  name="foo">
+		  name="charityConnect">
 	<ts:label>
 		<ts:plurals xml:lang="en">
-			<ts:string quantity="one">foo Token</ts:string>
-			<ts:string quantity="other">foo Tokens</ts:string>
+			<ts:string quantity="one">CharityConnect Token</ts:string>
+			<ts:string quantity="other">CharityConnect Tokens</ts:string>
 		</ts:plurals>
 	</ts:label>
 	<ts:meta>
-		<ts:description xml:lang="en">foo</ts:description>
+		<ts:description xml:lang="en">CharityConnect</ts:description>
 		<ts:aboutUrl xml:lang="en">https://foo.com</ts:aboutUrl>
 		<ts:iconUrl xml:lang="en">https://foo.com</ts:iconUrl>
 	</ts:meta>

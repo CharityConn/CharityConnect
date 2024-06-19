@@ -7,7 +7,7 @@
 			"name": "TokenScript name",
 			"token": "TOKENSCRIPT_NAME",
 			"prompt": "Enter a name for the TokenScript project",
-			"value": "foo"
+			"value": "CharityConnect"
 		},
 		{
 			"name": "Token type",
@@ -34,7 +34,7 @@
 			"name": "Description",
 			"token": "DESCRIPTION",
 			"prompt": "Enter a short description for the TokenScript",
-			"value": "foo"
+			"value": "CharityConnect"
 		},
 		{
 			"name": "About URL",
@@ -52,7 +52,7 @@
 			"name": "Trimmed Name",
 			"token": "TOKENSCRIPT_TRIM",
 			"prompt": "",
-			"value": "foo"
+			"value": "CharityConnect"
 		}
 	]
 }
