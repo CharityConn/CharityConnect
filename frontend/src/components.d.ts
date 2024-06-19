@@ -78,7 +78,7 @@ export namespace Components {
     }
     interface LoadingSpinner {
         "color": string;
-        "size": "large"|"small";
+        "size": "large"|"small"|"inline";
     }
     interface NewViewer {
         "app": AppRoot;
@@ -620,7 +620,7 @@ declare namespace LocalJSX {
     }
     interface LoadingSpinner {
         "color"?: string;
-        "size"?: "large"|"small";
+        "size"?: "large"|"small"|"inline";
     }
     interface NewViewer {
         "app"?: AppRoot;

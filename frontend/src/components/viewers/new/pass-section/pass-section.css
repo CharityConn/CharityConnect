@@ -1,5 +1,5 @@
-.pass-section {
-	margin-top: 10px
+.section-gap {
+	margin-top: 20px
 }
 
 .pass {
@@ -10,4 +10,9 @@
 	padding: 10px 20px;
 	border-radius: 10px;
 	max-width: fit-content;
+}
+
+.wallet-pass {
+	display: flex;
+	gap: 20px;
 }

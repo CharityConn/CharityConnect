@@ -11,13 +11,13 @@ export class LoadingSpinner {
 	color = "#fff";
 
 	@Prop()
-	size: "large"|"small" = "large";
+	size: "large"|"small"|"inline" = "large";
 
 	render() {
 		const color = this.color + " transparent transparent transparent";
 
 		return (
-			<div class={"lds-ring " + (this.size === "small" ? "small" : "")}>
+			<div class={"lds-ring " + (this.size !== "large" ? this.size : "")}>
 				<div style={{borderColor: color}}></div>
 				<div style={{borderColor: color}}></div>
 				<div style={{borderColor: color}}></div>
