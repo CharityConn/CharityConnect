@@ -54,7 +54,7 @@ export function decodeExternalId(externalId: string) {
 }
 
 export function buildAppleWalletPassPayload(passId: string) {
-  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}#card=battle&tokenId=${passId}`;
+  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
   const id = externalId('apple', passId);
 
   return {
@@ -102,7 +102,7 @@ export function buildAppleWalletPassPayload(passId: string) {
 }
 
 export function buildGoogleWalletPassPayload(passId: string) {
-  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}#card=battle&tokenId=${passId}`;
+  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
   const id = externalId('google', passId);
 
   return {
