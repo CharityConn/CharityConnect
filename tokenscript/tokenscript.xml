@@ -12,7 +12,7 @@
 		</ts:plurals>
 	</ts:label>
 	<ts:meta>
-		<ts:description xml:lang="en">CharityConnect</ts:description>
+		<ts:description xml:lang="en">This is your Charity Membership Card, represented as an ERC-721 NFT.</ts:description>
 		<ts:aboutUrl xml:lang="en">https://foo.com</ts:aboutUrl>
 		<ts:iconUrl xml:lang="en">https://foo.com</ts:iconUrl>
 	</ts:meta>

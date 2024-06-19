@@ -55,6 +55,9 @@
 <div>
 	{#if token}
 		<h3>Checkin</h3>
+        <p>
+        Select a store to check-in. Stay for more than 30 seconds to successfully check-in and receive 100 points.
+        </p>
 
 		<div id="message-title">
             Merchant ID:
