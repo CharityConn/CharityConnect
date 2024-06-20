@@ -5,7 +5,8 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build && npm run build:ts",
-		"build:ts": "tokenscript build && cp out/tokenscript.tsml ../frontend/src/assets/tokenscripts/charityconnect-pass.tsml",
+		"build:ts": "tokenscript build && npm run copy:ts",
+		"copy:ts": "cp out/tokenscript.tsml ../frontend/src/assets/tokenscripts/charityconnect-pass.tsml",
 		"sign": "tokenscript sign",
 		"start": "tokenscript emulate",
 		"emulate": "tokenscript emulate",
