@@ -25,7 +25,7 @@
 }
 
 .pass:hover {
-	background-color: #e0e0e0;
+	opacity: 0.8;
 }
 
 .wallet-pass {
