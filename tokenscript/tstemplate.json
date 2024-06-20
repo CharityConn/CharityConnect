@@ -40,13 +40,13 @@
 			"name": "About URL",
 			"token": "ABOUT_URL",
 			"prompt": "Enter a URL to a website about this TokenScript",
-			"value": "https://foo.com"
+			"value": "https://d2r984ic4ow4wn.cloudfront.net/"
 		},
 		{
 			"name": "Icon URL",
 			"token": "ICON_URL",
 			"prompt": "Enter an icon URL for the TokenScript (base64 image URLs are supported)",
-			"value": "https://foo.com"
+			"value": "https://d2r984ic4ow4wn.cloudfront.net/assets/icon/icon.png"
 		},
 		{
 			"name": "Trimmed Name",
