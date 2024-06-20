@@ -3,13 +3,20 @@
 }
 
 .pass {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-	border: 2px solid #e0e0e0;
-	padding: 10px 20px;
-	border-radius: 10px;
 	max-width: fit-content;
+	position: relative;
+}
+
+.pass-cover {
+	border-radius: 12px;
+}
+
+.pass-no {
+	position: absolute;
+	bottom: 20px;
+	right: 30px;
+	color: white;
+	z-index: 10;
 }
 
 .pass-link {

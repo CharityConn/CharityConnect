@@ -14,7 +14,7 @@
 	<ts:meta>
 		<ts:description xml:lang="en">This is your Charity Membership Card, represented as an ERC-721 NFT.</ts:description>
 		<ts:aboutUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/</ts:aboutUrl>
-		<ts:iconUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/assets/icon/icon.png</ts:iconUrl>
+		<ts:iconUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/assets/icon/cc/charity-connect-card.png</ts:iconUrl>
 	</ts:meta>
 	<ts:contract interface="erc721" name="Token">
 		<ts:address network="84532">0x1C0d1dAE51B37017BB6950E48D8690B085647E63</ts:address>

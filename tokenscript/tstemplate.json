@@ -46,7 +46,7 @@
 			"name": "Icon URL",
 			"token": "ICON_URL",
 			"prompt": "Enter an icon URL for the TokenScript (base64 image URLs are supported)",
-			"value": "https://d2r984ic4ow4wn.cloudfront.net/assets/icon/icon.png"
+			"value": "https://d2r984ic4ow4wn.cloudfront.net/assets/icon/cc/charity-connect-card.png"
 		},
 		{
 			"name": "Trimmed Name",

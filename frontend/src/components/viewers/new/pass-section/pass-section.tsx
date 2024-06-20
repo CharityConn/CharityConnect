@@ -157,7 +157,7 @@ export class PassSection {
       <div class="section-gap">
         <a class="pass-link" href={`/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${this.tokenId}`}>
           <div class="pass">
-            <div class="pass-title">CharityConnect Pass</div>
+            <img class="pass-cover" src="assets/icon/cc/charity-connect-card.png" width="500" />
             <div class="pass-no">
               No. <strong>{this.tokenId}</strong>
             </div>

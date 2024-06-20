@@ -14,7 +14,7 @@ html:has(.popover-modal.open){
 }
 
 header {
-  background: #000;
+  background: linear-gradient(to right, #173D67 25px, #34557A 200px);;
   color: white;
   height: 56px;
   display: flex;
