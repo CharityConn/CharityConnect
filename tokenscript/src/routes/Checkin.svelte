@@ -11,6 +11,7 @@
 	let merchantID = "";
 	let successMessage = "";
 	let loading = true;
+    let hasCheckedIn = false;
 
 	context.data.subscribe(async (value) => {
 		if (!value.token)
@@ -22,8 +23,12 @@
 	});
 
 	async function checkin(){
+        if (!canCheckin(loading, walletAddress, merchantID, hasCheckedIn)) {
+            return
+        }
         console.log("Checkin...");
 
+        successMessage = "";
 		loading = true;
 
 		try {
@@ -42,6 +47,7 @@
             data = await res.json();
             console.log(`Status code: ${res.status}`)
 			successMessage = 'Done checkin';
+            hasCheckedIn = true
 		} catch (e){
 			successMessage = 'Failed to checkin';
 			console.error(e);
@@ -49,6 +55,20 @@
 
 		loading = false;
 	}
+
+    //Explicit args because Svelte reactive dependencies
+    function canCheckin(loading, walletAddress, merchantID, hasCheckedIn) {
+       if (loading || !walletAddress.length || !merchantID.length) {
+           return false
+       }
+       if (hasCheckedIn) {
+           return false
+       }
+
+       return true
+    }
+
+    $: isCheckinDisabled = !canCheckin(loading, walletAddress, merchantID, hasCheckedIn)
 
 </script>
 
@@ -64,13 +84,15 @@
         </div>
 		<textarea class="message-input" bind:value={merchantID} placeholder="e.g 1234" disabled={loading}></textarea>
 
-        {#if !successMessage.length}
+        {#if !hasCheckedIn}
             <div class="link-button" style="position: relative; margin: 0 auto; max-width: 200px;">
-                <button type="button" on:click={() => checkin()} disabled={loading || !walletAddress.length || !merchantID.length || !!successMessage.length}>
+                <button type="button" on:click={() => checkin()} disabled={isCheckinDisabled}>
                 Checkin
                 </button>
             </div>
-        {:else}
+        {/if}
+
+        {#if successMessage.length > 0}
             <p>{successMessage}</p>
         {/if}
 
