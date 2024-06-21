@@ -51,6 +51,15 @@
 			</ts:view>
 		</ts:card>
 
+        <ts:card type="action" name="Vote">
+			<ts:label>
+				<ts:string xml:lang="en">Vote for Charity Fund Allocation</ts:string>
+			</ts:label>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="vote" uiButton="false">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
 	</ts:cards>
 
 	<ts:attribute name="points">

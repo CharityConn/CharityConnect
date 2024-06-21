@@ -1,9 +1,9 @@
-
 <script lang="ts">
-	import context from "./lib/context";
-	import NotFound from "./routes/NotFound.svelte";
-	import Checkin from "./routes/Checkin.svelte";
-	import WalletPass from "./routes/WalletPass.svelte";
+	import context from './lib/context';
+	import NotFound from './routes/NotFound.svelte';
+	import Checkin from './routes/Checkin.svelte';
+	import WalletPass from './routes/WalletPass.svelte';
+	import Vote from './routes/Vote.svelte';
 
 	let token;
 	let initialised = false;
@@ -11,19 +11,18 @@
 	const routingMap = {
 		'#checkin': Checkin,
 		'#walletPass': WalletPass,
+		'#vote': Vote
 	};
 
 	let page;
 
 	function routeChange() {
-		page = routingMap[token.level == 0 ? "#adopt" : document.location.hash] || NotFound;
+		page = routingMap[token.level == 0 ? '#adopt' : document.location.hash] || NotFound;
 	}
 
 	// @ts-ignore
 	web3.tokens.dataChanged = async (oldTokens, updatedTokens, cardId) => {
-
-		if (initialised)
-			return;
+		if (initialised) return;
 
 		context.setToken(updatedTokens.currentInstance);
 		token = updatedTokens.currentInstance;
@@ -32,7 +31,6 @@
 
 		routeChange();
 	};
-
 </script>
 
 <svelte:window on:hashchange={routeChange} />

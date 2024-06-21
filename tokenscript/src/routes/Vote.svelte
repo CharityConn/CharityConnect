@@ -1,0 +1,47 @@
+<script lang="ts">
+	import context from '../lib/context';
+	import Loader from '../components/Loader.svelte';
+
+	//TODO prod too
+	//const checkinServerPrefix = "http://localhost:3206" //local dev
+	const checkinServerPrefix = 'https://d37i1m1hx1fc5p.cloudfront.net'; //test node
+
+	let token;
+	let walletAddress;
+	let loading = true;
+	let points = -1;
+
+	context.data.subscribe(async (value) => {
+		if (!value.token) return;
+		token = value.token;
+		walletAddress = value.token.ownerAddress;
+		points = value.token.points;
+
+		// You can load other data before hiding the loader
+		loading = false;
+	});
+</script>
+
+<div>
+	{#if token}
+		<h3>Vote for Charity Fund Allocation</h3>
+		<p>
+			Vote on how the charity funds should be allocated. Voting weight is based on your points
+			(ERC-20 token holdings).
+		</p>
+
+		{#if points >= 0}
+			{#if points >= 1}
+				<p>
+					You currently have {points} points.
+				</p>
+				<p>
+					<a href="https://testnet.snapshot.org/#/charityconnect.eth" target="_blank">Vote here</a>.
+				</p>
+			{:else}
+				<p>You don't have points yet. Checkin to get some.</p>
+			{/if}
+		{/if}
+	{/if}
+	<Loader show={loading} />
+</div>
