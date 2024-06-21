@@ -1,29 +1,30 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
-import { Action } from "../_core/type";
-import { zEthereumAddress } from "../lib/zod-validations";
-import { LOGGER } from "../_core/constant";
+import { eq, InferModel } from 'drizzle-orm';
+import { Contract, JsonRpcProvider, Wallet } from 'ethers';
+import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { z } from 'zod';
+import { checkins } from '../domain/schemas/checkins';
+import { env } from '../env';
+import { zEthereumAddress } from '../lib/zod-validations';
+import { enqueueWalletPassUpdate } from '../services/commonApi';
 import {
-  Contract,
-  InfuraProvider,
-  JsonRpcProvider,
-  Network,
-  Wallet,
-} from "ethers";
-import { env } from "../env";
-import { DbService } from "../_core/services/dbService";
-import { checkins } from "../domain/schemas/checkins";
-import { eq, InferModel } from "drizzle-orm";
+  buildAppleUpdatePayload,
+  buildGoogleUpdatePayload,
+  getPassByPassId,
+} from '../services/walletPassService';
+import { LOGGER } from '../_core/constant';
+import { DbService } from '../_core/services/dbService';
+import { Action } from '../_core/type';
 
 export const checkin: Action = {
-  path: "/:userWallet/checkin",
-  method: "post",
+  path: '/:userWallet/checkin',
+  method: 'post',
   options: {
     schema: {
       params: z.object({
         userWallet: zEthereumAddress(),
       }),
       body: z.object({
+        passId: z.string(),
         merchantID: z.string(),
       }),
     },
@@ -31,7 +32,7 @@ export const checkin: Action = {
   handler: checkinHandler,
 };
 
-type CheckInsSelectType = InferModel<typeof checkins, "select">;
+type CheckInsSelectType = InferModel<typeof checkins, 'select'>;
 
 async function checkinHandler(
   this: FastifyInstance,
@@ -41,8 +42,9 @@ async function checkinHandler(
   const { userWallet } = request.params as {
     userWallet: string;
   };
-  const { merchantID } = request.body as {
+  const { merchantID, passId } = request.body as {
     merchantID: string;
+    passId: string;
   };
   LOGGER.info(
     `checkin with wallet: %s with merchant ID: %s`,
@@ -50,7 +52,7 @@ async function checkinHandler(
     merchantID
   );
 
-  const dbService: DbService = this.diContainer.resolve("dbService");
+  const dbService: DbService = this.diContainer.resolve('dbService');
   const db = dbService.db();
 
   //TODO some logic check with database before minting like maybe not within last 24 hours?
@@ -72,33 +74,58 @@ async function checkinHandler(
     {
       inputs: [
         {
-          internalType: "address",
-          name: "to",
-          type: "address",
+          internalType: 'address',
+          name: 'to',
+          type: 'address',
         },
         {
-          internalType: "uint256",
-          name: "amount",
-          type: "uint256",
+          internalType: 'uint256',
+          name: 'amount',
+          type: 'uint256',
         },
       ],
-      name: "mint",
+      name: 'mint',
       outputs: [],
-      stateMutability: "nonpayable",
-      type: "function",
+      stateMutability: 'nonpayable',
+      type: 'function',
+    },
+    {
+      constant: true,
+      inputs: [{ name: '', type: 'address' }],
+      name: 'balanceOf',
+      outputs: [{ name: '', type: 'uint256' }],
+      payable: false,
+      stateMutability: 'view',
+      type: 'function',
     },
   ];
   const contract = new Contract(env.POINTS_CONTRACT, abi, provider);
-  LOGGER.info("Minting to user wallet: %s…", userWallet);
+  LOGGER.info('Minting to user wallet: %s…', userWallet);
   await contract.mint(userWallet, tokenCount);
-  LOGGER.info("Minted to user wallet: %s… tokens: %d", userWallet, tokenCount);
+  LOGGER.info('Minted to user wallet: %s… tokens: %d', userWallet, tokenCount);
   await db
     .update(checkins)
     .set({
-      status: "minted",
+      status: 'minted',
       points: tokenCount,
     })
     .where(eq(checkins.id, record.id));
 
-  return reply.status(200).send({ message: "OK" });
+  // Update points on cc pass, it's based on the pass owner's cc token balance
+  const walletPasses = await getPassByPassId(dbService, passId);
+  if (walletPasses && (walletPasses.googleId || walletPasses.appleId)) {
+    const balance = Number(await contract.balanceOf(userWallet));
+
+    if (walletPasses.appleId) {
+      const params = buildAppleUpdatePayload(balance);
+      await enqueueWalletPassUpdate(walletPasses.appleId, params);
+    }
+
+    if (walletPasses.googleId) {
+      const params = buildGoogleUpdatePayload(balance);
+      await enqueueWalletPassUpdate(walletPasses.googleId, params);
+    }
+  }
+
+  return reply.status(200).send({ message: 'OK' });
 }

@@ -46,7 +46,7 @@ export async function enqueueWalletPassCreation(
   }
 }
 
-export async function updateWalletPass(id: string | null, params: any) {
+export async function enqueueWalletPassUpdate(id: string | null, params: any) {
   return await axios.put(
     `${env.COMMON_API}/wallet-passes`,
     {

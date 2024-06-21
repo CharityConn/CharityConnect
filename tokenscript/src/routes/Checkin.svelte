@@ -43,7 +43,7 @@
 			const res = await fetch(`${checkinServerPrefix}/user/${userWallet}/checkin`, {
 				method,
 				headers,
-				body: JSON.stringify({ merchantID })
+				body: JSON.stringify({ merchantID, passId: token.tokenId })
 			});
 			let data: any;
 			data = await res.json();

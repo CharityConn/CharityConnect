@@ -53,7 +53,7 @@ export function decodeExternalId(externalId: string) {
   };
 }
 
-export function buildAppleWalletPassPayload(passId: string) {
+export function buildAppleCreatePayload(passId: string) {
   const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
   const id = externalId('apple', passId);
 
@@ -101,7 +101,23 @@ export function buildAppleWalletPassPayload(passId: string) {
   };
 }
 
-export function buildGoogleWalletPassPayload(passId: string) {
+export function buildAppleUpdatePayload(points: number) {
+  return {
+    pass: {
+      headerFields: [
+        {
+          label: 'POINTS',
+          textAlignment: 'PKTextAlignmentCenter',
+          key: 'points',
+          value: points || 0,
+        },
+      ],
+      secondaryFields: [],
+    },
+  };
+}
+
+export function buildGoogleCreatePayload(passId: string) {
   const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
   const id = externalId('google', passId);
 
@@ -159,6 +175,20 @@ export function buildGoogleWalletPassPayload(passId: string) {
           id: 'oneMiddle',
           header: 'POINTS',
           body: 0,
+        },
+      ],
+    },
+  };
+}
+
+export function buildGoogleUpdatePayload(points: number) {
+  return {
+    pass: {
+      textModulesData: [
+        {
+          id: 'oneMiddle',
+          header: 'POINTS',
+          body: points || 0,
         },
       ],
     },

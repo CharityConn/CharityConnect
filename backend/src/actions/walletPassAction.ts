@@ -1,13 +1,10 @@
-import { ethers } from 'ethers';
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
-import { PASS_CONTRACT } from '../constant';
 import { env } from '../env';
 import { enqueueWalletPassCreation } from '../services/commonApi';
-import { ownerOf } from '../services/ethersService';
 import {
-  buildAppleWalletPassPayload,
-  buildGoogleWalletPassPayload,
+  buildAppleCreatePayload,
+  buildGoogleCreatePayload,
   getPassByPassId,
 } from '../services/walletPassService';
 import { DbService } from '../_core/services/dbService';
@@ -33,7 +30,7 @@ async function createWalletPassHandler(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const { platform, passId, /*signature*/ } = request.body as {
+  const { platform, passId /*signature*/ } = request.body as {
     platform: 'google' | 'apple';
     passId: string;
     // signature: string;
@@ -50,8 +47,8 @@ async function createWalletPassHandler(
 
   const params =
     platform === 'google'
-      ? buildGoogleWalletPassPayload(passId)
-      : buildAppleWalletPassPayload(passId);
+      ? buildGoogleCreatePayload(passId)
+      : buildAppleCreatePayload(passId);
 
   await enqueueWalletPassCreation(passId, params, platform);
 
@@ -88,8 +85,7 @@ async function getWalletPassHandler(
   }
 
   return reply.status(200).send({
-    apple:
-      pass.appleId && `${env.COMMON_API}/link/wallet-pass/${pass.appleId}`,
+    apple: pass.appleId && `${env.COMMON_API}/link/wallet-pass/${pass.appleId}`,
     google:
       pass.googleId && `${env.COMMON_API}/link/wallet-pass/${pass.googleId}`,
   });
