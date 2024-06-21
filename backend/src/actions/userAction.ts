@@ -100,6 +100,8 @@ async function checkinHandler(
     },
   ];
   const contract = new Contract(env.POINTS_CONTRACT, abi, provider);
+  const existing = Number(await contract.balanceOf(userWallet));
+
   LOGGER.info('Minting to user wallet: %s…', userWallet);
   await contract.mint(userWallet, tokenCount);
   LOGGER.info('Minted to user wallet: %s… tokens: %d', userWallet, tokenCount);
@@ -114,15 +116,13 @@ async function checkinHandler(
   // Update points on cc pass, it's based on the pass owner's cc token balance
   const walletPasses = await getPassByPassId(dbService, passId);
   if (walletPasses && (walletPasses.googleId || walletPasses.appleId)) {
-    const balance = Number(await contract.balanceOf(userWallet));
-
     if (walletPasses.appleId) {
-      const params = buildAppleUpdatePayload(balance);
+      const params = buildAppleUpdatePayload(existing + tokenCount);
       await enqueueWalletPassUpdate(walletPasses.appleId, params);
     }
 
     if (walletPasses.googleId) {
-      const params = buildGoogleUpdatePayload(balance);
+      const params = buildGoogleUpdatePayload(existing + tokenCount);
       await enqueueWalletPassUpdate(walletPasses.googleId, params);
     }
   }
