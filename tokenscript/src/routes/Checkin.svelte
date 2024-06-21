@@ -12,11 +12,14 @@
 	let successMessage = '';
 	let loading = true;
 	let hasCheckedIn = false;
+	let points = -1;
 
 	context.data.subscribe(async (value) => {
 		if (!value.token) return;
 		token = value.token;
 		walletAddress = value.token.ownerAddress;
+		points = value.token.points;
+
 		// You can load other data before hiding the loader
 		loading = false;
 	});
@@ -77,6 +80,11 @@
 			Select a store to check-in. Stay for more than 30 seconds to successfully check-in and receive
 			100 points.
 		</p>
+		{#if points >= 0}
+			<p>
+				You currently have {points} points.
+			</p>
+		{/if}
 
 		<div id="message-title">Merchant ID:</div>
 		<textarea
