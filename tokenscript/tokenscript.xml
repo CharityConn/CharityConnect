@@ -27,13 +27,19 @@
 		<ts:ethereum contract="Token"/>
 	</ts:origins>
 
+    <ts:selection name="dummyForcePointsToLoadAlwaysFalse" filter="points=-1">
+		<ts:label>
+			<ts:string xml:lang="en">Force points attribute to be fetched so the `i` button has access to them without clicking a card action first</ts:string>
+		</ts:label>
+	</ts:selection>
+
 	<ts:cards>
 		<ts:viewContent name="common" xmlns="http://www.w3.org/1999/xhtml">
 			<ts:include type="html" src="./dist/index.html"/>
 			<ts:include type="css" src="./src/styles.css"/>
 		</ts:viewContent>
 
-		<ts:card type="action" name="Checkin">
+		<ts:card type="action" name="Checkin" exclude="dummyForcePointsToLoadAlwaysFalse">
 			<ts:label>
 				<ts:string xml:lang="en">Checkin</ts:string>
 			</ts:label>
