@@ -42,6 +42,15 @@
 			</ts:view>
 		</ts:card>
 
+		<ts:card type="action" name="WalletPass">
+			<ts:label>
+				<ts:string xml:lang="en">Wallet Pass</ts:string>
+			</ts:label>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="walletPass" uiButton="false">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
 	</ts:cards>
 
 	<ts:attribute name="points">

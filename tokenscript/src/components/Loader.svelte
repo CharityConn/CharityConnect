@@ -1,6 +1,7 @@
 
 <script lang="ts">
 	export let show;
+	export let size = 'normal';
 </script>
 
 <style>
@@ -12,11 +13,20 @@
 		align-items: center;
 	}
 
+	.loader-container.small {
+		width: fit-content;
+		height: 100%;
+	}
+
 	.lds-ring {
 		display: inline-block;
 		position: relative;
 		width: 80px;
 		height: 80px;
+	}
+	.loader-container.small .lds-ring {
+		width: 28px;
+		height: 28px;
 	}
 	.lds-ring div {
 		box-sizing: border-box;
@@ -28,6 +38,14 @@
 		border: 8px solid #656565;
 		border-radius: 50%;
 		animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+		border-color: #656565 transparent transparent transparent;
+	}
+
+	.loader-container.small .lds-ring div {
+		width: 24px;
+		height: 24px;
+		margin: 2px;
+		border: 2px solid #656565;
 		border-color: #656565 transparent transparent transparent;
 	}
 	.lds-ring div:nth-child(1) {
@@ -50,7 +68,7 @@
 </style>
 
 {#if show}
-<div class="loader-container">
+<div class={`loader-container ${size}`}>
 	<div class="lds-ring">
 		<div></div>
 		<div></div>

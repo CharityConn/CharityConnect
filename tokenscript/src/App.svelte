@@ -3,12 +3,14 @@
 	import context from "./lib/context";
 	import NotFound from "./routes/NotFound.svelte";
 	import Checkin from "./routes/Checkin.svelte";
+	import WalletPass from "./routes/WalletPass.svelte";
 
 	let token;
 	let initialised = false;
 
 	const routingMap = {
-		'#checkin': Checkin
+		'#checkin': Checkin,
+		'#walletPass': WalletPass,
 	};
 
 	let page;
