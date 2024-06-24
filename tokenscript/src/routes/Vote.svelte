@@ -20,6 +20,10 @@
 		// You can load other data before hiding the loader
 		loading = false;
 	});
+
+	function openVote() {
+		window.open('https://testnet.snapshot.org/#/charityconnect.eth', '_blank');
+	}
 </script>
 
 <div>
@@ -36,7 +40,7 @@
 					You currently have {points} points.
 				</p>
 				<p>
-					<a href="https://testnet.snapshot.org/#/charityconnect.eth" target="_blank">Vote here</a>.
+					<button class="btn btn-primary" on:click={openVote}>Vote here</button>
 				</p>
 			{:else}
 				<p>You don't have points yet. Checkin to get some.</p>
@@ -45,3 +49,50 @@
 	{/if}
 	<Loader show={loading} />
 </div>
+
+<style>
+	.btn {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		border-radius: 10px;
+		height: 36px;
+		min-width: 50px;
+		background: #eeeeee;
+		color: #0b0b0b;
+		border: none;
+		cursor: pointer;
+	}
+
+	.btn-primary {
+		color: #fff;
+		background: linear-gradient(234.79deg, #001aff 37.73%, #4f95ff 118.69%), #8a9cb8;
+	}
+
+	.btn-primary:hover {
+		background: linear-gradient(214.82deg, #001aff -21.14%, #4f95ff 89.22%);
+	}
+
+	.btn-primary:disabled {
+		background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)),
+			linear-gradient(234.79deg, #001aff 37.73%, #4f95ff 118.69%) !important;
+	}
+
+	/* TODO: Secondary button hover & disable states are not distinct enough */
+	.btn-secondary {
+		border: 2px solid #001aff;
+		background: #fff;
+		color: #001aff;
+	}
+
+	.btn-secondary:hover {
+		border-color: #4f95ff;
+		color: #4f95ff !important;
+	}
+
+	.btn-secondary:disabled {
+		border-color: #4f95ff !important;
+		color: #4f95ff !important;
+		pointer-events: auto !important;
+	}
+</style>
