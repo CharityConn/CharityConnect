@@ -84,65 +84,6 @@
   }
 </script>
 
-<style>
-.btn {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	border-radius: 10px;
-	height: 36px;
-	min-width: 112px;
-	background: #EEEEEE;
-	color: #0B0B0B;
-	border: none;
-	cursor: pointer;
-}
-
-.btn-primary {
-	color: #fff;
-	background: linear-gradient(234.79deg, #001AFF 37.73%, #4F95FF 118.69%), #8A9CB8;
-}
-
-.btn-primary:hover {
-	background: linear-gradient(214.82deg, #001AFF -21.14%, #4F95FF 89.22%);
-}
-
-.btn-primary:disabled {
-	background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), linear-gradient(234.79deg, #001AFF 37.73%, #4F95FF 118.69%) !important;
-}
-
-/* TODO: Secondary button hover & disable states are not distinct enough */
-.btn-secondary {
-	border: 2px solid #001AFF;
-	background: #fff;
-	color: #001AFF;
-}
-
-.btn-secondary:hover {
-	border-color: #4F95FF;
-	color: #4F95FF !important;
-}
-
-.btn-secondary:disabled {
-	border-color: #4F95FF !important;
-	color: #4F95FF !important;
-	pointer-events: auto !important;
-}
-
-.section-gap {
-	margin-top: 20px
-}
-
-.wallet-pass {
-	display: flex;
-	gap: 20px;
-}
-
-.error-message {
-	color: red;
-}
-</style>
-
 <div>
 	{#if walletAddress && tokenId}
 		<h3>Wallet Pass</h3>
