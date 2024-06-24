@@ -1,23 +1,23 @@
-import { eq, InferModel } from 'drizzle-orm';
-import { Contract, JsonRpcProvider, Wallet } from 'ethers';
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-import { z } from 'zod';
-import { checkins } from '../domain/schemas/checkins';
-import { env } from '../env';
-import { zEthereumAddress } from '../lib/zod-validations';
-import { enqueueWalletPassUpdate } from '../services/commonApi';
+import { eq, InferModel } from "drizzle-orm";
+import { Contract, JsonRpcProvider, Wallet } from "ethers";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
+import { checkins } from "../domain/schemas/checkins";
+import { env } from "../env";
+import { zEthereumAddress } from "../lib/zod-validations";
+import { enqueueWalletPassUpdate } from "../services/commonApi";
 import {
   buildAppleUpdatePayload,
   buildGoogleUpdatePayload,
   getPassByPassId,
-} from '../services/walletPassService';
-import { LOGGER } from '../_core/constant';
-import { DbService } from '../_core/services/dbService';
-import { Action } from '../_core/type';
+} from "../services/walletPassService";
+import { LOGGER } from "../_core/constant";
+import { DbService } from "../_core/services/dbService";
+import { Action } from "../_core/type";
 
 export const checkin: Action = {
-  path: '/:userWallet/checkin',
-  method: 'post',
+  path: "/:userWallet/checkin",
+  method: "post",
   options: {
     schema: {
       params: z.object({
@@ -32,7 +32,7 @@ export const checkin: Action = {
   handler: checkinHandler,
 };
 
-type CheckInsSelectType = InferModel<typeof checkins, 'select'>;
+type CheckInsSelectType = InferModel<typeof checkins, "select">;
 
 async function checkinHandler(
   this: FastifyInstance,
@@ -52,7 +52,7 @@ async function checkinHandler(
     merchantID
   );
 
-  const dbService: DbService = this.diContainer.resolve('dbService');
+  const dbService: DbService = this.diContainer.resolve("dbService");
   const db = dbService.db();
 
   //TODO some logic check with database before minting like maybe not within last 24 hours?
@@ -74,41 +74,41 @@ async function checkinHandler(
     {
       inputs: [
         {
-          internalType: 'address',
-          name: 'to',
-          type: 'address',
+          internalType: "address",
+          name: "to",
+          type: "address",
         },
         {
-          internalType: 'uint256',
-          name: 'amount',
-          type: 'uint256',
+          internalType: "uint256",
+          name: "amount",
+          type: "uint256",
         },
       ],
-      name: 'mint',
+      name: "mint",
       outputs: [],
-      stateMutability: 'nonpayable',
-      type: 'function',
+      stateMutability: "nonpayable",
+      type: "function",
     },
     {
       constant: true,
-      inputs: [{ name: '', type: 'address' }],
-      name: 'balanceOf',
-      outputs: [{ name: '', type: 'uint256' }],
+      inputs: [{ name: "", type: "address" }],
+      name: "balanceOf",
+      outputs: [{ name: "", type: "uint256" }],
       payable: false,
-      stateMutability: 'view',
-      type: 'function',
+      stateMutability: "view",
+      type: "function",
     },
   ];
   const contract = new Contract(env.POINTS_CONTRACT, abi, provider);
   const existing = Number(await contract.balanceOf(userWallet));
 
-  LOGGER.info('Minting to user wallet: %s…', userWallet);
+  LOGGER.info("Minting to user wallet: %s…", userWallet);
   await contract.mint(userWallet, tokenCount);
-  LOGGER.info('Minted to user wallet: %s… tokens: %d', userWallet, tokenCount);
+  LOGGER.info("Minted to user wallet: %s… tokens: %d", userWallet, tokenCount);
   await db
     .update(checkins)
     .set({
-      status: 'minted',
+      status: "minted",
       points: tokenCount,
     })
     .where(eq(checkins.id, record.id));
@@ -127,5 +127,5 @@ async function checkinHandler(
     }
   }
 
-  return reply.status(200).send({ message: 'OK' });
+  return reply.status(200).send({ message: "OK" });
 }
