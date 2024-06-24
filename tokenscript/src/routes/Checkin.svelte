@@ -8,11 +8,16 @@
 
 	let token;
 	let walletAddress;
-	let merchantID = '';
+	let merchantID: number | null = null;
 	let successMessage = '';
 	let loading = true;
 	let hasCheckedIn = false;
 	let points = -1;
+	const stores = [
+		{ id: 1, name: 'Grocery Store 1' },
+		{ id: 2, name: 'Candy Store 2' },
+		{ id: 3, name: 'Perfume Store 3' }
+	];
 
 	context.data.subscribe(async (value) => {
 		if (!value.token) return;
@@ -43,7 +48,7 @@
 			const res = await fetch(`${checkinServerPrefix}/user/${userWallet}/checkin`, {
 				method,
 				headers,
-				body: JSON.stringify({ merchantID, passId: token.tokenId })
+				body: JSON.stringify({ merchantID: String(merchantID), passId: token.tokenId })
 			});
 			let data: any;
 			data = await res.json();
@@ -60,7 +65,7 @@
 
 	//Explicit args because Svelte reactive dependencies
 	function canCheckin(loading, walletAddress, merchantID, hasCheckedIn) {
-		if (loading || !walletAddress.length || !merchantID.length) {
+		if (loading || !walletAddress.length || !merchantID) {
 			return false;
 		}
 		if (hasCheckedIn) {
@@ -78,7 +83,7 @@
 		<h3>Checkin</h3>
 		<p>
 			Select a store to check-in. Stay for more than 30 seconds to successfully check-in and receive
-			100 points.
+			1 point.
 		</p>
 		{#if points >= 0}
 			<p>
@@ -86,13 +91,14 @@
 			</p>
 		{/if}
 
-		<div id="message-title">Merchant ID:</div>
-		<textarea
-			class="message-input"
-			bind:value={merchantID}
-			placeholder="e.g 1234"
-			disabled={loading}
-		></textarea>
+		<div id="message-title">Check in to merchant:</div>
+		<p>
+			<select id="stores" bind:value={merchantID}>
+				{#each stores as store}
+					<option value={store.id}>{store.name}</option>
+				{/each}
+			</select>
+		</p>
 
 		{#if !hasCheckedIn}
 			<button
