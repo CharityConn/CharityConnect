@@ -12,7 +12,7 @@
 	let successMessage = '';
 	let loading = true;
 	let hasCheckedIn = false;
-	let points = -1;
+	let points: number = -1;
 	const stores = [
 		{ id: 1, name: 'Grocery Store 1' },
 		{ id: 2, name: 'Candy Store 2' },
@@ -52,9 +52,10 @@
 			});
 			let data: any;
 			data = await res.json();
-			console.log(`Status code: ${res.status}`);
+			console.log(`Status code: ${res.status} data: ${JSON.stringify(data)}`);
 			successMessage = 'Done checkin';
 			hasCheckedIn = true;
+			points = data.totalPoints;
 		} catch (e) {
 			successMessage = 'Failed to checkin';
 			console.error(e);
