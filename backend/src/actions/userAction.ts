@@ -127,5 +127,7 @@ async function checkinHandler(
     }
   }
 
-  return reply.status(200).send({ message: "OK" });
+  return reply
+    .status(200)
+    .send({ wallet: userWallet, totalPoints: existing + tokenCount });
 }
