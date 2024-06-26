@@ -21,7 +21,8 @@
 		<ts:ethereum contract="Token"/>
 	</ts:origins>
 
-    <ts:selection filter="points=-1" name="dummyForcePointsToLoadAlwaysFalse">
+    
+    <ts:selection filter="points=999989999" name="dummyForcePointsToLoadAlwaysFalse">
 		<ts:label>
 			<ts:string xml:lang="en">Force points attribute to be fetched so the `i` button has access to them without clicking a card action first</ts:string>
 		</ts:label>
@@ -153,7 +154,7 @@ p.light {
 					/* ]]> */
 				</style></ts:viewContent>
 
-		<ts:card exclude="dummyForcePointsToLoadAlwaysFalse" name="Checkin" type="action">
+        <ts:card exclude="dummyForcePointsToLoadAlwaysFalse" name="Checkin" type="action">
 			<ts:label>
 				<ts:string xml:lang="en">Checkin</ts:string>
 			</ts:label>
