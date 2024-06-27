@@ -117,7 +117,7 @@ async function checkinHandler(
   const walletPasses = await getPassByPassId(dbService, passId);
   if (walletPasses && (walletPasses.googleId || walletPasses.appleId)) {
     if (walletPasses.appleId) {
-      const params = buildAppleUpdatePayload(existing + tokenCount);
+      const params = buildAppleUpdatePayload(passId, merchantID, existing + tokenCount);
       await enqueueWalletPassUpdate(walletPasses.appleId, params);
     }
 

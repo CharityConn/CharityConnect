@@ -101,9 +101,29 @@ export function buildAppleCreatePayload(passId: string) {
   };
 }
 
-export function buildAppleUpdatePayload(points: number) {
+export function buildAppleUpdatePayload(passId: string, merchantID: string, points: number) {
+  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
+
   return {
     pass: {
+      backFields: [
+        {
+          key: 'note',
+          value: 'Please refresh your pass to update your points.',
+        },
+        {
+          key: 'website',
+          label: 'CharityConnect',
+          value: charityConnectUrl,
+        },
+        {
+          key: 'notification',
+          label: 'Latest Notification',
+          value: `You received 1 CharityConnect point by checking in at merchant: ${merchantID}.`,
+          changeMessage: '%@',
+          textAlignment: 'PKTextAlignmentNatural',
+        },
+      ],
       headerFields: [
         {
           label: 'POINTS',
