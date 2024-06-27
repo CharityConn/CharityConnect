@@ -122,7 +122,7 @@ async function checkinHandler(
     }
 
     if (walletPasses.googleId) {
-      const params = buildGoogleUpdatePayload(existing + tokenCount);
+      const params = buildGoogleUpdatePayload(merchantID, existing + tokenCount);
       await enqueueWalletPassUpdate(walletPasses.googleId, params);
     }
   }

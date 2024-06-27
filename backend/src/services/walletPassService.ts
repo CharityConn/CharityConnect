@@ -101,7 +101,11 @@ export function buildAppleCreatePayload(passId: string) {
   };
 }
 
-export function buildAppleUpdatePayload(passId: string, merchantID: string, points: number) {
+export function buildAppleUpdatePayload(
+  passId: string,
+  merchantID: string,
+  points: number
+) {
   const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
 
   return {
@@ -201,7 +205,7 @@ export function buildGoogleCreatePayload(passId: string) {
   };
 }
 
-export function buildGoogleUpdatePayload(points: number) {
+export function buildGoogleUpdatePayload(merchantID: string, points: number) {
   return {
     pass: {
       textModulesData: [
@@ -211,6 +215,12 @@ export function buildGoogleUpdatePayload(points: number) {
           body: points || 0,
         },
       ],
+    },
+    message: {
+      header: 'CharityConnect',
+      body: `You received 1 CharityConnect point by checking in at merchant: ${merchantID}.`,
+      id: points.toString(),
+      message_type: 'TEXT_AND_NOTIFY',
     },
   };
 }
