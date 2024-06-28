@@ -62,7 +62,7 @@ Charity Connect gives consumers the ability to influence charity donations from 
 4. **Check Point**
    - Users Click the ! button on the NFT to check how many points they have.
 
-5. **Snapshot Voting (Mock Implementation)**
+5. **Snapshot Voting**
    - Users click Vote for Charity Fund Allocation botton on the NFT to vote on charity pool fund allocation based on their points.
 
 ## Conclusion
