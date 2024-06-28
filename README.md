@@ -1,8 +1,8 @@
 # Charity Connect
-Connecting Charity with Consumer Innovation Through Interactive NFT
+Connecting brand charity donations to consumer activity through Interactive NFTs.
 
 ## Overview
-Charity Connect revolutionizes charitable donations by integrating blockchain technology to enhance interactivity and transparency, thereby increasing user engagement.
+Charity Connect gives consumers the ability to influence charity donations from brands in innovative new ways using blockchain technology.
 
 ## Market Need
 - **Problem:** Current charity donation methods lack interactivity and transparency, resulting in low user engagement.
