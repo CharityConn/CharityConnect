@@ -1,4 +1,4 @@
-# Charity Connect
+# Charity Connect v0.1
 Connecting brand charity donations to consumer activity through Interactive NFTs.
 
 ## Overview
