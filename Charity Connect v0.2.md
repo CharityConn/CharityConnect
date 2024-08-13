@@ -80,6 +80,8 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 
 ## User Flow
 
+![Charity Connect Value Flow - UI](https://github.com/user-attachments/assets/be3e64e7-214a-485a-91be-cec231515ac8)
+
 1. User claims Charity Membership Card (ERC721 tapp)
 2. User can view their membership card as a QR code
 3. User can generate and install Google or Apple Wallet passes
