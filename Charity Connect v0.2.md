@@ -133,6 +133,9 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 
 ## Development Guidelines
 
+https://www.smartwallet.dev/base-gasless-campaign
+
+
 1. Use OpenZeppelin for standard token implementations
 2. Implement thorough testing, especially for financial calculations
 3. Conduct security audits before mainnet deployment
