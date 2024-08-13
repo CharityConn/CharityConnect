@@ -11,6 +11,7 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 - **User Demographics:** Younger generations, socially responsible consumers, and businesses looking to improve their brand image.
 
 ## Key Components
+![Charity Connect Value Flow - Model](https://github.com/user-attachments/assets/6441c298-41a1-4659-9dca-ec343a6c6326)
 
 ### 1. Charity Connect Membership Card (ERC721 tapp)
 - Claimable NFT representing membership in the Charity Connect ecosystem
