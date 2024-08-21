@@ -93,7 +93,7 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 
 ## User Interface Updates
 
-1. new logo and UI (with powered by Coinbase and Smart Layer)
+1. new logo and UI (with powered by Coinbase and Smart Layer) https://github.com/CharityConn/CharityConnect/tree/main/Brand%20Asset
 2. new actions
 3. Provide clear instructions for users on each step
 
