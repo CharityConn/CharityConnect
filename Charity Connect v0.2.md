@@ -31,7 +31,7 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 - Earned through donations, redeemable for rewards or further donations
 - Implement as an ERC20 token with ERC5169 to have tapp functionality
 - Mint to the current Membership Card holder
-- Minting rate start with 2.5*3000* ETH donated, adjustable and can be different based on different token different time different "to charity".
+- Minting rate start with 2.5x 3000 x ETH donated, adjustable and can be different based on different token different time different "to charity".
 - Allow burning of CHARITYeet for rewards or additional donations
 (a user controled burnTo function) 
 
@@ -39,7 +39,7 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 - Accept native ETH donations on the Base blockchain, with supporting ERC 20 in future. 
 - Convert donation amount to ETH for CHARITYeet calculation, ( might need to implement ChainLink oracle (apply grant) )
 - Mint CHARITYeet tokens to donor's wallet
-- Minting rate start with 2.5x3000x ETH donated, adjustable and can be different based on different token different time different "to charity".
+- Minting rate start with 2.5 x 3000 x ETH donated, adjustable and can be different based on different token different time different "to charity".
 
 ### 4. Fee Structure
 - 0.50% fee on each donation, directed to Charity Connect Pool
