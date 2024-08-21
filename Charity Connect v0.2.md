@@ -16,25 +16,37 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 ### 1. Charity Connect Membership Card (ERC721 tapp)
 - Claimable NFT representing membership in the Charity Connect ecosystem
 - Implement as an ERC721 token with ERC5169 to have tapp functionality
-- Includes QR code generation and wallet pass integration
-- Implement ERC6551 to hold the CHARITYeet Token
+- Contract need to record how much ETH a membership card has donated.
+  (need to records ERC20 next version)
+- Action 1, Quick Donate: donate 0.001 ETH to a random Charity with one click
+- Action 2, Choose to Donate: choose a charity and input an ETH amount to donate
+(USD$ amount in next version)
+- Action 3, Show as QR: QR code generation and wallet pass integration
+- more (Vote and Leader board)
+- Information: This is your Charity Connect Membership Card, represented as an ERC-721 NFT tapp. Show CHARITYeet balance, and ETH Donated
+(Show USD$ Donated in next version)
+![image](https://github.com/user-attachments/assets/d22c14ff-fabe-48b3-826e-bcc8d0ecb997)
 
 ### 2. CHARITYeet (ERC20 tapp)
 - Earned through donations, redeemable for rewards or further donations
 - Implement as an ERC20 token with ERC5169 to have tapp functionality
-- Minted to the Charity Connect Membership NFT's 6551 wallet
+- Mint to the current Membership Card holder
+- Minting rate start with 2.5*3000* ETH donated, adjustable and can be different based on different token different time different "to charity".
+- Allow burning of CHARITYeet for rewards or additional donations
+(a user controled burnTo function) 
 
 ### 3. Donation Mechanism
 - Accept native ETH donations on the Base blockchain, with supporting ERC 20 in future. 
-- Convert donation amount to USD for CHARITYeet calculation, might need to implement ChainLink oracle (apply grant) 
-- Mint CHARITYeet tokens to donor's Membership NFT's 6551 wallet
+- Convert donation amount to ETH for CHARITYeet calculation, ( might need to implement ChainLink oracle (apply grant) )
+- Mint CHARITYeet tokens to donor's wallet
+- Minting rate start with 2.5x3000x ETH donated, adjustable and can be different based on different token different time different "to charity".
 
 ### 4. Fee Structure
 - 0.50% fee on each donation, directed to Charity Connect Pool
-- Implement adjustable fee percentage via governance
+- Implement adjustable fee percentage via governance （in next version）
 
 ### 5. CHARITYeet Minting
-- Base rate: 2.5 CHARITYeet per 1 USD worth of ETH donated
+- Base rate: 2.5x3000 CHARITYeet per 1 ETH donated
 - Support variable minting rates based on charity, time, or donation currency
 
 ### 6. QR Code and Wallet Pass Integration
@@ -43,7 +55,8 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 
 ### 7. Redemption(burn) Mechanism
 - Allow burning of CHARITYeet for rewards or additional donations
-- Implement burn functionality in the CHARITYeet smart contract
+(a user controled burnTo function)  
+- Implement burn functionality in the CHARITYeet smart contract or DvP Contract/s
 
 ### 8. Governance
 - Decentralized voting for fee adjustment and CHARITYeet minting rate changes
@@ -59,19 +72,6 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 3. DonationManager, DvP contract (ETH/ERC20 v CHARITYeet)
 4. GovernanceContract
 
-## Key Functions to Implement
-
-1. claimMembershipCard()
-2. donate(address charityAddress, uint256 amount)
-3. redeemCHARITYeet(uint256 amount, address beneficiary)
-4. proposeRateChange(uint256 newRate)
-5. vote(uint256 proposalId, bool support)
-6. executeProposal(uint256 proposalId)
-7. updateMintingRate(address charity, uint256 newRate)
-8. getLeaderboard() (off-chain with on-chain data)
-9. generateQRCode(uint256 tokenId)
-10. generateGoogleWalletPass(uint256 tokenId)
-11. generateAppleWalletPass(uint256 tokenId)
 
 ## Tapp Functionality
 - Implement ERC5169 for both token types
@@ -89,24 +89,19 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 5. User receives CHARITYeet tokens based on donation amount
 6. User can redeem(burn), transfer, or trade CHARITYeet tokens
 7. User can participate in governance decisions
-8. Leaderboard updates to reflect user's donations
+8. Leaderboard updates to reflect each membership card's donations
 
 ## User Interface Updates
 
-1. Replace "Wallet Pass" button with "Show as QR code" button
-2. QR Code Display:
-   - Show QR code prominently when "Show as QR code" is clicked
-   - Include user's membership details in human-readable format alongside QR code
-3. Wallet Pass Options:
-   - Add "Generate Google Wallet Pass" button
-   - Add "Generate Apple Wallet Pass" button
-4. Provide clear instructions for users on how to install generated passes on their phones
+1. new logo and UI (with powered by Coinbase and Smart Layer)
+2. new actions
+3. Provide clear instructions for users on each step
 
 ## Technical Specifications
 
 - Blockchain: Base (Ethereum L2)
 - Token Standards: ERC721 (Membership Card), ERC20 (CHARITYeet)
-- Additional Standards: ERC5169 for tapp functionality, 6551 for NFT wallet
+- Additional Standards: ERC5169 for tapp functionality
 - Smart Contract Language: Solidity
 - Frontend: Web3-enabled application (specific framework TBD)
 - Indexing: The Graph or similar for efficient data querying
@@ -114,37 +109,6 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 - Wallet Pass Generation:
   - Google Wallet API integration
   - Apple Wallet API integration
-
-## Integration Requirements
-
-1. Google Wallet API:
-   - Set up Google Pay API for Passes
-   - Implement JWT (JSON Web Token) generation for Google Wallet passes
-   - Handle pass updates and notifications
-
-2. Apple Wallet API:
-   - Obtain Apple Developer account and configure for Wallet passes
-   - Implement .pkpass file generation
-   - Set up pass type identifier and certificates
-
-3. QR Code Generation:
-   - Choose between server-side or client-side generation based on security and performance requirements
-   - Ensure QR codes contain necessary information for membership verification
-
-## Development Guidelines
-
-https://www.smartwallet.dev/base-gasless-campaign
-
-
-1. Use OpenZeppelin for standard token implementations
-2. Implement thorough testing, especially for financial calculations
-3. Conduct security audits before mainnet deployment
-4. Implement upgradeability patterns for future improvements
-5. Use events for all significant state changes
-6. Optimize for gas efficiency, especially in frequently used functions
-7. Ensure secure generation and display of QR codes to prevent spoofing
-8. Implement proper error handling for wallet pass generation and installation processes
-9. Consider caching mechanisms for QR codes to improve performance
 
 ## Security Considerations
 
