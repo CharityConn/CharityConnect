@@ -14,16 +14,15 @@ html:has(.popover-modal.open){
 }
 
 header {
-  background: linear-gradient(to right, #173D67, #34557A);
-  color: white;
-  height: 56px;
+  background: white; /*brand color*/
+  height: 65px;
   display: flex;
   align-items: center;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 
 .header-icon {
-	height: 35px;
+	height: 65px;
 	width: auto;
 	padding-left: 25px;
 }
