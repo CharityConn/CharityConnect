@@ -40,6 +40,7 @@
     "ipfs-only-hash": "^4.0.0",
     "jsdom": "^22.1.0",
     "lodash": "^4.17.21",
+    "pkijs": "3.0.11",
     "webcrypto-liner": "^1.4.2"
   },
   "overrides": {
