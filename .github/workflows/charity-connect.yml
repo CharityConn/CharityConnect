@@ -20,8 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -35,8 +33,6 @@ jobs:
       - name: build
         run: |
           cd "${PROJ_PATH}"
-          rm -rf node_modules
-          npm cache clean --force
           npm ci
           npm run build
         # env:
