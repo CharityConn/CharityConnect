@@ -55,7 +55,7 @@ export class ViewerPopover {
   async open(tokenScript: TokenScript) {
     this.tokenScript = tokenScript;
 
-    const onboardingCards = tokenScript.getCards(null, true);
+    const onboardingCards = tokenScript.getCards().getOnboardingCards();
 
     const enabledCards = [];
 
@@ -129,13 +129,10 @@ export class ViewerPopover {
       await this.tokenScript.showOrExecuteTokenCard(card, async (data: ITransactionStatus) => {
         if (data.status === 'started') this.showLoader.emit();
 
-        if (data.status === 'confirmed') this.hideLoader.emit();
+        if (data.status === 'completed') this.hideLoader.emit();
 
         await showTransactionNotification(data, this.showToast);
       });
-
-      // TODO: set only card param rather than updating the whole hash query
-      if (card.view) history.replaceState(undefined, undefined, '#card=' + (card.name ?? cardIndex) + (token && 'tokenId' in token ? '&tokenId=' + token.tokenId : ''));
     } catch (e) {
       console.error(e);
       this.hideLoader.emit();
@@ -173,18 +170,22 @@ export class ViewerPopover {
             <button class="btn" onClick={() => this.close()}>
               &lt;
             </button>
-            <h3>{this.tokenScript.getLabel() ?? this.tokenScript.getName()}</h3>
+            <h3>{this.tokenScript.getLabel(2) ?? this.tokenScript.getName()}</h3>
           </div>
           <div class="view-toolbar-buttons">
+            <share-to-tg-button></share-to-tg-button>
             <security-status tokenScript={this.tokenScript} />
             <div>
               <button
                 class="btn"
                 style={{ marginRight: '5px', minWidth: '35px', fontSize: '16px' }}
                 onClick={() => {
-                  this.tokenScript.getCards().forEach(card => {
-                    card.getAttributes().invalidate();
-                  });
+                  this.tokenScript
+                    .getCards()
+                    .getAllCards()
+                    .forEach(card => {
+                      card.getAttributes().invalidate();
+                    });
                   this.tokenScript.getAttributes().invalidate();
                   this.tokenScript.getTokenMetadata(true, true);
                 }}

@@ -48,24 +48,43 @@ export class CardPopover implements IViewBinding {
   @Watch('tokenScript')
   async loadTs() {
     this.tokenScript.setViewBinding(this);
+    this.tokenScript.on(
+      'TX_STATUS',
+      (data: ITransactionStatus) => {
+        if (data.status !== 'error') {
+          showTransactionNotification(data, this.showToast);
+        } else {
+          handleTransactionError(data.error, this.showToast);
+        }
+      },
+      'card-popover',
+    );
   }
 
-  componentDidLoad() {
-    if (this.tokenScript) this.loadTs();
+  async componentDidLoad() {
+    if (this.tokenScript) await this.loadTs();
 
     this.iframeTemplate = this.el.getElementsByClassName('tokenscript-frame')[0] as HTMLIFrameElement;
     window.addEventListener('message', this.handlePostMessageFromView.bind(this));
   }
 
   hideLoader() {
-    setTimeout(() => (this.loading = false), 200);
+    this.loading = false;
+  }
+
+  showLoader(show = true) {
+    if (show) {
+      this.loading = true;
+    } else {
+      this.hideLoader();
+    }
   }
 
   getViewBindingJavascript(): string {
     return VIEW_BINDING_JAVASCRIPT;
   }
 
-  protected handlePostMessageFromView(event: MessageEvent) {
+  protected async handlePostMessageFromView(event: MessageEvent) {
     if (!this.iframe) return;
 
     if (event.source !== this.iframe.contentWindow) {
@@ -74,7 +93,7 @@ export class CardPopover implements IViewBinding {
 
     if (!event.data?.method) return;
 
-    this.handleMessageFromView(event.data.method, event.data?.params);
+    await this.handleMessageFromView(event.data.method, event.data?.params);
   }
 
   async handleMessageFromView(method: RequestFromView, params: any) {
@@ -82,14 +101,10 @@ export class CardPopover implements IViewBinding {
 
     switch (method) {
       case RequestFromView.SET_LOADER:
-        if (params.show == true) {
-          this.loading = true;
-        } else {
-          this.hideLoader();
-        }
+        this.showLoader(params.show);
         break;
       case RequestFromView.SHOW_TX_TOAST:
-        showTransactionNotification(
+        await showTransactionNotification(
           {
             status: params.status,
             txLink: CHAIN_CONFIG[params?.chain].explorer ? CHAIN_CONFIG[params?.chain].explorer + params.txHash : null,
@@ -99,7 +114,7 @@ export class CardPopover implements IViewBinding {
         );
         break;
       case RequestFromView.SHOW_TOAST:
-        showToastNotification(params.type, params.title, params.description);
+        await showToastNotification(params.type, params.title, params.description);
         break;
       case RequestFromView.SET_BUTTON:
         const newOptions = { ...this.buttonOptions };
@@ -107,9 +122,6 @@ export class CardPopover implements IViewBinding {
           newOptions[i] = params[i];
         }
         this.buttonOptions = newOptions;
-        break;
-      case RequestFromView.EXEC_TRANSACTION:
-        this.confirmAction();
         break;
       default:
         await this.tokenScript.getViewController().handleMessageFromView(method, params);
@@ -126,25 +138,20 @@ export class CardPopover implements IViewBinding {
         console.log('ViewEvent.TOKENS_UPDATED');
 
         this.postMessageToView(event, { oldTokens: tokens, updatedTokens: tokens, cardId: id });
-
-        this.hideLoader();
         return;
 
-      case ViewEvent.EXECUTE_CALLBACK:
-      case ViewEvent.GET_USER_INPUT:
-      case ViewEvent.ON_CONFIRM:
-      case ViewEvent.TRANSACTION_EVENT:
+      default:
         this.postMessageToView(event, { ...data, id });
         return;
     }
   }
 
   protected postMessageToView(method: ViewEvent, params: any) {
-    if (this.iframe.contentWindow) this.iframe.contentWindow.postMessage({ method, params }, '*');
+    if (this.iframe?.contentWindow) this.iframe.contentWindow.postMessage({ method, params }, '*');
   }
 
   dispatchRpcResult(response: RpcResponse) {
-    if (this.iframe.contentWindow) return this.iframe.contentWindow.postMessage(response, '*');
+    if (this.iframe?.contentWindow) return this.iframe.contentWindow.postMessage(response, '*');
   }
 
   async showTokenView(card: Card, tsId?: string) {
@@ -168,7 +175,19 @@ export class CardPopover implements IViewBinding {
       this.hideLoader();
     };
 
-    await this.dialog.openDialog(() => this.unloadTokenView());
+    if (card.view) {
+      const currentParams = new URLSearchParams(location.hash.substring(1));
+      currentParams.set('card', card.name);
+
+      const token = this.tokenScript.getCurrentTokenContext();
+      if (token && 'selectedTokenId' in token) {
+        currentParams.set('tokenId', token.selectedTokenId);
+      }
+
+      history.replaceState(undefined, undefined, '#' + currentParams.toString());
+    }
+
+    await this.dialog.openDialog(() => this.tokenScript.getViewController().unloadTokenCard());
   }
 
   async unloadTokenView() {
@@ -177,9 +196,10 @@ export class CardPopover implements IViewBinding {
     //this.iframe.srcdoc = "<!DOCTYPE html>";
     this.iframe.remove();
     //this.iframe.contentWindow.location.replace("data:text/html;base64,PCFET0NUWVBFIGh0bWw+");
-    const newUrl = new URL(document.location.href);
-    newUrl.hash = '';
-    history.replaceState(undefined, undefined, newUrl);
+    const currentParams = new URLSearchParams(location.hash.substring(1));
+    currentParams.delete('card');
+    currentParams.delete('tokenId');
+    history.replaceState(undefined, undefined, '#' + currentParams.toString());
   }
 
   viewError(error: Error) {
@@ -191,29 +211,24 @@ export class CardPopover implements IViewBinding {
   }
 
   async confirmAction() {
-    this.loading = true;
-
-    try {
-      await this.tokenScript.getViewController().executeTransaction(this.currentCard, (data: ITransactionStatus) => {
-        showTransactionNotification(data, this.showToast);
-      });
-    } catch (e) {
-      handleTransactionError(e, this.showToast);
-    }
-
-    this.loading = false;
+    await this.tokenScript.getViewController().executeTransaction();
   }
 
   render() {
     return (
-      <popover-dialog ref={el => (this.dialog = el as HTMLPopoverDialogElement)} disableClose={this.loading} fullScreen={this.currentCard?.fullScreen}>
+      <popover-dialog ref={el => (this.dialog = el as HTMLPopoverDialogElement)} disableClose={this.loading} fullScreen={this.currentCard?.fullScreen} showShareToTg={true}>
         <div slot="outer-content" class="view-loader" style={{ display: this.loading ? 'flex' : 'none' }}>
           <loading-spinner />
         </div>
         <div class={'card-container view-container' + (this.currentCard?.fullScreen ? ' fullscreen ' : '')}>
           <div class="iframe-wrapper"></div>
           <div id="iframe-template" style={{ display: 'none !important' }}>
-            <iframe class="tokenscript-frame" allow="clipboard-write" sandbox="allow-scripts allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+            <iframe
+              class="tokenscript-frame"
+              allow="clipboard-write"
+              frameborder="0"
+              sandbox="allow-scripts allow-modals allow-forms allow-popups allow-popups-to-escape-sandbox"
+            ></iframe>
           </div>
           {this.buttonOptions ? (
             <div class="action-bar" style={{ display: this.buttonOptions.show ? 'block' : 'none' }}>

@@ -1,7 +1,7 @@
 import { Component, h, Prop, State } from '@stencil/core';
+import { AppRoot, TokenScriptSource } from '../../app/app';
 import { TokenScript } from '@tokenscript/engine-js/dist/lib.esm/TokenScript';
 import { Card } from '@tokenscript/engine-js/dist/lib.esm/tokenScript/Card';
-import { AppRoot, TokenScriptSource } from '../../app/app';
 import { findCardByUrlParam } from '../util/findCardByUrlParam';
 
 @Component({

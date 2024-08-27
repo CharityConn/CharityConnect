@@ -20,7 +20,7 @@ export abstract class AbstractViewBinding implements IViewBinding {
     this.loader = view.querySelector('.view-loader') as HTMLDivElement;
     this.actionBar = view.querySelector('.action-bar') as HTMLDivElement;
     this.actionBtn = view.querySelector('.action-btn') as HTMLButtonElement;
-    this.actionBtn.addEventListener('click', this.confirmAction.bind(this));
+    if (this.actionBtn) this.actionBtn.addEventListener('click', this.confirmAction.bind(this));
 
     window.addEventListener('message', this.handlePostMessageFromView.bind(this));
   }
@@ -66,13 +66,14 @@ export abstract class AbstractViewBinding implements IViewBinding {
     this.actionBar.style.display = 'none';
     this.iframe.srcdoc = '<!DOCTYPE html>';
     //this.iframe.contentWindow.location.replace("data:text/html;base64,PCFET0NUWVBFIGh0bWw+");
-    const newUrl = new URL(document.location.href);
-    newUrl.hash = '';
-    history.replaceState(undefined, undefined, newUrl);
   }
 
-  protected showLoader() {
-    this.loader.style.display = 'flex';
+  public showLoader(show = true) {
+    if (show) {
+      this.loader.style.display = 'flex';
+    } else {
+      this.hideLoader();
+    }
   }
 
   protected hideLoader() {
@@ -124,7 +125,7 @@ export abstract class AbstractViewBinding implements IViewBinding {
     return this.iframe.contentWindow.postMessage(response, '*');
   }
 
-  protected handlePostMessageFromView(event: MessageEvent) {
+  protected async handlePostMessageFromView(event: MessageEvent) {
     if (!this.iframe) return;
 
     if (event.source !== this.iframe.contentWindow) {
@@ -139,7 +140,7 @@ export abstract class AbstractViewBinding implements IViewBinding {
 
     //console.log("Event from view: ", event.data);
 
-    this.handleMessageFromView(event.data.method, event.data?.params);
+    await this.handleMessageFromView(event.data.method, event.data?.params);
   }
 
   async handleMessageFromView(method: RequestFromView, params: any) {
@@ -155,15 +156,12 @@ export abstract class AbstractViewBinding implements IViewBinding {
 
         console.log('ViewEvent.TOKENS_UPDATED');
 
-        //this.iframe.contentWindow.web3.tokens.dataChanged(tokens, tokens, cardId);
         this.postMessageToView(event, { oldTokens: tokens, updatedTokens: tokens, cardId: id });
 
         this.hideLoader();
         return;
 
-      case ViewEvent.EXECUTE_CALLBACK:
-      case ViewEvent.GET_USER_INPUT:
-      case ViewEvent.ON_CONFIRM:
+      default:
         this.postMessageToView(event, { ...data, id });
         return;
     }

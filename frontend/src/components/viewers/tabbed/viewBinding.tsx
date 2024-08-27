@@ -1,5 +1,5 @@
 import { EventEmitter } from '@stencil/core';
-import { ITransactionStatus } from '@tokenscript/engine-js/dist/lib.esm/TokenScript';
+import { ITransactionStatus, TokenScript } from '@tokenscript/engine-js/dist/lib.esm/TokenScript';
 import { Attribute } from '@tokenscript/engine-js/dist/lib.esm/tokenScript/Attribute';
 import { Card } from '@tokenscript/engine-js/dist/lib.esm/tokenScript/Card';
 import { RequestFromView, ViewEvent } from '@tokenscript/engine-js/dist/lib.esm/view/ViewController';
@@ -14,6 +14,21 @@ export class ViewBinding extends AbstractViewBinding {
     super(view);
   }
 
+  setTokenScript(tokenScript: TokenScript) {
+    super.setTokenScript(tokenScript);
+    this.tokenScript.on(
+      'TX_STATUS',
+      (data: ITransactionStatus) => {
+        if (data.status !== 'error') {
+          showTransactionNotification(data, this.showToast);
+        } else {
+          handleTransactionError(data.error, this.showToast);
+        }
+      },
+      'card-view',
+    );
+  }
+
   async showTokenView(card: Card) {
     (this.view as HTMLDivElement).style.display = 'block';
 
@@ -24,7 +39,6 @@ export class ViewBinding extends AbstractViewBinding {
 
   async unloadTokenView() {
     (this.view as HTMLDivElement).style.display = 'none';
-    await super.unloadTokenView();
   }
 
   async renderAttributesTable() {
@@ -50,28 +64,13 @@ export class ViewBinding extends AbstractViewBinding {
   }
 
   async confirmAction() {
-    this.showLoader();
-
-    try {
-      await this.tokenScript.getViewController().executeTransaction(this.currentCard, (data: ITransactionStatus) => {
-        showTransactionNotification(data, this.showToast);
-      });
-    } catch (e) {
-      console.error(e);
-      handleTransactionError(e, this.showToast);
-    }
-
-    this.hideLoader();
+    await this.viewController.executeTransaction();
   }
 
   async handleMessageFromView(method: RequestFromView, params: any) {
     switch (method) {
       case RequestFromView.SET_LOADER:
-        if (params.show == true) {
-          this.showLoader();
-        } else {
-          this.hideLoader();
-        }
+        this.showLoader(params.show);
         break;
       case RequestFromView.SHOW_TX_TOAST:
         showTransactionNotification(
@@ -86,6 +85,9 @@ export class ViewBinding extends AbstractViewBinding {
       case RequestFromView.SHOW_TOAST:
         showToastNotification(params.type, params.title, params.description);
         break;
+      /*case RequestFromView.EXEC_TRANSACTION:
+				await this.confirmAction(params.txName);
+				break;*/
       default:
         await super.handleMessageFromView(method, params);
     }
