@@ -1,6 +1,4 @@
 # Charity Connect v0.2
-Connecting brand charity donations to consumer activity.
-
 ## Overview
 Charity Connect is a tapp which gives consumers the ability to donate and influence charity donations from brands.
 
