@@ -88,10 +88,10 @@ export namespace Components {
     interface PopoverDialog {
         "closeDialog": () => Promise<void>;
         "dialogClasses": string[];
-        "dialogStyles": {[cssProp: string]: string};
+        "dialogStyles": { [cssProp: string]: string };
         "disableClose": boolean;
         "fullScreen": boolean;
-        "modalStyles": {[cssProp: string]: string};
+        "modalStyles": { [cssProp: string]: string };
         "openDialog": (dismissCallback?: () => void | Promise<void>) => Promise<void>;
         "showShareToTg"?: boolean;
     }
@@ -632,10 +632,10 @@ declare namespace LocalJSX {
     }
     interface PopoverDialog {
         "dialogClasses"?: string[];
-        "dialogStyles"?: {[cssProp: string]: string};
+        "dialogStyles"?: { [cssProp: string]: string };
         "disableClose"?: boolean;
         "fullScreen"?: boolean;
-        "modalStyles"?: {[cssProp: string]: string};
+        "modalStyles"?: { [cssProp: string]: string };
         "showShareToTg"?: boolean;
     }
     interface SecurityStatus {
