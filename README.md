@@ -67,7 +67,7 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 
 ## Smart Contract Architecture
 
-1. CharityMembershipCard (ERC721,5169,6551)
+1. CharityMembershipCard (ERC721,5169)
 2. CHARITYeet (ERC20,5169)
 3. DonationManager, DvP contract (ETH/ERC20 v CHARITYeet)
 4. GovernanceContract
