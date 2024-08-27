@@ -1,4 +1,6 @@
 # Charity Connect v0.2
+<img width="631" alt="Logo (3)" src="https://github.com/user-attachments/assets/c56d961c-2e5c-41a7-8638-a5c992f716fd">
+
 ## Overview
 Charity Connect is a tapp which gives consumers the ability to donate and influence charity donations from brands.
 
