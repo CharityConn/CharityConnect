@@ -2,6 +2,7 @@
 pragma solidity ^0.8.4;
 
 import {Charityeet} from "./Charityeet.sol";
+import {CharityConnectMembershipCard} from "./CharityConnectMembershipCard.sol";
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
@@ -11,8 +12,11 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     uint constant QUICK_DONATION_AMOUNT = 0.001 ether;
     uint constant RATE_DENOMINATOR = 10000;
 
+    address public rewardToken;
+    address public membershipCard;
+
     // eth donation is under zeroAddress
-    mapping(uint => mapping(address => uint)) public donationByPassId;
+    mapping(uint => mapping(address => uint)) public donationByCardId;
 
     mapping(string => address) public charities;
     string[] internal charityNames;
@@ -23,21 +27,24 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     // 1 = 0.01%, eth fee rate is under zeroAddress
     mapping(address => uint) public rewardRates;
 
-    address public rewardToken;
-
-    function initialize(address rewardTokenAddress) public initializer {
+    function initialize(address membershipCardAddress, address rewardTokenAddress) public initializer {
         __AccessControl_init();
         __UUPSUpgradeable_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
 
         rewardToken = rewardTokenAddress;
+        membershipCard = membershipCardAddress;
 
         feeRates[address(0)] = 50;
         rewardRates[address(0)] = 2.5 * 3000 * RATE_DENOMINATOR;
     }
 
     function _authorizeUpgrade(address newImplementation) internal override onlyRole(DEFAULT_ADMIN_ROLE) {}
+
+    function setMembershipCard(address membershipCardAddress) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        membershipCard = membershipCardAddress;
+    }
 
     function setRewardToken(address rewardTokenAddress) public onlyRole(DEFAULT_ADMIN_ROLE) {
         rewardToken = rewardTokenAddress;
@@ -52,12 +59,16 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         feeRates[token] = rate;
     }
 
-    function quickDonate(uint passId) public payable {
+    function quickDonate(uint cardId) public payable {
         uint netAmount = calculateDonationAmount(address(0), msg.value);
 
         require(netAmount == QUICK_DONATION_AMOUNT, "incorrect quick donation amount");
+        require(
+            CharityConnectMembershipCard(membershipCard).ownerOf(cardId) == msg.sender,
+            "Membership card not owned by donor"
+        );
 
-        donationByPassId[passId][address(0)] += QUICK_DONATION_AMOUNT;
+        donationByCardId[cardId][address(0)] += QUICK_DONATION_AMOUNT;
 
         string memory charity = getRandomCharity();
 
