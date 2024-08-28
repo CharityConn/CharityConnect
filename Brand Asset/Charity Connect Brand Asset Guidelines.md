@@ -10,9 +10,6 @@
 - **Clear space:** Maintain clear space around the logo equal to the height of the diamond
 
 ## 2. Color Palette
-### Primary Colors
-- Blue: `#1C1CFF` (Hex code for --blue-500)
-- Green: `#0A7146` (Hex code for --green-500)
 
 ### Secondary Colors
 - Light Blue: `#EBEBFF` (--blue-100)
