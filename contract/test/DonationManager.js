@@ -3,16 +3,25 @@ const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers');
 
 describe('DonationManager', function () {
   async function deployTokenFixture() {
-    const DonationManager = await ethers.getContractFactory('DonationManager');
-    const [owner, charity1, donor1] = await ethers.getSigners();
+    const [owner, defaultCharity, charity1, donor1] = await ethers.getSigners();
 
-    const donationManager = await await upgrades.deployProxy(DonationManager);
+    const Charityeet = await ethers.getContractFactory('Charityeet');
+    const charityeet = await upgrades.deployProxy(Charityeet, ['CHARITYeet', 'CYT', 0]);
+    await charityeet.waitForDeployment();
+
+    const DonationManager = await ethers.getContractFactory('DonationManager');
+    const donationManager = await upgrades.deployProxy(DonationManager, [await charityeet.getAddress()]);
     await donationManager.waitForDeployment();
 
+    await charityeet.grantRole(await charityeet.MANAGER_ROLE(), await donationManager.getAddress());
+
+    await donationManager.connect(owner).setCharityWallet('defaultCharity', defaultCharity);
+
     return {
-      DonationManager,
+      charityeet,
       donationManager,
       owner,
+      defaultCharity,
       charity1,
       donor1,
     };
@@ -29,6 +38,20 @@ describe('DonationManager', function () {
       const { donationManager } = await loadFixture(deployTokenFixture);
 
       expect(await donationManager.feeRates(ethers.ZeroAddress)).to.equal(50);
+    });
+
+    it('should set reward token', async function () {
+      const { charityeet, donationManager } = await loadFixture(deployTokenFixture);
+
+      expect(await donationManager.rewardToken()).to.equal(charityeet);
+    });
+
+    it('should set donation manager as manager role in charityeet', async function () {
+      const { charityeet, donationManager } = await loadFixture(deployTokenFixture);
+
+      expect(await charityeet.hasRole(await charityeet.MANAGER_ROLE(), await donationManager.getAddress())).to.equal(
+        true,
+      );
     });
   });
 
@@ -60,17 +83,22 @@ describe('DonationManager', function () {
     });
 
     it('should donate eth to random charity with fee', async function () {
-      const { donationManager, owner, charity1, donor1 } = await loadFixture(deployTokenFixture);
-
-      // only add one charity, not testing randomness
-      await donationManager.connect(owner).setCharityWallet('charity1', charity1);
+      const { donationManager, defaultCharity, donor1 } = await loadFixture(deployTokenFixture);
 
       await expect(
         donationManager.connect(donor1).quickDonate(1, { value: ethers.parseEther('0.001005') }),
       ).to.changeEtherBalances(
-        [charity1, donationManager],
+        [defaultCharity, donationManager],
         [ethers.parseEther('0.001'), ethers.parseEther('0.000005')],
       );
+    });
+
+    it('should reward charityeet to donor', async function () {
+      const { charityeet, donationManager, donor1 } = await loadFixture(deployTokenFixture);
+
+      await expect(
+        donationManager.connect(donor1).quickDonate(1, { value: ethers.parseEther('0.001005') }),
+      ).to.changeTokenBalance(charityeet, donor1, ethers.parseEther('7.5'));
     });
 
     it('should accumulate donate record for donor', async function () {
