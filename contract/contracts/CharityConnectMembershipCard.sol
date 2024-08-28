@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 import {ERC5169} from "stl-contracts/ERC/ERC5169.sol";
 
-contract CharityPass is ERC5169, ERC721Enumerable, Ownable {
+contract CharityConnectMembershipCard is ERC5169, ERC721Enumerable, Ownable {
     using Strings for uint256;
 
     string public baseUri = "https://resources.smarttokenlabs.com/";
