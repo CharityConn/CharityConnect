@@ -98,7 +98,7 @@ describe('DonationManager', function () {
     });
   });
 
-  describe('quick donate', function () {
+  describe('fee rate management', function () {
     it('should set fee rate', async function () {
       const { donationManager, owner } = await loadFixture(deployTokenFixture);
 
@@ -106,7 +106,9 @@ describe('DonationManager', function () {
 
       expect(await donationManager.feeRates(ethers.ZeroAddress)).to.equal(100);
     });
+  });
 
+  describe('quick donate', function () {
     it('should donate eth to random charity with fee', async function () {
       const { donationManager, defaultCharity, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
 
@@ -142,6 +144,56 @@ describe('DonationManager', function () {
 
       await expect(
         donationManager.connect(donor1).quickDonate(donor2CardId, { value: ethers.parseEther('0.001005') }),
+      ).to.be.revertedWith('Membership card not owned by donor');
+    });
+  });
+
+  describe('donate eth to charity', function () {
+    it('should donate eth to charity with fee', async function () {
+      const { donationManager, defaultCharity, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await expect(
+        donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
+      ).to.changeEtherBalances([defaultCharity, donationManager], [ethers.parseEther('1'), ethers.parseEther('0.005')]);
+    });
+
+    it('should reward charityeet to donor', async function () {
+      const { charityeet, donationManager, donor1, donor1CardId } =
+        await loadFixture(deployTokenFixture);
+
+      await expect(
+        donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
+      ).to.changeTokenBalance(charityeet, donor1, ethers.parseEther('7500'));
+    });
+
+    it('should accumulate donate record for donor', async function () {
+      const { donationManager, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager.connect(donor1).quickDonate(donor1CardId, { value: ethers.parseEther('0.001005') });
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+
+      expect(await donationManager.donationByCardId(donor1CardId, ethers.ZeroAddress)).to.equal(
+        ethers.parseEther('1.001'),
+      );
+    });
+
+    it('should reject donation if charity not found', async function () {
+      const { donationManager, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await expect(
+        donationManager
+          .connect(donor1)
+          .donateETH(donor1CardId, 'unknownCharity', { value: ethers.parseEther('1.005') }),
+      ).to.be.revertedWith('Unknown charity');
+    });
+
+    it('should reject donation if membership card id', async function () {
+      const { donationManager, donor1, donor2CardId } = await loadFixture(deployTokenFixture);
+
+      await expect(
+        donationManager.connect(donor1).donateETH(donor2CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
       ).to.be.revertedWith('Membership card not owned by donor');
     });
   });

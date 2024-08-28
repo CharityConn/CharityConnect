@@ -76,6 +76,21 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         payable(charities[charity]).transfer(QUICK_DONATION_AMOUNT);
     }
 
+    function donateETH(uint cardId, string memory charity) public payable {
+        require(charities[charity] != address(0), "Unknown charity");
+        require(
+            CharityConnectMembershipCard(membershipCard).ownerOf(cardId) == msg.sender,
+            "Membership card not owned by donor"
+        );
+
+        uint netAmount = calculateDonationAmount(address(0), msg.value);
+
+        donationByCardId[cardId][address(0)] += netAmount;
+
+        Charityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charity, address(0), netAmount));
+        payable(charities[charity]).transfer(netAmount);
+    }
+
     function getRandomCharity() internal view returns (string memory) {
         require(charityNames.length > 0, "No charity available");
 
