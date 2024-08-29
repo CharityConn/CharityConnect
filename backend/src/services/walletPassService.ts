@@ -42,7 +42,7 @@ export async function getPassByPassId(dbService: DbService, passId: string) {
 }
 
 export function externalId(platform: 'google' | 'apple', passId: string) {
-  return `charityconnect-${platform}-${passId}`;
+  return `charityconnect-${platform}-${passId}-${PASS_CONTRACT}`;
 }
 
 export function decodeExternalId(externalId: string) {
@@ -82,9 +82,9 @@ export function buildAppleCreatePayload(passId: string) {
       ],
       headerFields: [
         {
-          label: 'POINTS',
+          label: 'DONATIONS',
           textAlignment: 'PKTextAlignmentCenter',
-          key: 'points',
+          key: 'donations',
           value: 0,
         },
       ],
@@ -103,12 +103,12 @@ export function buildAppleCreatePayload(passId: string) {
 
 export function buildAppleUpdatePayload(
   passId: string,
-  merchantID: string,
-  points: number
+  notificationMsg: string,
+  totalDonations?: number
 ) {
   const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
 
-  return {
+  const payload: any = {
     pass: {
       backFields: [
         {
@@ -123,22 +123,26 @@ export function buildAppleUpdatePayload(
         {
           key: 'notification',
           label: 'Latest Notification',
-          value: `You received 1 CharityConnect point by checking in at merchant: ${merchantID}.`,
+          value: notificationMsg,
           changeMessage: '%@',
           textAlignment: 'PKTextAlignmentNatural',
         },
       ],
-      headerFields: [
-        {
-          label: 'POINTS',
-          textAlignment: 'PKTextAlignmentCenter',
-          key: 'points',
-          value: points || 0,
-        },
-      ],
-      secondaryFields: [],
     },
   };
+
+  if (totalDonations) {
+    payload.pass.headerFields = [
+      {
+        label: 'DONATIONS',
+        textAlignment: 'PKTextAlignmentCenter',
+        key: 'donations',
+        value: totalDonations,
+      },
+    ];
+  }
+
+  return payload;
 }
 
 export function buildGoogleCreatePayload(passId: string) {
@@ -197,7 +201,7 @@ export function buildGoogleCreatePayload(passId: string) {
       textModulesData: [
         {
           id: 'oneMiddle',
-          header: 'POINTS',
+          header: 'DONATIONS',
           body: 0,
         },
       ],
@@ -205,22 +209,30 @@ export function buildGoogleCreatePayload(passId: string) {
   };
 }
 
-export function buildGoogleUpdatePayload(merchantID: string, points: number) {
-  return {
-    pass: {
-      textModulesData: [
-        {
-          id: 'oneMiddle',
-          header: 'POINTS',
-          body: points || 0,
-        },
-      ],
-    },
+export function buildGoogleUpdatePayload(
+  notificationMsg: string,
+  totalDonations: number
+) {
+  const payload: any = {
     message: {
       header: 'CharityConnect',
-      body: `You received 1 CharityConnect point by checking in at merchant: ${merchantID}.`,
-      id: points.toString(),
+      body: notificationMsg,
+      id: totalDonations.toString(),
       message_type: 'TEXT_AND_NOTIFY',
     },
   };
+
+  if (totalDonations) {
+    payload.pass = {
+      textModulesData: [
+        {
+          id: 'oneMiddle',
+          header: 'DONATIONS',
+          body: totalDonations,
+        },
+      ],
+    };
+  }
+
+  return payload;
 }

@@ -141,5 +141,5 @@ export const defaultAvatar =
   "https://resources.smartlayer.network/images/redbrick/preview.png";
 
 export const CHAIN_ID = 84532;
-export const PASS_CONTRACT = "0x1C0d1dAE51B37017BB6950E48D8690B085647E63";
-export const POINTS_CONTRACT = "0xc7177825307A9717C8d79d41136a311a8Ccd65e9";
+export const PASS_CONTRACT = "0x40dc7D0B5E11Ee259314C548a238b9c909A4B721";
+export const POINTS_CONTRACT = "0x6E651E97D10D330b761b1759DA88616c4764093d";
