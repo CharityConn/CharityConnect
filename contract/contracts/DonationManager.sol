@@ -28,8 +28,8 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     // 1 = 0.01%, eth fee rate is under zeroAddress
     mapping(address => uint) public rewardRates;
 
-    // charity name => charityeet amount burned against the charity
-    mapping(string => uint) public burnedToCharity;
+    // business id => charityeet amount burned against the business
+    mapping(string => uint) public burnedToBusiness;
     uint public totalBurnedToCC;
 
     // charityeet owner => charityeet amount burned
@@ -39,7 +39,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     event FeeRateUpdated(address indexed token, uint rate);
     event Donation(string indexed name, uint indexed donorCardId, address token, uint amount, uint fee);
     event Withdrawal(address indexed to, address indexed token, uint amount);
-    event Burned(string indexed name, address indexed from, uint amount);
+    event Burned(string indexed businessId, address indexed from, uint amount);
 
     function initialize(address membershipCardAddress, address rewardTokenAddress) public initializer {
         __AccessControl_init();
@@ -125,18 +125,17 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         emit Withdrawal(to, address(0), amount);
     }
 
-    function burnTo(string memory charity, uint amount) public {
+    function burnTo(string memory businessId, uint amount) public {
         ICharityeet charityeet = ICharityeet(rewardToken);
 
-        require(charities[charity] != address(0), "Unknown charity");
         require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
 
-        burnedToCharity[charity] += amount;
+        burnedToBusiness[businessId] += amount;
         burnedFrom[msg.sender] += amount;
 
         charityeet.burnFrom(msg.sender, amount);
 
-        emit Burned(charity, msg.sender, amount);
+        emit Burned(businessId, msg.sender, amount);
     }
 
     function burn(uint amount) public {
