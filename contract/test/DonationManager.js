@@ -90,7 +90,9 @@ describe('DonationManager', function () {
     it('should add charity with name and wallet', async function () {
       const { donationManager, owner, charity1 } = await loadFixture(deployTokenFixture);
 
-      await donationManager.connect(owner).setCharityWallet('charity1', charity1);
+      await expect(donationManager.connect(owner).setCharityWallet('charity1', charity1))
+        .to.emit(donationManager, 'CharityUpdated')
+        .withArgs('charity1', charity1);
 
       expect(await donationManager.charities('charity1')).to.equal(charity1);
     });
@@ -108,7 +110,9 @@ describe('DonationManager', function () {
     it('should set fee rate', async function () {
       const { donationManager, owner } = await loadFixture(deployTokenFixture);
 
-      await donationManager.connect(owner).setFeeRate(ethers.ZeroAddress, 100);
+      await expect(donationManager.connect(owner).setFeeRate(ethers.ZeroAddress, 100))
+        .to.emit(donationManager, 'FeeRateUpdated')
+        .withArgs(ethers.ZeroAddress, 100);
 
       expect(await donationManager.feeRates(ethers.ZeroAddress)).to.equal(100);
     });
@@ -151,6 +155,20 @@ describe('DonationManager', function () {
       expect(await donationManager.donationByCardId(donor1CardId, ethers.ZeroAddress)).to.equal(
         ethers.parseEther('0.002'),
       );
+    });
+
+    it('should emit donation event', async function () {
+      const { donationManager, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await expect(donationManager.connect(donor1).quickDonate(donor1CardId, { value: ethers.parseEther('0.001005') }))
+        .to.emit(donationManager, 'Donation')
+        .withArgs(
+          'defaultCharity',
+          donor1CardId,
+          ethers.ZeroAddress,
+          ethers.parseEther('0.001'),
+          ethers.parseEther('0.000005'),
+        );
     });
 
     it('should reject donation if membership card id', async function () {
@@ -196,6 +214,24 @@ describe('DonationManager', function () {
       );
     });
 
+    it('should emit donation event', async function () {
+      const { donationManager, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await expect(
+        donationManager
+          .connect(donor1)
+          .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
+      )
+        .to.emit(donationManager, 'Donation')
+        .withArgs(
+          'defaultCharity',
+          donor1CardId,
+          ethers.ZeroAddress,
+          ethers.parseEther('1'),
+          ethers.parseEther('0.005'),
+        );
+    });
+
     it('should reject donation if charity not found', async function () {
       const { donationManager, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
 
@@ -228,6 +264,18 @@ describe('DonationManager', function () {
       await expect(
         donationManager.connect(owner).withdrawETH(charity1, ethers.parseEther('0.005')),
       ).to.changeEtherBalance(charity1, ethers.parseEther('0.005'));
+    });
+
+    it('should emit withdrawal event', async function () {
+      const { donationManager, owner, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+
+      await expect(donationManager.connect(owner).withdrawETH(donor1, ethers.parseEther('0.005')))
+        .to.emit(donationManager, 'Withdrawal')
+        .withArgs(donor1, ethers.ZeroAddress, ethers.parseEther('0.005'));
     });
 
     it('should reject withdraw when non admin initiate it', async function () {
@@ -283,6 +331,19 @@ describe('DonationManager', function () {
       expect(await donationManager.burnedFrom(donor1)).to.equal(ethers.parseEther('6000'));
     });
 
+    it('should emit burned event', async function () {
+      const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
+
+      await expect(donationManager.connect(donor1).burnTo('defaultCharity', ethers.parseEther('7500')))
+        .to.emit(donationManager, 'Burned')
+        .withArgs('defaultCharity', donor1, ethers.parseEther('7500'));
+    });
+
     it('should reject when insufficient allowance to burn', async function () {
       const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
 
@@ -325,6 +386,19 @@ describe('DonationManager', function () {
 
       expect(await donationManager.totalBurnedToCC()).to.equal(ethers.parseEther('6000'));
       expect(await donationManager.burnedFrom(donor1)).to.equal(ethers.parseEther('6000'));
+    });
+
+    it('should emit burned event', async function () {
+      const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
+
+      await expect(donationManager.connect(donor1).burn(ethers.parseEther('7500')))
+        .to.emit(donationManager, 'Burned')
+        .withArgs('', donor1, ethers.parseEther('7500'));
     });
 
     it('should reject when insufficient allowance to burn', async function () {

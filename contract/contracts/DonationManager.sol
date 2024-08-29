@@ -34,6 +34,12 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     // charityeet owner => charityeet amount burned
     mapping(address => uint) public burnedFrom;
 
+    event CharityUpdated(string indexed name, address account);
+    event FeeRateUpdated(address indexed token, uint rate);
+    event Donation(string indexed name, uint indexed donorCardId, address token, uint amount, uint fee);
+    event Withdrawal(address indexed to, address indexed token, uint amount);
+    event Burned(string indexed name, address indexed from, uint amount);
+
     function initialize(address membershipCardAddress, address rewardTokenAddress) public initializer {
         __AccessControl_init();
         __UUPSUpgradeable_init();
@@ -60,10 +66,14 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     function setCharityWallet(string memory name, address charityWallet) public onlyRole(DEFAULT_ADMIN_ROLE) {
         charityNames.push(name);
         charities[name] = charityWallet;
+
+        emit CharityUpdated(name, charityWallet);
     }
 
     function setFeeRate(address token, uint rate) public onlyRole(DEFAULT_ADMIN_ROLE) {
         feeRates[token] = rate;
+
+        emit FeeRateUpdated(token, rate);
     }
 
     function setTokenRewardRate(address token, uint rate) public onlyRole(DEFAULT_ADMIN_ROLE) {
@@ -85,6 +95,8 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
         Charityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charity, address(0), QUICK_DONATION_AMOUNT));
         payable(charities[charity]).transfer(QUICK_DONATION_AMOUNT);
+
+        emit Donation(charity, cardId, address(0), QUICK_DONATION_AMOUNT, msg.value - QUICK_DONATION_AMOUNT);
     }
 
     function donateETH(uint cardId, string memory charity) public payable {
@@ -100,12 +112,16 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
         Charityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charity, address(0), netAmount));
         payable(charities[charity]).transfer(netAmount);
+
+        emit Donation(charity, cardId, address(0), netAmount, msg.value - netAmount);
     }
 
     function withdrawETH(address to, uint amount) public onlyRole(DEFAULT_ADMIN_ROLE) {
         require(amount <= address(this).balance, "Insufficient balance");
 
         payable(to).transfer(amount);
+
+        emit Withdrawal(to, address(0), amount);
     }
 
     function burnTo(string memory charity, uint amount) public {
@@ -118,6 +134,8 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         burnedFrom[msg.sender] += amount;
 
         Charityeet(rewardToken).burnFrom(msg.sender, amount);
+
+        emit Burned(charity, msg.sender, amount);
     }
 
     function burn(uint amount) public {
@@ -129,6 +147,8 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         burnedFrom[msg.sender] += amount;
 
         Charityeet(rewardToken).burnFrom(msg.sender, amount);
+
+        emit Burned('', msg.sender, amount);
     }
 
     function getRandomCharity() internal view returns (string memory) {
