@@ -91,6 +91,12 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         payable(charities[charity]).transfer(netAmount);
     }
 
+    function withdrawETH(address to, uint amount) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(amount <= address(this).balance, "Insufficient balance");
+
+        payable(to).transfer(amount);
+    }
+
     function getRandomCharity() internal view returns (string memory) {
         require(charityNames.length > 0, "No charity available");
 

@@ -153,16 +153,19 @@ describe('DonationManager', function () {
       const { donationManager, defaultCharity, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
 
       await expect(
-        donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
+        donationManager
+          .connect(donor1)
+          .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
       ).to.changeEtherBalances([defaultCharity, donationManager], [ethers.parseEther('1'), ethers.parseEther('0.005')]);
     });
 
     it('should reward charityeet to donor', async function () {
-      const { charityeet, donationManager, donor1, donor1CardId } =
-        await loadFixture(deployTokenFixture);
+      const { charityeet, donationManager, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
 
       await expect(
-        donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
+        donationManager
+          .connect(donor1)
+          .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
       ).to.changeTokenBalance(charityeet, donor1, ethers.parseEther('7500'));
     });
 
@@ -193,8 +196,42 @@ describe('DonationManager', function () {
       const { donationManager, donor1, donor2CardId } = await loadFixture(deployTokenFixture);
 
       await expect(
-        donationManager.connect(donor1).donateETH(donor2CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
+        donationManager
+          .connect(donor1)
+          .donateETH(donor2CardId, 'defaultCharity', { value: ethers.parseEther('1.005') }),
       ).to.be.revertedWith('Membership card not owned by donor');
+    });
+  });
+
+  describe('withdraw eth', function () {
+    it('should withdraw eth to target address', async function () {
+      const { donationManager, owner, charity1, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+
+      await expect(
+        donationManager.connect(owner).withdrawETH(charity1, ethers.parseEther('0.005')),
+      ).to.changeEtherBalance(charity1, ethers.parseEther('0.005'));
+    });
+
+    it('should reject withdraw when non admin initiate it', async function () {
+      const { donationManager, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+
+      await expect(
+        donationManager.connect(donor1).withdrawETH(donor1, ethers.parseEther('0.005')),
+      ).to.be.revertedWithCustomError(donationManager, 'AccessControlUnauthorizedAccount');
+    });
+
+    it('should reject withdraw when insufficient balance', async function () {
+      const { donationManager, owner, charity1, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+
+      await expect(donationManager.connect(owner).withdrawETH(charity1, ethers.parseEther('0.006'))).to.be.revertedWith(
+        'Insufficient balance',
+      );
     });
   });
 });
