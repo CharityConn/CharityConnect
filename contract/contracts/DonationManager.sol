@@ -66,6 +66,10 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         feeRates[token] = rate;
     }
 
+    function setTokenRewardRate(address token, uint rate) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        rewardRates[token] = rate;
+    }
+
     function quickDonate(uint cardId) public payable {
         uint netAmount = calculateDonationAmount(address(0), msg.value);
 

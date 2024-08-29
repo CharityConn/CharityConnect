@@ -59,6 +59,12 @@ describe('DonationManager', function () {
       expect(await donationManager.feeRates(ethers.ZeroAddress)).to.equal(50);
     });
 
+    it('should set default reward rate for eth', async function () {
+      const { donationManager } = await loadFixture(deployTokenFixture);
+
+      expect(await donationManager.rewardRates(ethers.ZeroAddress)).to.equal(75000000);
+    });
+
     it('should set reward token', async function () {
       const { charityeet, donationManager } = await loadFixture(deployTokenFixture);
 
@@ -98,13 +104,21 @@ describe('DonationManager', function () {
     });
   });
 
-  describe('fee rate management', function () {
+  describe('rate management', function () {
     it('should set fee rate', async function () {
       const { donationManager, owner } = await loadFixture(deployTokenFixture);
 
       await donationManager.connect(owner).setFeeRate(ethers.ZeroAddress, 100);
 
       expect(await donationManager.feeRates(ethers.ZeroAddress)).to.equal(100);
+    });
+
+    it('should set token reward rate', async function () {
+      const { donationManager, owner } = await loadFixture(deployTokenFixture);
+
+      await donationManager.connect(owner).setTokenRewardRate(ethers.ZeroAddress, 700000000);
+
+      expect(await donationManager.rewardRates(ethers.ZeroAddress)).to.equal(700000000);
     });
   });
 
