@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import {Charityeet} from "./Charityeet.sol";
-import {CharityConnectMembershipCard} from "./CharityConnectMembershipCard.sol";
+import {ICharityeet} from "./ICharityeet.sol";
+
+import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
@@ -85,7 +86,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
         require(netAmount == QUICK_DONATION_AMOUNT, "incorrect quick donation amount");
         require(
-            CharityConnectMembershipCard(membershipCard).ownerOf(cardId) == msg.sender,
+            IERC721(membershipCard).ownerOf(cardId) == msg.sender,
             "Membership card not owned by donor"
         );
 
@@ -93,7 +94,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
         string memory charity = getRandomCharity();
 
-        Charityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charity, address(0), QUICK_DONATION_AMOUNT));
+        ICharityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charity, address(0), QUICK_DONATION_AMOUNT));
         payable(charities[charity]).transfer(QUICK_DONATION_AMOUNT);
 
         emit Donation(charity, cardId, address(0), QUICK_DONATION_AMOUNT, msg.value - QUICK_DONATION_AMOUNT);
@@ -102,7 +103,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     function donateETH(uint cardId, string memory charity) public payable {
         require(charities[charity] != address(0), "Unknown charity");
         require(
-            CharityConnectMembershipCard(membershipCard).ownerOf(cardId) == msg.sender,
+            IERC721(membershipCard).ownerOf(cardId) == msg.sender,
             "Membership card not owned by donor"
         );
 
@@ -110,7 +111,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
         donationByCardId[cardId][address(0)] += netAmount;
 
-        Charityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charity, address(0), netAmount));
+        ICharityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charity, address(0), netAmount));
         payable(charities[charity]).transfer(netAmount);
 
         emit Donation(charity, cardId, address(0), netAmount, msg.value - netAmount);
@@ -125,7 +126,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     }
 
     function burnTo(string memory charity, uint amount) public {
-        Charityeet charityeet = Charityeet(rewardToken);
+        ICharityeet charityeet = ICharityeet(rewardToken);
 
         require(charities[charity] != address(0), "Unknown charity");
         require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
@@ -133,20 +134,20 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         burnedToCharity[charity] += amount;
         burnedFrom[msg.sender] += amount;
 
-        Charityeet(rewardToken).burnFrom(msg.sender, amount);
+        charityeet.burnFrom(msg.sender, amount);
 
         emit Burned(charity, msg.sender, amount);
     }
 
     function burn(uint amount) public {
-        Charityeet charityeet = Charityeet(rewardToken);
+        ICharityeet charityeet = ICharityeet(rewardToken);
 
         require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
 
         totalBurnedToCC += amount;
         burnedFrom[msg.sender] += amount;
 
-        Charityeet(rewardToken).burnFrom(msg.sender, amount);
+        charityeet.burnFrom(msg.sender, amount);
 
         emit Burned('', msg.sender, amount);
     }
