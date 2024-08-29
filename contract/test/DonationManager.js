@@ -207,7 +207,9 @@ describe('DonationManager', function () {
     it('should withdraw eth to target address', async function () {
       const { donationManager, owner, charity1, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
 
-      donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
 
       await expect(
         donationManager.connect(owner).withdrawETH(charity1, ethers.parseEther('0.005')),
@@ -217,7 +219,9 @@ describe('DonationManager', function () {
     it('should reject withdraw when non admin initiate it', async function () {
       const { donationManager, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
 
-      donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
 
       await expect(
         donationManager.connect(donor1).withdrawETH(donor1, ethers.parseEther('0.005')),
@@ -227,10 +231,98 @@ describe('DonationManager', function () {
     it('should reject withdraw when insufficient balance', async function () {
       const { donationManager, owner, charity1, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
 
-      donationManager.connect(donor1).donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
 
       await expect(donationManager.connect(owner).withdrawETH(charity1, ethers.parseEther('0.006'))).to.be.revertedWith(
         'Insufficient balance',
+      );
+    });
+  });
+
+  describe('burn charityeet to charity', function () {
+    it('should burn charityeet', async function () {
+      const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
+
+      await expect(
+        donationManager.connect(donor1).burnTo('defaultCharity', ethers.parseEther('7500')),
+      ).to.changeTokenBalance(charityeet, donor1, -ethers.parseEther('7500'));
+    });
+
+    it('should record total charityeet burned', async function () {
+      const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
+      await donationManager.connect(donor1).burnTo('defaultCharity', ethers.parseEther('3000'));
+      await donationManager.connect(donor1).burnTo('defaultCharity', ethers.parseEther('3000'));
+
+      expect(await donationManager.burnedToCharity('defaultCharity')).to.equal(ethers.parseEther('6000'));
+      expect(await donationManager.burnedFrom(donor1)).to.equal(ethers.parseEther('6000'));
+    });
+
+    it('should reject when insufficient allowance to burn', async function () {
+      const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
+
+      await expect(
+        donationManager.connect(donor1).burnTo('defaultCharity', ethers.parseEther('7501')),
+      ).to.be.revertedWith('Insufficient allowance');
+    });
+  });
+
+  describe('burn charityeet to charity connect', function () {
+    it('should burn charityeet', async function () {
+      const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
+
+      await expect(donationManager.connect(donor1).burn(ethers.parseEther('7500'))).to.changeTokenBalance(
+        charityeet,
+        donor1,
+        -ethers.parseEther('7500'),
+      );
+    });
+
+    it('should record total charityeet burned', async function () {
+      const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
+      await donationManager.connect(donor1).burn(ethers.parseEther('3000'));
+      await donationManager.connect(donor1).burn(ethers.parseEther('3000'));
+
+      expect(await donationManager.totalBurnedToCC()).to.equal(ethers.parseEther('6000'));
+      expect(await donationManager.burnedFrom(donor1)).to.equal(ethers.parseEther('6000'));
+    });
+
+    it('should reject when insufficient allowance to burn', async function () {
+      const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
+
+      await expect(donationManager.connect(donor1).burn(ethers.parseEther('7501'))).to.be.revertedWith(
+        'Insufficient allowance',
       );
     });
   });

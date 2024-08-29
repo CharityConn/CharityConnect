@@ -27,6 +27,13 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     // 1 = 0.01%, eth fee rate is under zeroAddress
     mapping(address => uint) public rewardRates;
 
+    // charity name => charityeet amount burned against the charity
+    mapping(string => uint) public burnedToCharity;
+    uint public totalBurnedToCC;
+
+    // charityeet owner => charityeet amount burned
+    mapping(address => uint) public burnedFrom;
+
     function initialize(address membershipCardAddress, address rewardTokenAddress) public initializer {
         __AccessControl_init();
         __UUPSUpgradeable_init();
@@ -95,6 +102,29 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         require(amount <= address(this).balance, "Insufficient balance");
 
         payable(to).transfer(amount);
+    }
+
+    function burnTo(string memory charity, uint amount) public {
+        Charityeet charityeet = Charityeet(rewardToken);
+
+        require(charities[charity] != address(0), "Unknown charity");
+        require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
+
+        burnedToCharity[charity] += amount;
+        burnedFrom[msg.sender] += amount;
+
+        Charityeet(rewardToken).burnFrom(msg.sender, amount);
+    }
+
+    function burn(uint amount) public {
+        Charityeet charityeet = Charityeet(rewardToken);
+
+        require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
+
+        totalBurnedToCC += amount;
+        burnedFrom[msg.sender] += amount;
+
+        Charityeet(rewardToken).burnFrom(msg.sender, amount);
     }
 
     function getRandomCharity() internal view returns (string memory) {
