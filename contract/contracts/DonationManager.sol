@@ -30,7 +30,8 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
     // business id => charityeet amount burned against the business
     mapping(string => uint) public burnedToBusiness;
-    uint public totalBurnedToCC;
+    // charity => charityeet amount burned against charity
+    mapping(string => uint) public burnedToCharity;
 
     // charityeet owner => charityeet amount burned
     mapping(address => uint) public burnedFrom;
@@ -39,7 +40,8 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     event FeeRateUpdated(address indexed token, uint rate);
     event Donation(string indexed name, uint indexed donorCardId, address token, uint amount, uint fee);
     event Withdrawal(address indexed to, address indexed token, uint amount);
-    event Burned(string indexed businessId, address indexed from, uint amount);
+    event BurnedToBusiness(string indexed businessId, address indexed from, uint amount);
+    event BurnedToCharity(string indexed charity, address indexed from, uint amount);
 
     function initialize(address membershipCardAddress, address rewardTokenAddress) public initializer {
         __AccessControl_init();
@@ -71,6 +73,10 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         emit CharityUpdated(name, charityWallet);
     }
 
+    function getAllCharityNames() public view returns (string[] memory) {
+        return charityNames;
+    }
+
     function setFeeRate(address token, uint rate) public onlyRole(DEFAULT_ADMIN_ROLE) {
         feeRates[token] = rate;
 
@@ -85,10 +91,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         uint netAmount = calculateDonationAmount(address(0), msg.value);
 
         require(netAmount == QUICK_DONATION_AMOUNT, "incorrect quick donation amount");
-        require(
-            IERC721(membershipCard).ownerOf(cardId) == msg.sender,
-            "Membership card not owned by donor"
-        );
+        require(IERC721(membershipCard).ownerOf(cardId) == msg.sender, "Membership card not owned by donor");
 
         donationByCardId[cardId][address(0)] += QUICK_DONATION_AMOUNT;
 
@@ -102,10 +105,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
     function donateETH(uint cardId, string memory charity) public payable {
         require(charities[charity] != address(0), "Unknown charity");
-        require(
-            IERC721(membershipCard).ownerOf(cardId) == msg.sender,
-            "Membership card not owned by donor"
-        );
+        require(IERC721(membershipCard).ownerOf(cardId) == msg.sender, "Membership card not owned by donor");
 
         uint netAmount = calculateDonationAmount(address(0), msg.value);
 
@@ -125,9 +125,10 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         emit Withdrawal(to, address(0), amount);
     }
 
-    function burnTo(string memory businessId, uint amount) public {
+    function burnToBusiness(string memory businessId, uint amount) public {
         ICharityeet charityeet = ICharityeet(rewardToken);
 
+        // TODO: check if businessId is valid
         require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
 
         burnedToBusiness[businessId] += amount;
@@ -135,20 +136,22 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
         charityeet.burnFrom(msg.sender, amount);
 
-        emit Burned(businessId, msg.sender, amount);
+        emit BurnedToBusiness(businessId, msg.sender, amount);
     }
 
-    function burn(uint amount) public {
+    function burnToCharity(string memory charity, uint amount) public {
         ICharityeet charityeet = ICharityeet(rewardToken);
 
+        require(charities[charity] != address(0), "Unknown charity");
         require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
 
-        totalBurnedToCC += amount;
+        burnedToCharity[charity] += amount;
         burnedFrom[msg.sender] += amount;
 
         charityeet.burnFrom(msg.sender, amount);
+        // TODO: send donation to charity
 
-        emit Burned('', msg.sender, amount);
+        emit BurnedToCharity(charity, msg.sender, amount);
     }
 
     function getRandomCharity() internal view returns (string memory) {

@@ -313,7 +313,7 @@ describe('DonationManager', function () {
       await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
 
       await expect(
-        donationManager.connect(donor1).burnTo('businessId1', ethers.parseEther('7500')),
+        donationManager.connect(donor1).burnToBusiness('businessId1', ethers.parseEther('7500')),
       ).to.changeTokenBalance(charityeet, donor1, -ethers.parseEther('7500'));
     });
 
@@ -324,8 +324,8 @@ describe('DonationManager', function () {
         .connect(donor1)
         .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
       await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
-      await donationManager.connect(donor1).burnTo('businessId1', ethers.parseEther('3000'));
-      await donationManager.connect(donor1).burnTo('businessId1', ethers.parseEther('3000'));
+      await donationManager.connect(donor1).burnToBusiness('businessId1', ethers.parseEther('3000'));
+      await donationManager.connect(donor1).burnToBusiness('businessId1', ethers.parseEther('3000'));
 
       expect(await donationManager.burnedToBusiness('businessId1')).to.equal(ethers.parseEther('6000'));
       expect(await donationManager.burnedFrom(donor1)).to.equal(ethers.parseEther('6000'));
@@ -339,8 +339,8 @@ describe('DonationManager', function () {
         .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
       await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
 
-      await expect(donationManager.connect(donor1).burnTo('businessId1', ethers.parseEther('7500')))
-        .to.emit(donationManager, 'Burned')
+      await expect(donationManager.connect(donor1).burnToBusiness('businessId1', ethers.parseEther('7500')))
+        .to.emit(donationManager, 'BurnedToBusiness')
         .withArgs('businessId1', donor1, ethers.parseEther('7500'));
     });
 
@@ -353,12 +353,12 @@ describe('DonationManager', function () {
       await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
 
       await expect(
-        donationManager.connect(donor1).burnTo('businessId1', ethers.parseEther('7501')),
+        donationManager.connect(donor1).burnToBusiness('businessId1', ethers.parseEther('7501')),
       ).to.be.revertedWith('Insufficient allowance');
     });
   });
 
-  describe('burn charityeet to charity connect', function () {
+  describe('burn charityeet to charity', function () {
     it('should burn charityeet', async function () {
       const { donationManager, charityeet, donor1, donor1CardId } = await loadFixture(deployTokenFixture);
 
@@ -367,11 +367,9 @@ describe('DonationManager', function () {
         .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
       await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
 
-      await expect(donationManager.connect(donor1).burn(ethers.parseEther('7500'))).to.changeTokenBalance(
-        charityeet,
-        donor1,
-        -ethers.parseEther('7500'),
-      );
+      await expect(
+        donationManager.connect(donor1).burnToCharity('defaultCharity', ethers.parseEther('7500')),
+      ).to.changeTokenBalance(charityeet, donor1, -ethers.parseEther('7500'));
     });
 
     it('should record total charityeet burned', async function () {
@@ -381,10 +379,10 @@ describe('DonationManager', function () {
         .connect(donor1)
         .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
       await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
-      await donationManager.connect(donor1).burn(ethers.parseEther('3000'));
-      await donationManager.connect(donor1).burn(ethers.parseEther('3000'));
+      await donationManager.connect(donor1).burnToCharity('defaultCharity', ethers.parseEther('3000'));
+      await donationManager.connect(donor1).burnToCharity('defaultCharity', ethers.parseEther('3000'));
 
-      expect(await donationManager.totalBurnedToCC()).to.equal(ethers.parseEther('6000'));
+      expect(await donationManager.burnedToCharity('defaultCharity')).to.equal(ethers.parseEther('6000'));
       expect(await donationManager.burnedFrom(donor1)).to.equal(ethers.parseEther('6000'));
     });
 
@@ -396,9 +394,9 @@ describe('DonationManager', function () {
         .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
       await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
 
-      await expect(donationManager.connect(donor1).burn(ethers.parseEther('7500')))
-        .to.emit(donationManager, 'Burned')
-        .withArgs('', donor1, ethers.parseEther('7500'));
+      await expect(donationManager.connect(donor1).burnToCharity('defaultCharity', ethers.parseEther('7500')))
+        .to.emit(donationManager, 'BurnedToCharity')
+        .withArgs('defaultCharity', donor1, ethers.parseEther('7500'));
     });
 
     it('should reject when insufficient allowance to burn', async function () {
@@ -409,9 +407,9 @@ describe('DonationManager', function () {
         .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
       await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
 
-      await expect(donationManager.connect(donor1).burn(ethers.parseEther('7501'))).to.be.revertedWith(
-        'Insufficient allowance',
-      );
+      await expect(
+        donationManager.connect(donor1).burnToCharity('defaultCharity', ethers.parseEther('7501')),
+      ).to.be.revertedWith('Insufficient allowance');
     });
   });
 });
