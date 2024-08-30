@@ -1,5 +1,6 @@
 import CoinbaseWalletSDK from '@coinbase/wallet-sdk';
 import { Eip1193Provider, ethers } from 'ethers';
+import { CHAIN_ID } from '../../integration/constants';
 
 declare global {
   interface Window {
@@ -44,7 +45,7 @@ export type WalletChangeListener = (walletConnection?: WalletConnection) => {};
 
 class Web3WalletProviderObj {
   private static LOCAL_STORAGE_KEY = 'ts-wallet-connections';
-  SMARTWALLET_SUPPORTED_CHAIN_IDS = [84532]; //todo change this
+  SMARTWALLET_SUPPORTED_CHAIN_IDS = [CHAIN_ID]; //todo change this
   smartWalletSdk = new CoinbaseWalletSDK({
     appName: 'Charity', //todo: change this
     appChainIds: this.SMARTWALLET_SUPPORTED_CHAIN_IDS,

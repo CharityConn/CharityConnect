@@ -18,7 +18,7 @@
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "rollup-plugin-polyfill-node": "^0.11.0",
-    "typescript": "^4.7.2"
+    "typescript": "^5"
   },
   "dependencies": {
     "@coinbase/wallet-sdk": "^4.0.3",
@@ -39,6 +39,7 @@
     "jsdom": "^22.1.0",
     "lodash": "^4.17.21",
     "pkijs": "3.1.0",
+    "viem": "2.x",
     "webcrypto-liner": "^1.4.2"
   },
   "overrides": {

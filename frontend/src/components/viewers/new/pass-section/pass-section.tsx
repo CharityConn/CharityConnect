@@ -1,7 +1,10 @@
 import { Component, Event, EventEmitter, h, State } from '@stencil/core';
-import { CC_PASS_ABI, CHAIN_ID, PASS_CONTRACT } from '../../../../integration/constants';
+import { CC_PASS_ABI, CHAIN_ID, isProd, PASS_CONTRACT, PAYMASTER_URL } from '../../../../integration/constants';
 import { WalletConnection, Web3WalletProvider } from '../../../wallet/Web3WalletProvider';
 import { ShowToastEventArgs } from '../../../app/app';
+import { createWalletClient, custom, parseAbi } from 'viem';
+import { base, baseSepolia } from 'viem/chains';
+import { eip5792Actions } from 'viem/experimental';
 import { ethers } from 'ethers';
 
 @Component({
@@ -51,17 +54,45 @@ export class PassSection {
   }
 
   private async claim() {
-    const provider = this.walletConnection.provider;
-    const ccPassContract = new ethers.Contract(PASS_CONTRACT, CC_PASS_ABI, await provider.getSigner());
+    const smprovider = Web3WalletProvider.smartWalletSdk.makeWeb3Provider();
 
     try {
-      const receipt = await ccPassContract.claim();
+      const [account] = (await smprovider.request({ method: 'eth_requestAccounts' })) as any[];
+
+      const walletClient = createWalletClient({
+        chain: isProd ? base : baseSepolia,
+        account,
+        transport: custom(smprovider),
+      }).extend(eip5792Actions());
+
+      const id = await walletClient.sendCalls({
+        account,
+        calls: [
+          {
+            to: PASS_CONTRACT,
+            abi: parseAbi(CC_PASS_ABI),
+            functionName: 'claim',
+          },
+        ],
+        capabilities: {
+          paymasterService: {
+            url: PAYMASTER_URL,
+          },
+        },
+      });
+
+      const {
+        receipts: [receipt],
+      } = await walletClient.getCallsStatus({
+        id,
+      });
+
       this.showToast.emit({
         type: 'success',
         title: 'CharityConnect Pass claimed',
         description: (
           <span>
-            <a href={`https://sepolia.basescan.org/tx/${receipt.hash}`} target="_blank">
+            <a href={`https://sepolia.basescan.org/tx/${receipt.transactionHash}`} target="_blank">
               {'View On Block Scanner'}
             </a>
           </span>
