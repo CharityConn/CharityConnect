@@ -65,6 +65,12 @@ describe('DonationManager', function () {
       expect(await donationManager.rewardRates(ethers.ZeroAddress)).to.equal(75000000);
     });
 
+    it('should set burn to charity rate', async function () {
+      const { donationManager } = await loadFixture(deployTokenFixture);
+
+      expect(await donationManager.burnToCharityRate()).to.equal(333_333_333_333);
+    });
+
     it('should set reward token', async function () {
       const { charityeet, donationManager } = await loadFixture(deployTokenFixture);
 
@@ -123,6 +129,14 @@ describe('DonationManager', function () {
       await donationManager.connect(owner).setTokenRewardRate(ethers.ZeroAddress, 700000000);
 
       expect(await donationManager.rewardRates(ethers.ZeroAddress)).to.equal(700000000);
+    });
+
+    it('should set burn to charity rate', async function () {
+      const { donationManager, owner } = await loadFixture(deployTokenFixture);
+
+      await donationManager.connect(owner).setBurnToCharityRate(222_222_222_222);
+
+      expect(await donationManager.burnToCharityRate()).to.equal(222_222_222_222);
     });
   });
 
@@ -370,6 +384,20 @@ describe('DonationManager', function () {
       await expect(
         donationManager.connect(donor1).burnToCharity('defaultCharity', ethers.parseEther('7500')),
       ).to.changeTokenBalance(charityeet, donor1, -ethers.parseEther('7500'));
+    });
+
+    it('should donate eth to charity', async function () {
+      const { donationManager, charityeet, defaultCharity, donor1, donor1CardId } =
+        await loadFixture(deployTokenFixture);
+
+      await donationManager
+        .connect(donor1)
+        .donateETH(donor1CardId, 'defaultCharity', { value: ethers.parseEther('1.005') });
+      await charityeet.connect(donor1).approve(await donationManager.getAddress(), ethers.parseEther('7500'));
+
+      await expect(
+        donationManager.connect(donor1).burnToCharity('defaultCharity', ethers.parseEther('7500')),
+      ).to.changeEtherBalance(defaultCharity, 2499999999997500);
     });
 
     it('should record total charityeet burned', async function () {

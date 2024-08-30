@@ -28,6 +28,9 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     // 1 = 0.01%, eth fee rate is under zeroAddress
     mapping(address => uint) public rewardRates;
 
+    // eth wei paid to charity per charityeet burned
+    uint public burnToCharityRate;
+
     // business id => charityeet amount burned against the business
     mapping(string => uint) public burnedToBusiness;
     // charity => charityeet amount burned against charity
@@ -54,6 +57,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
         feeRates[address(0)] = 50;
         rewardRates[address(0)] = 2.5 * 3000 * RATE_DENOMINATOR;
+        burnToCharityRate = 333_333_333_333; // half of the received fee per charityeet for eth donation
     }
 
     function _authorizeUpgrade(address newImplementation) internal override onlyRole(DEFAULT_ADMIN_ROLE) {}
@@ -85,6 +89,10 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
     function setTokenRewardRate(address token, uint rate) public onlyRole(DEFAULT_ADMIN_ROLE) {
         rewardRates[token] = rate;
+    }
+
+    function setBurnToCharityRate(uint rate) public onlyRole(DEFAULT_ADMIN_ROLE) {
+        burnToCharityRate = rate;
     }
 
     function quickDonate(uint cardId) public payable {
@@ -142,6 +150,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     function burnToCharity(string memory charity, uint amount) public {
         ICharityeet charityeet = ICharityeet(rewardToken);
 
+        require(amount >= 10 ** 18, "At least need to burn 1 charityeet");
         require(charities[charity] != address(0), "Unknown charity");
         require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
 
@@ -149,7 +158,7 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         burnedFrom[msg.sender] += amount;
 
         charityeet.burnFrom(msg.sender, amount);
-        // TODO: send donation to charity
+        payable(charities[charity]).transfer(((amount / 10 ** 18) * burnToCharityRate));
 
         emit BurnedToCharity(charity, msg.sender, amount);
     }
