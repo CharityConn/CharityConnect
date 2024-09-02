@@ -8,8 +8,9 @@ import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardUpgradeable.sol";
 
-contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgradeable {
+contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgradeable, ReentrancyGuardUpgradeable {
     uint constant QUICK_DONATION_AMOUNT = 0.001 ether;
     uint constant RATE_DENOMINATOR = 10000;
 
@@ -19,7 +20,8 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     // eth donation is under zeroAddress
     mapping(uint => mapping(address => uint)) public donationByCardId;
 
-    mapping(string => address) public charities;
+    // charity name hash => charity wallet
+    mapping(bytes32 => address) public charities;
     string[] internal charityNames;
 
     // 1 = 0.01%, eth fee rate is under zeroAddress
@@ -30,8 +32,8 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
     // business id => charityeet amount burned against the business
     mapping(string => uint) public burnedToBusiness;
-    // charity => charityeet amount burned against charity
-    mapping(string => uint) public burnedToCharity;
+    // charity hash => charityeet amount burned against charity
+    mapping(bytes32 => uint) public burnedToCharity;
     // charityeet owner => charityeet amount burned to business
     mapping(address => uint) public burnedToBusinessFrom;
     // charityeet owner => charityeet amount burned to charity
@@ -39,14 +41,15 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
     event CharityUpdated(string indexed name, address account);
     event FeeRateUpdated(address indexed token, uint rate);
-    event Donation(string indexed name, uint indexed donorCardId, address token, uint amount, uint fee);
+    event Donation(bytes32 indexed charityHash, uint indexed donorCardId, address token, uint amount, uint fee);
     event Withdrawal(address indexed to, address indexed token, uint amount);
     event BurnedToBusiness(string indexed businessId, address indexed from, uint amount);
-    event BurnedToCharity(string indexed charity, address indexed from, uint amount);
+    event BurnedToCharity(bytes32 indexed charityHash, address indexed from, uint amount);
 
     function initialize(address membershipCardAddress, address rewardTokenAddress) public initializer {
         __AccessControl_init();
         __UUPSUpgradeable_init();
+        __ReentrancyGuard_init();
 
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
 
@@ -59,66 +62,72 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
 
     function _authorizeUpgrade(address newImplementation) internal override onlyRole(DEFAULT_ADMIN_ROLE) {}
 
-    function setMembershipCard(address membershipCardAddress) public onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setMembershipCard(address membershipCardAddress) external onlyRole(DEFAULT_ADMIN_ROLE) {
         membershipCard = membershipCardAddress;
     }
 
-    function setRewardToken(address rewardTokenAddress) public onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setRewardToken(address rewardTokenAddress) external onlyRole(DEFAULT_ADMIN_ROLE) {
         rewardToken = rewardTokenAddress;
     }
 
-    function setCharityWallet(string memory name, address charityWallet) public onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setCharityWallet(string calldata name, address charityWallet) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        bytes32 nameHash = keccak256(abi.encodePacked(name));
+
         charityNames.push(name);
-        charities[name] = charityWallet;
+        charities[nameHash] = charityWallet;
 
         emit CharityUpdated(name, charityWallet);
     }
 
-    function getAllCharityNames() public view returns (string[] memory) {
+    function getAllCharityNames() external view returns (string[] memory) {
         return charityNames;
     }
 
-    function setFeeRate(address token, uint rate) public onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setFeeRate(address token, uint rate) external onlyRole(DEFAULT_ADMIN_ROLE) {
         feeRates[token] = rate;
 
         emit FeeRateUpdated(token, rate);
     }
 
-    function setTokenRewardRate(address token, uint rate) public onlyRole(DEFAULT_ADMIN_ROLE) {
+    function setTokenRewardRate(address token, uint rate) external onlyRole(DEFAULT_ADMIN_ROLE) {
         rewardRates[token] = rate;
     }
 
-    function quickDonate(uint cardId) public payable {
+    function quickDonate(uint cardId) external payable nonReentrant {
         uint netAmount = calculateDonationAmount(address(0), msg.value);
 
         require(netAmount == QUICK_DONATION_AMOUNT, "incorrect quick donation amount");
         require(IERC721(membershipCard).ownerOf(cardId) == msg.sender, "Membership card not owned by donor");
 
+        string memory charity = getRandomCharity();
+        bytes32 charityHash = keccak256(abi.encodePacked(charity));
+
+        ICharityeet(rewardToken).mint(
+            msg.sender,
+            calculateRewardAmount(charityHash, address(0), QUICK_DONATION_AMOUNT)
+        );
+        payable(charities[charityHash]).transfer(QUICK_DONATION_AMOUNT);
+
         donationByCardId[cardId][address(0)] += QUICK_DONATION_AMOUNT;
 
-        string memory charity = getRandomCharity();
-
-        ICharityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charity, address(0), QUICK_DONATION_AMOUNT));
-        payable(charities[charity]).transfer(QUICK_DONATION_AMOUNT);
-
-        emit Donation(charity, cardId, address(0), QUICK_DONATION_AMOUNT, msg.value - QUICK_DONATION_AMOUNT);
+        emit Donation(charityHash, cardId, address(0), QUICK_DONATION_AMOUNT, msg.value - QUICK_DONATION_AMOUNT);
     }
 
-    function donateETH(uint cardId, string memory charity) public payable {
-        require(charities[charity] != address(0), "Unknown charity");
+    function donateETH(uint cardId, bytes32 charityHash) external payable nonReentrant {
+        require(charities[charityHash] != address(0), "Unknown charity");
         require(IERC721(membershipCard).ownerOf(cardId) == msg.sender, "Membership card not owned by donor");
 
         uint netAmount = calculateDonationAmount(address(0), msg.value);
 
+        ICharityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charityHash, address(0), netAmount));
+        payable(charities[charityHash]).transfer(netAmount);
+
         donationByCardId[cardId][address(0)] += netAmount;
 
-        ICharityeet(rewardToken).mint(msg.sender, calculateRewardAmount(charity, address(0), netAmount));
-        payable(charities[charity]).transfer(netAmount);
-
-        emit Donation(charity, cardId, address(0), netAmount, msg.value - netAmount);
+        emit Donation(charityHash, cardId, address(0), netAmount, msg.value - netAmount);
     }
 
-    function withdrawETH(address to, uint amount) public onlyRole(DEFAULT_ADMIN_ROLE) {
+    function withdrawETH(address to, uint amount) external onlyRole(DEFAULT_ADMIN_ROLE) {
         require(amount <= address(this).balance, "Insufficient balance");
 
         payable(to).transfer(amount);
@@ -126,32 +135,31 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
         emit Withdrawal(to, address(0), amount);
     }
 
-    function burnToBusiness(string memory businessId, uint amount) public {
+    function burnToBusiness(string calldata businessId, uint amount) external nonReentrant {
         ICharityeet charityeet = ICharityeet(rewardToken);
 
-        // TODO: check if businessId is valid
         require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
+
+        charityeet.burnFrom(msg.sender, amount);
 
         burnedToBusiness[businessId] += amount;
         burnedToBusinessFrom[msg.sender] += amount;
 
-        charityeet.burnFrom(msg.sender, amount);
-
         emit BurnedToBusiness(businessId, msg.sender, amount);
     }
 
-    function burnToCharity(string memory charity, uint amount) public {
+    function burnToCharity(bytes32 charityHash, uint amount) external nonReentrant {
         ICharityeet charityeet = ICharityeet(rewardToken);
 
-        require(charities[charity] != address(0), "Unknown charity");
+        require(charities[charityHash] != address(0), "Unknown charity");
         require(charityeet.allowance(msg.sender, address(this)) >= amount, "Insufficient allowance");
-
-        burnedToCharity[charity] += amount;
-        burnedToCharityFrom[msg.sender] += amount;
 
         charityeet.burnFrom(msg.sender, amount);
 
-        emit BurnedToCharity(charity, msg.sender, amount);
+        burnedToCharity[charityHash] += amount;
+        burnedToCharityFrom[msg.sender] += amount;
+
+        emit BurnedToCharity(charityHash, msg.sender, amount);
     }
 
     function getRandomCharity() internal view returns (string memory) {
@@ -168,8 +176,8 @@ contract DonationManager is Initializable, AccessControlUpgradeable, UUPSUpgrade
     }
 
     // TODO: expect more flexibility in the calcuation, taking charity, token, time, etc. into consideration
-    function calculateRewardAmount(string memory charity, address token, uint amount) public view returns (uint) {
-        require(charities[charity] != address(0), "charity not found");
+    function calculateRewardAmount(bytes32 charityHash, address token, uint amount) public view returns (uint) {
+        require(charities[charityHash] != address(0), "charity not found");
 
         return (amount * rewardRates[token]) / RATE_DENOMINATOR;
     }
