@@ -12,8 +12,8 @@ on:
 env:
   AWS_REGION: us-west-1
   PROJ_PATH: frontend
-  PROD_URL: https://charity-connect.tokenscript.org/
-  STAGE_URL: https://charity-connect-staging.tokenscript.org/
+  PROD_URL: https://charityconnect.io/
+  STAGE_URL: https://staging.charityconnect.io/
 
 jobs:
   build:
