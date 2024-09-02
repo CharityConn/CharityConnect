@@ -1451,6 +1451,7 @@ export const CC_PASS_ABI = [
   'function claim() public',
   'function balanceOf(address) public view returns (uint256)',
   'function tokenOfOwnerByIndex(address, uint256) public view returns (uint256)',
+  'function approve(address, uint256) public',
 ];
 
 export const isProd = false; // TODO: inject deployment env or check window.location

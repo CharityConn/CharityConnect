@@ -81,23 +81,35 @@ export class PassSection {
         },
       });
 
-      const {
-        receipts: [receipt],
-      } = await walletClient.getCallsStatus({
-        id,
-      });
+      const checkClaimStatus = (id: string) => {
+        setTimeout(async () => {
+          // When it's pending status, it will not return receipts
+          const {
+            status,
+            receipts: [receipt],
+          } = await walletClient.getCallsStatus({
+            id,
+          });
 
-      this.showToast.emit({
-        type: 'success',
-        title: 'CharityConnect Pass claimed',
-        description: (
-          <span>
-            <a href={`https://sepolia.basescan.org/tx/${receipt.transactionHash}`} target="_blank">
-              {'View On Block Scanner'}
-            </a>
-          </span>
-        ),
-      });
+          if (status === 'CONFIRMED') {
+            this.showToast.emit({
+              type: 'success',
+              title: 'CharityConnect Pass claimed',
+              description: (
+                <span>
+                  <a href={`https://sepolia.basescan.org/tx/${receipt.transactionHash}`} target="_blank">
+                    {'View On Block Scanner'}
+                  </a>
+                </span>
+              ),
+            });
+          } else {
+            checkClaimStatus(id);
+          }
+        }, 5000);
+      };
+
+      checkClaimStatus(id);
     } catch (e) {
       this.showToast.emit({
         type: 'error',
