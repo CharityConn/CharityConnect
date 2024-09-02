@@ -1453,9 +1453,9 @@ export const CC_PASS_ABI = [
   'function tokenOfOwnerByIndex(address, uint256) public view returns (uint256)',
 ];
 
-export const isProd = false; // TODO: inject deployment env
+export const isProd = false; // TODO: inject deployment env or check window.location
 export const CHAIN_ID = isProd ? ChainID.BASE : ChainID.BASE_SEPOLIA;
 export const PAYMASTER_URL = isProd ? '' : 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/RIGFbLCMoypxQWq7dHnvh0hoMH3igUP_';
 
-export const PASS_CONTRACT = "0x1C0d1dAE51B37017BB6950E48D8690B085647E63";
-export const POINTS_CONTRACT = "0xc7177825307A9717C8d79d41136a311a8Ccd65e9";
+export const PASS_CONTRACT = isProd ? "" : "0x40dc7D0B5E11Ee259314C548a238b9c909A4B721";
+export const POINTS_CONTRACT = isProd ? "" : "0x6E651E97D10D330b761b1759DA88616c4764093d";

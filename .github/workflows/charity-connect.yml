@@ -13,7 +13,7 @@ env:
   AWS_REGION: us-west-1
   PROJ_PATH: frontend
   PROD_URL: https://charityconnect.io/
-  STAGE_URL: https://staging.charityconnect.io/
+  STAGE_URL: https://d31vrfdo6b6g17.cloudfront.net/
 
 jobs:
   build:
@@ -44,9 +44,9 @@ jobs:
 
   deploy:
     environment:
-      name: charity-connect-${{ (github.ref_name == 'main' && 'prod') || 'stage' }}
-      url: ${{ github.ref_name == 'main' && env.PROD_URL || env.STAGE_URL }}
-    if: contains(fromJson('["main", "staging"]'), github.ref_name)
+      name: charity-connect-${{ (github.ref_name == 'prod' && 'prod') || 'stage' }}
+      url: ${{ github.ref_name == 'prod' && env.PROD_URL || env.STAGE_URL }}
+    if: contains(fromJson('["main", "prod"]'), github.ref_name)
     runs-on: ubuntu-latest
     needs:
       - build
@@ -57,12 +57,12 @@ jobs:
           path: ${{ env.PROJ_PATH }}/www/
       - name: inject env based on branch
         run: |
-          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+          if [ "${GITHUB_REF_NAME}" = "prod" ]; then
             echo "S3_BUCKET=charity-connect-prod" >> $GITHUB_ENV
             echo "CLOUDFRONT_ID=E1KBMQ49JB6S8V" >> $GITHUB_ENV
           else
             echo "S3_BUCKET=charity-connect-stage" >> $GITHUB_ENV
-            echo "CLOUDFRONT_ID=E1KBMQ49JB6S8V" >> $GITHUB_ENV
+            echo "CLOUDFRONT_ID=E1GYQBFA2K3EE9" >> $GITHUB_ENV
           fi
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4

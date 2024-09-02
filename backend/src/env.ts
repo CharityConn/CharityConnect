@@ -29,7 +29,7 @@ export const env = createEnv({
       .string()
       .default("https://base-sepolia.infura.io/v3/"),
     ATTESTER_SK: z.string(),
-    CHAIN_ID: z.coerce.number().default(1337),
+    CHAIN_ID: z.coerce.number().default(84532),
     SECRET_TTL: z.coerce.number().default(300 * 1000), // default to 5 minutes
     WALLET_ADDRESS_WHITELIST: z
       .string()
