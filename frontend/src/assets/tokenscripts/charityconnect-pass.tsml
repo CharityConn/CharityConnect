@@ -1,4 +1,4 @@
-<ts:token xmlns:ethereum="urn:ethereum:constantinople" xmlns:ts="http://tokenscript.org/2022/09/tokenscript" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="charityConnect" xsi:schemaLocation="http://tokenscript.org/2022/09/tokenscript https://www.tokenscript.org/schemas/2022-09/tokenscript.xsd">
+<ts:token xmlns:ethereum="urn:ethereum:constantinople" xmlns:ts="http://tokenscript.org/2024/01/tokenscript" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="charityConnect" xsi:schemaLocation="http://tokenscript.org/2024/01/tokenscript https://www.tokenscript.org/schemas/2024-01/tokenscript.xsd">
 	<ts:label>
 		<ts:plurals xml:lang="en">
 			<ts:string quantity="one">CharityConnect Token</ts:string>
@@ -8,17 +8,46 @@
 	<ts:meta>
 		<ts:description xml:lang="en">This is your Charity Membership Card, represented as an ERC-721 NFT.</ts:description>
 		<ts:aboutUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/</ts:aboutUrl>
-		<ts:iconUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/assets/images/charity-connect-card.png</ts:iconUrl>
+		<ts:iconUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/assets/icon/cc/charity-connect-card.png</ts:iconUrl>
 	</ts:meta>
+    
 	<ts:contract interface="erc721" name="Token">
-		<ts:address network="84532">0x1C0d1dAE51B37017BB6950E48D8690B085647E63</ts:address>
+		
+		<ts:address network="84532">0x40dc7D0B5E11Ee259314C548a238b9c909A4B721</ts:address>
 	</ts:contract>
 	<ts:contract interface="erc20" name="Points">
-		<ts:address network="84532">0xc7177825307A9717C8d79d41136a311a8Ccd65e9</ts:address>
+		
+		<ts:address network="84532">0x6E651E97D10D330b761b1759DA88616c4764093d</ts:address>
+	</ts:contract>
+	<ts:contract name="DonationManager">
+		<ts:address network="84532">0x87Aa0A8d5E560F413Eb7C1E860EC3741Ad5cb7DD</ts:address>
+
+        <ts:abi>
+            
+            [
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "getAllCharityNames",
+                    "outputs": [
+                        {
+                            "name": "charityNames",
+                            "type": "string[]"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                }
+            ]
+            
+        </ts:abi>
+
 	</ts:contract>
 	<ts:origins>
 		
-		<ts:ethereum contract="Token"/>
+        <ts:ethereum contract="Token"/>
+		<ts:ethereum contract="Points"/>
 	</ts:origins>
 
     
@@ -34,17 +63,17 @@
 			
 		<style>/*&lt;![CDATA[*/ 
 
-.loader-container.svelte-1av2oaf.svelte-1av2oaf{width:100%;height:100%;display:flex;justify-content:center;align-items:center}.loader-container.small.svelte-1av2oaf.svelte-1av2oaf{width:fit-content;height:100%}.lds-ring.svelte-1av2oaf.svelte-1av2oaf{display:inline-block;position:relative;width:80px;height:80px}.loader-container.small.svelte-1av2oaf .lds-ring.svelte-1av2oaf{width:28px;height:28px}.lds-ring.svelte-1av2oaf div.svelte-1av2oaf{box-sizing:border-box;display:block;position:absolute;width:64px;height:64px;margin:8px;border:8px solid #656565;border-radius:50%;animation:svelte-1av2oaf-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border-color:#656565 transparent transparent transparent}.loader-container.small.svelte-1av2oaf .lds-ring div.svelte-1av2oaf{width:24px;height:24px;margin:2px;border:2px solid #656565;border-color:#656565 transparent transparent transparent}.lds-ring.svelte-1av2oaf div.svelte-1av2oaf:nth-child(1){animation-delay:-.45s}.lds-ring.svelte-1av2oaf div.svelte-1av2oaf:nth-child(2){animation-delay:-.3s}.lds-ring.svelte-1av2oaf div.svelte-1av2oaf:nth-child(3){animation-delay:-.15s}@keyframes svelte-1av2oaf-lds-ring{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+*,:before,:after{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}:before,:after{--tw-content: ""}html,:host{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,samp,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dl,dd,h1,h2,h3,h4,h5,h6,hr,figure,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}ol,ul,menu{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}button,[role=button]{cursor:pointer}:disabled{cursor:default}img,svg,video,canvas,audio,iframe,embed,object{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*,:before,:after{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x: 0;--tw-border-spacing-y: 0;--tw-translate-x: 0;--tw-translate-y: 0;--tw-rotate: 0;--tw-skew-x: 0;--tw-skew-y: 0;--tw-scale-x: 1;--tw-scale-y: 1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness: proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width: 0px;--tw-ring-offset-color: #fff;--tw-ring-color: rgb(59 130 246 / .5);--tw-ring-offset-shadow: 0 0 #0000;--tw-ring-shadow: 0 0 #0000;--tw-shadow: 0 0 #0000;--tw-shadow-colored: 0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }.absolute{position:absolute}.relative{position:relative}.mb-2{margin-bottom:.5rem}.block{display:block}.flex{display:flex}.w-full{width:100%}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skew(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.flex-col{flex-direction:column}.items-center{align-items:center}.rounded{border-radius:.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-md{border-radius:.375rem}.border{border-width:1px}.border-2{border-width:2px}.border-gray-100{--tw-border-opacity: 1;border-color:rgb(243 244 246 / var(--tw-border-opacity))}.border-purple-300{--tw-border-opacity: 1;border-color:rgb(216 180 254 / var(--tw-border-opacity))}.bg-blue-700{--tw-bg-opacity: 1;background-color:rgb(29 78 216 / var(--tw-bg-opacity))}.bg-purple-50{--tw-bg-opacity: 1;background-color:rgb(250 245 255 / var(--tw-bg-opacity))}.p-2{padding:.5rem}.px-2{padding-left:.5rem;padding-right:.5rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-4{padding-top:1rem;padding-bottom:1rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.font-semibold{font-weight:600}.text-blue-500{--tw-text-opacity: 1;color:rgb(59 130 246 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-gray-600{--tw-text-opacity: 1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-green-500{--tw-text-opacity: 1;color:rgb(34 197 94 / var(--tw-text-opacity))}.text-purple-300{--tw-text-opacity: 1;color:rgb(216 180 254 / var(--tw-text-opacity))}.text-red-500{--tw-text-opacity: 1;color:rgb(239 68 68 / var(--tw-text-opacity))}.text-white{--tw-text-opacity: 1;color:rgb(255 255 255 / var(--tw-text-opacity))}.underline{text-decoration-line:underline}.hover\:bg-blue-800:hover{--tw-bg-opacity: 1;background-color:rgb(30 64 175 / var(--tw-bg-opacity))}.loader-container.svelte-1av2oaf.svelte-1av2oaf{width:100%;height:100%;display:flex;justify-content:center;align-items:center}.loader-container.small.svelte-1av2oaf.svelte-1av2oaf{width:-moz-fit-content;width:fit-content;height:100%}.lds-ring.svelte-1av2oaf.svelte-1av2oaf{display:inline-block;position:relative;width:80px;height:80px}.loader-container.small.svelte-1av2oaf .lds-ring.svelte-1av2oaf{width:28px;height:28px}.lds-ring.svelte-1av2oaf div.svelte-1av2oaf{box-sizing:border-box;display:block;position:absolute;width:64px;height:64px;margin:8px;border:8px solid #656565;border-radius:50%;animation:svelte-1av2oaf-lds-ring 1.2s cubic-bezier(.5,0,.5,1) infinite;border-color:#656565 transparent transparent transparent}.loader-container.small.svelte-1av2oaf .lds-ring div.svelte-1av2oaf{width:24px;height:24px;margin:2px;border:2px solid #656565;border-color:#656565 transparent transparent transparent}.lds-ring.svelte-1av2oaf div.svelte-1av2oaf:nth-child(1){animation-delay:-.45s}.lds-ring.svelte-1av2oaf div.svelte-1av2oaf:nth-child(2){animation-delay:-.3s}.lds-ring.svelte-1av2oaf div.svelte-1av2oaf:nth-child(3){animation-delay:-.15s}@keyframes svelte-1av2oaf-lds-ring{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
 
 
  /*//]]&gt;*/</style>
 <script type="module" crossorigin="">//&lt;![CDATA[
 
-var Oe=Object.defineProperty;var Le=(t,e,n)=&gt;e in t?Oe(t,e,{enumerable:!0,configurable:!0,writable:!0,value:n}):t[e]=n;var le=(t,e,n)=&gt;(Le(t,typeof e!="symbol"?e+"":e,n),n);(function(){const e=document.createElement("link").relList;if(e&amp;&amp;e.supports&amp;&amp;e.supports("modulepreload"))return;for(const o of document.querySelectorAll('link[rel="modulepreload"]'))l(o);new MutationObserver(o=&gt;{for(const s of o)if(s.type==="childList")for(const i of s.addedNodes)i.tagName==="LINK"&amp;&amp;i.rel==="modulepreload"&amp;&amp;l(i)}).observe(document,{childList:!0,subtree:!0});function n(o){const s={};return o.integrity&amp;&amp;(s.integrity=o.integrity),o.referrerPolicy&amp;&amp;(s.referrerPolicy=o.referrerPolicy),o.crossOrigin==="use-credentials"?s.credentials="include":o.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function l(o){if(o.ep)return;o.ep=!0;const s=n(o);fetch(o.href,s)}})();function C(){}function Se(t){return t()}function ce(){return Object.create(null)}function B(t){t.forEach(Se)}function Ne(t){return typeof t=="function"}function z(t,e){return t!=t?e==e:t!==e||t&amp;&amp;typeof t=="object"||typeof t=="function"}function Ee(t){return Object.keys(t).length===0}function ue(t){return t??""}function $(t,e){t.appendChild(e)}function _(t,e,n){t.insertBefore(e,n||null)}function p(t){t.parentNode&amp;&amp;t.parentNode.removeChild(t)}function Ge(t,e){for(let n=0;n&lt;t.length;n+=1)t[n]&amp;&amp;t[n].d(e)}function g(t){return document.createElement(t)}function I(t){return document.createTextNode(t)}function A(){return I(" ")}function H(){return I("")}function T(t,e,n,l){return t.addEventListener(e,n,l),()=&gt;t.removeEventListener(e,n,l)}function N(t,e,n){n==null?t.removeAttribute(e):t.getAttribute(e)!==n&amp;&amp;t.setAttribute(e,n)}function Te(t){return Array.from(t.childNodes)}function ee(t,e){e=""+e,t.data!==e&amp;&amp;(t.data=e)}function je(t,e){t.value=e??""}function ae(t,e,n){for(let l=0;l&lt;t.options.length;l+=1){const o=t.options[l];if(o.__value===e){o.selected=!0;return}}(!n||e!==void 0)&amp;&amp;(t.selectedIndex=-1)}function qe(t){const e=t.querySelector(":checked");return e&amp;&amp;e.__value}function de(t,e){return new t(e)}let fe;function Y(t){fe=t}const M=[],pe=[];let D=[];const _e=[],ze=Promise.resolve();let ie=!1;function Fe(){ie||(ie=!0,ze.then(Ie))}function X(t){D.push(t)}const se=new Set;let R=0;function Ie(){if(R!==0)return;const t=fe;do{try{for(;R&lt;M.length;){const e=M[R];R++,Y(e),Re(e.$$)}}catch(e){throw M.length=0,R=0,e}for(Y(null),M.length=0,R=0;pe.length;)pe.pop()();for(let e=0;e&lt;D.length;e+=1){const n=D[e];se.has(n)||(se.add(n),n())}D.length=0}while(M.length);for(;_e.length;)_e.pop()();ie=!1,se.clear(),Y(t)}function Re(t){if(t.fragment!==null){t.update(),B(t.before_update);const e=t.dirty;t.dirty=[-1],t.fragment&amp;&amp;t.fragment.p(t.ctx,e),t.after_update.forEach(X)}}function Ve(t){const e=[],n=[];D.forEach(l=&gt;t.indexOf(l)===-1?e.push(l):n.push(l)),n.forEach(l=&gt;l()),D=e}const Q=new Set;let j;function Z(){j={r:0,c:[],p:j}}function x(){j.r||B(j.c),j=j.p}function S(t,e){t&amp;&amp;t.i&amp;&amp;(Q.delete(t),t.i(e))}function O(t,e,n,l){if(t&amp;&amp;t.o){if(Q.has(t))return;Q.add(t),j.c.push(()=&gt;{Q.delete(t),l&amp;&amp;(n&amp;&amp;t.d(1),l())}),t.o(e)}else l&amp;&amp;l()}function he(t){return(t==null?void 0:t.length)!==void 0?t:Array.from(t)}function q(t){t&amp;&amp;t.c()}function E(t,e,n){const{fragment:l,after_update:o}=t.$$;l&amp;&amp;l.m(e,n),X(()=&gt;{const s=t.$$.on_mount.map(Se).filter(Ne);t.$$.on_destroy?t.$$.on_destroy.push(...s):B(s),t.$$.on_mount=[]}),o.forEach(X)}function G(t,e){const n=t.$$;n.fragment!==null&amp;&amp;(Ve(n.after_update),B(n.on_destroy),n.fragment&amp;&amp;n.fragment.d(e),n.on_destroy=n.fragment=null,n.ctx=[])}function Me(t,e){t.$$.dirty[0]===-1&amp;&amp;(M.push(t),Fe(),t.$$.dirty.fill(0)),t.$$.dirty[e/31|0]|=1&lt;&lt;e%31}function J(t,e,n,l,o,s,i=null,r=[-1]){const c=fe;Y(t);const f=t.$$={fragment:null,ctx:[],props:s,update:C,not_equal:o,bound:ce(),on_mount:[],on_destroy:[],on_disconnect:[],before_update:[],after_update:[],context:new Map(e.context||(c?c.$$.context:[])),callbacks:ce(),dirty:r,skip_bound:!1,root:e.target||c.$$.root};i&amp;&amp;i(f.root);let d=!1;if(f.ctx=n?n(t,e.props||{},(h,P,...W)=&gt;{const L=W.length?W[0]:P;return f.ctx&amp;&amp;o(f.ctx[h],f.ctx[h]=L)&amp;&amp;(!f.skip_bound&amp;&amp;f.bound[h]&amp;&amp;f.bound[h](L),d&amp;&amp;Me(t,h)),P}):[],f.update(),d=!0,B(f.before_update),f.fragment=l?l(f.ctx):!1,e.target){if(e.hydrate){const h=Te(e.target);f.fragment&amp;&amp;f.fragment.l(h),h.forEach(p)}else f.fragment&amp;&amp;f.fragment.c();e.intro&amp;&amp;S(t.$$.fragment),E(t,e.target,e.anchor),Ie()}Y(c)}class U{constructor(){le(this,"$$");le(this,"$$set")}$destroy(){G(this,1),this.$destroy=C}$on(e,n){if(!Ne(n))return C;const l=this.$$.callbacks[e]||(this.$$.callbacks[e]=[]);return l.push(n),()=&gt;{const o=l.indexOf(n);o!==-1&amp;&amp;l.splice(o,1)}}$set(e){this.$$set&amp;&amp;!Ee(e)&amp;&amp;(this.$$.skip_bound=!0,this.$$set(e),this.$$.skip_bound=!1)}}const De="4";typeof window&lt;"u"&amp;&amp;(window.__svelte||(window.__svelte={v:new Set})).v.add(De);const V=[];function Je(t,e=C){let n;const l=new Set;function o(r){if(z(t,r)&amp;&amp;(t=r,n)){const c=!V.length;for(const f of l)f[1](),V.push(f,t);if(c){for(let f=0;f&lt;V.length;f+=2)V[f][0](V[f+1]);V.length=0}}}function s(r){o(r(t))}function i(r,c=C){const f=[r,c];return l.add(f),l.size===1&amp;&amp;(n=e(o,s)||C),r(t),()=&gt;{l.delete(f),l.size===0&amp;&amp;n&amp;&amp;(n(),n=null)}}return{set:o,update:s,subscribe:i}}const re=Je({token:null});function Ue(t){re.set({...re,token:t})}const te={data:re,setToken:Ue};function Ye(t){let e;return{c(){e=g("h1"),e.textContent="404"},m(n,l){_(n,e,l)},p:C,i:C,o:C,d(n){n&amp;&amp;p(e)}}}class Be extends U{constructor(e){super(),J(this,e,null,Ye,z,{})}}function me(t){let e,n,l;return{c(){e=g("div"),n=g("div"),n.innerHTML='&lt;div class="svelte-1av2oaf"&gt;&lt;/div&gt; &lt;div class="svelte-1av2oaf"&gt;&lt;/div&gt; &lt;div class="svelte-1av2oaf"&gt;&lt;/div&gt; &lt;div class="svelte-1av2oaf"&gt;&lt;/div&gt;',N(n,"class","lds-ring svelte-1av2oaf"),N(e,"class",l=ue(`loader-container ${t[1]}`)+" svelte-1av2oaf")},m(o,s){_(o,e,s),$(e,n)},p(o,s){s&amp;2&amp;&amp;l!==(l=ue(`loader-container ${o[1]}`)+" svelte-1av2oaf")&amp;&amp;N(e,"class",l)},d(o){o&amp;&amp;p(e)}}}function He(t){let e,n=t[0]&amp;&amp;me(t);return{c(){n&amp;&amp;n.c(),e=H()},m(l,o){n&amp;&amp;n.m(l,o),_(l,e,o)},p(l,[o]){l[0]?n?n.p(l,o):(n=me(l),n.c(),n.m(e.parentNode,e)):n&amp;&amp;(n.d(1),n=null)},i:C,o:C,d(l){l&amp;&amp;p(e),n&amp;&amp;n.d(l)}}}function Ke(t,e,n){let{show:l}=e,{size:o="normal"}=e;return t.$$set=s=&gt;{"show"in s&amp;&amp;n(0,l=s.show),"size"in s&amp;&amp;n(1,o=s.size)},[l,o]}class K extends U{constructor(e){super(),J(this,e,Ke,He,z,{show:0,size:1})}}function be(t,e,n){const l=t.slice();return l[12]=e[n],l}function ge(t){let e,n,l,o,s,i,r,c,f,d,h,P,W,L,m=t[5]&gt;=0&amp;&amp;ke(t),w=he(t[7]),y=[];for(let u=0;u&lt;w.length;u+=1)y[u]=ye(be(t,w,u));let k=!t[2]&amp;&amp;we(t),v=t[4].length&gt;0&amp;&amp;$e(t);return{c(){e=g("h3"),e.textContent="Checkin",n=A(),l=g("p"),l.textContent=`Select a store to check-in. Stay for more than 30 seconds to successfully check-in and receive
-			1 point.`,o=A(),m&amp;&amp;m.c(),s=A(),i=g("div"),i.textContent="Check in to merchant:",r=A(),c=g("p"),f=g("select");for(let u=0;u&lt;y.length;u+=1)y[u].c();d=A(),k&amp;&amp;k.c(),h=A(),v&amp;&amp;v.c(),P=H(),N(i,"id","message-title"),N(f,"id","stores"),t[0]===void 0&amp;&amp;X(()=&gt;t[10].call(f))},m(u,a){_(u,e,a),_(u,n,a),_(u,l,a),_(u,o,a),m&amp;&amp;m.m(u,a),_(u,s,a),_(u,i,a),_(u,r,a),_(u,c,a),$(c,f);for(let b=0;b&lt;y.length;b+=1)y[b]&amp;&amp;y[b].m(f,null);ae(f,t[0],!0),_(u,d,a),k&amp;&amp;k.m(u,a),_(u,h,a),v&amp;&amp;v.m(u,a),_(u,P,a),W||(L=T(f,"change",t[10]),W=!0)},p(u,a){if(u[5]&gt;=0?m?m.p(u,a):(m=ke(u),m.c(),m.m(s.parentNode,s)):m&amp;&amp;(m.d(1),m=null),a&amp;128){w=he(u[7]);let b;for(b=0;b&lt;w.length;b+=1){const F=be(u,w,b);y[b]?y[b].p(F,a):(y[b]=ye(F),y[b].c(),y[b].m(f,null))}for(;b&lt;y.length;b+=1)y[b].d(1);y.length=w.length}a&amp;129&amp;&amp;ae(f,u[0]),u[2]?k&amp;&amp;(k.d(1),k=null):k?k.p(u,a):(k=we(u),k.c(),k.m(h.parentNode,h)),u[4].length&gt;0?v?v.p(u,a):(v=$e(u),v.c(),v.m(P.parentNode,P)):v&amp;&amp;(v.d(1),v=null)},d(u){u&amp;&amp;(p(e),p(n),p(l),p(o),p(s),p(i),p(r),p(c),p(d),p(h),p(P)),m&amp;&amp;m.d(u),Ge(y,u),k&amp;&amp;k.d(u),v&amp;&amp;v.d(u),W=!1,L()}}}function ke(t){let e,n,l,o;return{c(){e=g("p"),n=I("You currently have "),l=I(t[5]),o=I(" points.")},m(s,i){_(s,e,i),$(e,n),$(e,l),$(e,o)},p(s,i){i&amp;32&amp;&amp;ee(l,s[5])},d(s){s&amp;&amp;p(e)}}}function ye(t){let e,n=t[12].name+"",l;return{c(){e=g("option"),l=I(n),e.__value=t[12].id,je(e,e.__value)},m(o,s){_(o,e,s),$(e,l)},p:C,d(o){o&amp;&amp;p(e)}}}function we(t){let e,n,l,o;return{c(){e=g("button"),n=I("Checkin"),N(e,"type","button"),e.disabled=t[6],N(e,"class","btn btn-primary")},m(s,i){_(s,e,i),$(e,n),l||(o=T(e,"click",t[11]),l=!0)},p(s,i){i&amp;64&amp;&amp;(e.disabled=s[6])},d(s){s&amp;&amp;p(e),l=!1,o()}}}function $e(t){let e,n;return{c(){e=g("p"),n=I(t[4])},m(l,o){_(l,e,o),$(e,n)},p(l,o){o&amp;16&amp;&amp;ee(n,l[4])},d(l){l&amp;&amp;p(e)}}}function Qe(t){let e,n,l,o,s=t[3]&amp;&amp;ge(t);return l=new K({props:{show:t[1]}}),{c(){e=g("div"),s&amp;&amp;s.c(),n=A(),q(l.$$.fragment)},m(i,r){_(i,e,r),s&amp;&amp;s.m(e,null),$(e,n),E(l,e,null),o=!0},p(i,[r]){i[3]?s?s.p(i,r):(s=ge(i),s.c(),s.m(e,n)):s&amp;&amp;(s.d(1),s=null);const c={};r&amp;2&amp;&amp;(c.show=i[1]),l.$set(c)},i(i){o||(S(l.$$.fragment,i),o=!0)},o(i){O(l.$$.fragment,i),o=!1},d(i){i&amp;&amp;p(e),s&amp;&amp;s.d(),G(l)}}}const Xe="https://d37i1m1hx1fc5p.cloudfront.net";function ve(t,e,n,l){return!(t||!e.length||!n||l)}function Ze(t,e,n){let l,o,s,i=null,r="",c=!0,f=!1,d=-1;const h=[{id:1,name:"Grocery Store 1"},{id:2,name:"Candy Store 2"},{id:3,name:"Perfume Store 3"}];te.data.subscribe(async m=&gt;{m.token&amp;&amp;(n(3,o=m.token),n(9,s=m.token.ownerAddress),n(5,d=m.token.points),n(1,c=!1))});async function P(){if(ve(c,s,i,f)){console.log("Checkin..."),n(4,r=""),n(1,c=!0);try{const m="POST",w={"Content-type":"application/json",Accept:"application/json"},k=await fetch(`${Xe}/user/${s}/checkin`,{method:m,headers:w,body:JSON.stringify({merchantID:String(i),passId:o.tokenId})});let v;v=await k.json(),console.log(`Status code: ${k.status} data: ${JSON.stringify(v)}`),n(4,r="Done checkin"),n(2,f=!0),n(5,d=v.totalPoints)}catch(m){n(4,r="Failed to checkin"),console.error(m)}n(1,c=!1)}}function W(){i=qe(this),n(0,i),n(7,h)}const L=()=&gt;P();return t.$$.update=()=&gt;{t.$$.dirty&amp;519&amp;&amp;n(6,l=!ve(c,s,i,f))},[i,c,f,o,r,d,l,h,P,s,W,L]}class xe extends U{constructor(e){super(),J(this,e,Ze,Qe,z,{})}}class et{constructor(){this.baseURI="https://d37i1m1hx1fc5p.cloudfront.net"}async generateWalletPass(e,n){return this.sendReqeust("/wallet-pass",{method:"POST",body:JSON.stringify({platform:e,passId:n})})}async getWalletPasses(e){return this.sendReqeust(`/wallet-pass/${e}`)}async sendReqeust(e,n={}){const l=await fetch(this.baseURI+e,{...n,headers:{...n.headers,"Content-Type":"application/json"}});if(!l.ok){const o=(await l.json()).error;throw new Error(`api request failed: ${e}, error: ${o}`)}try{return await l.json()}catch{return null}}}const oe=new et;function Pe(t){let e,n,l,o,s,i,r,c,f,d,h,P,W;const L=[nt,tt],m=[];function w(a,b){return a[4]?0:1}i=w(t),r=m[i]=L[i](t);const y=[st,lt],k=[];function v(a,b){return a[5]?0:1}f=v(t),d=k[f]=y[f](t);let u=t[2].length&gt;0&amp;&amp;Ce(t);return{c(){e=g("h3"),e.textContent="Wallet Pass",n=A(),l=g("p"),l.textContent="Generate and install wallet pass on your phone, so that you can access your Pass easily.",o=A(),s=g("div"),r.c(),c=A(),d.c(),h=A(),u&amp;&amp;u.c(),P=H(),N(s,"class","wallet-pass section-gap")},m(a,b){_(a,e,b),_(a,n,b),_(a,l,b),_(a,o,b),_(a,s,b),m[i].m(s,null),$(s,c),k[f].m(s,null),_(a,h,b),u&amp;&amp;u.m(a,b),_(a,P,b),W=!0},p(a,b){let F=i;i=w(a),i===F?m[i].p(a,b):(Z(),O(m[F],1,1,()=&gt;{m[F]=null}),x(),r=m[i],r?r.p(a,b):(r=m[i]=L[i](a),r.c()),S(r,1),r.m(s,c));let ne=f;f=v(a),f===ne?k[f].p(a,b):(Z(),O(k[ne],1,1,()=&gt;{k[ne]=null}),x(),d=k[f],d?d.p(a,b):(d=k[f]=y[f](a),d.c()),S(d,1),d.m(s,null)),a[2].length&gt;0?u?u.p(a,b):(u=Ce(a),u.c(),u.m(P.parentNode,P)):u&amp;&amp;(u.d(1),u=null)},i(a){W||(S(r),S(d),W=!0)},o(a){O(r),O(d),W=!1},d(a){a&amp;&amp;(p(e),p(n),p(l),p(o),p(s),p(h),p(P)),m[i].d(),k[f].d(),u&amp;&amp;u.d(a)}}}function tt(t){let e,n,l,o,s,i,r;return o=new K({props:{show:t[6],size:"small"}}),{c(){e=g("div"),n=g("button"),l=I(`Generate Google Wallet Pass
-						`),q(o.$$.fragment),N(n,"class","btn btn-secondary"),n.disabled=t[6]},m(c,f){_(c,e,f),$(e,n),$(n,l),E(o,n,null),s=!0,i||(r=T(n,"click",t[8]),i=!0)},p(c,f){const d={};f&amp;64&amp;&amp;(d.show=c[6]),o.$set(d),(!s||f&amp;64)&amp;&amp;(n.disabled=c[6])},i(c){s||(S(o.$$.fragment,c),s=!0)},o(c){O(o.$$.fragment,c),s=!1},d(c){c&amp;&amp;p(e),G(o),i=!1,r()}}}function nt(t){let e,n,l;return{c(){e=g("button"),e.textContent="Install Google Wallet Pass",N(e,"class","btn btn-primary")},m(o,s){_(o,e,s),n||(l=T(e,"click",t[9]),n=!0)},p:C,i:C,o:C,d(o){o&amp;&amp;p(e),n=!1,l()}}}function lt(t){let e,n,l,o,s,i,r;return o=new K({props:{show:t[7],size:"small"}}),{c(){e=g("div"),n=g("button"),l=I(`Generate Apple Wallet Pass
-						`),q(o.$$.fragment),N(n,"class","btn btn-secondary"),n.disabled=t[7]},m(c,f){_(c,e,f),$(e,n),$(n,l),E(o,n,null),s=!0,i||(r=T(n,"click",t[10]),i=!0)},p(c,f){const d={};f&amp;128&amp;&amp;(d.show=c[7]),o.$set(d),(!s||f&amp;128)&amp;&amp;(n.disabled=c[7])},i(c){s||(S(o.$$.fragment,c),s=!0)},o(c){O(o.$$.fragment,c),s=!1},d(c){c&amp;&amp;p(e),G(o),i=!1,r()}}}function st(t){let e,n,l;return{c(){e=g("button"),e.textContent="Install Apple Wallet Pass",N(e,"class","btn btn-primary")},m(o,s){_(o,e,s),n||(l=T(e,"click",t[11]),n=!0)},p:C,i:C,o:C,d(o){o&amp;&amp;p(e),n=!1,l()}}}function Ce(t){let e,n;return{c(){e=g("p"),n=I(t[2]),N(e,"class","error-message")},m(l,o){_(l,e,o),$(e,n)},p(l,o){o&amp;4&amp;&amp;ee(n,l[2])},d(l){l&amp;&amp;p(e)}}}function ot(t){let e,n,l,o,s=t[1]&amp;&amp;t[0]&amp;&amp;Pe(t);return l=new K({props:{show:t[3]}}),{c(){e=g("div"),s&amp;&amp;s.c(),n=A(),q(l.$$.fragment)},m(i,r){_(i,e,r),s&amp;&amp;s.m(e,null),$(e,n),E(l,e,null),o=!0},p(i,[r]){i[1]&amp;&amp;i[0]?s?(s.p(i,r),r&amp;3&amp;&amp;S(s,1)):(s=Pe(i),s.c(),S(s,1),s.m(e,n)):s&amp;&amp;(Z(),O(s,1,1,()=&gt;{s=null}),x());const c={};r&amp;8&amp;&amp;(c.show=i[3]),l.$set(c)},i(i){o||(S(s),S(l.$$.fragment,i),o=!0)},o(i){O(s),O(l.$$.fragment,i),o=!1},d(i){i&amp;&amp;p(e),s&amp;&amp;s.d(),G(l)}}}function it(t,e,n){let l,o,s="",i=!0,r="",c="",f=!1,d=!1;te.data.subscribe(async w=&gt;{if(!w.token)return;console.log(w.token);const y=w.token;n(1,o=y.ownerAddress),n(0,l=y.tokenId),await h(),n(3,i=!1)});async function h(w,y=0){try{const k=await oe.getWalletPasses(l);if(n(4,r=k.google),n(5,c=k.apple),w){if(w==="google"&amp;&amp;r){n(6,f=!1);return}if(w==="apple"&amp;&amp;c){n(7,d=!1);return}y&gt;0&amp;&amp;setTimeout(()=&gt;h(w,y-1),5e3)}}catch{y&gt;0&amp;&amp;setTimeout(()=&gt;h(w,y-1),5e3)}}async function P(){try{n(6,f=!0),await oe.generateWalletPass("google",l),setTimeout(()=&gt;h("google",5),5e3)}catch(w){console.log(w,"Failed to generate Google Wallet Pass"),n(2,s="Failed to generate Google Wallet Pass")}}function W(){window.open(r,"_blank")}async function L(){try{n(7,d=!0),await oe.generateWalletPass("apple",l),setTimeout(()=&gt;h("apple",5),5e3)}catch(w){console.log(w,"Failed to generate Apple Wallet Pass"),n(2,s="Failed to generate Apple Wallet Pass")}}function m(){window.open(c,"_blank")}return[l,o,s,i,r,c,f,d,P,W,L,m]}class rt extends U{constructor(e){super(),J(this,e,it,ot,z,{})}}function Ae(t){let e,n,l,o,s,i=t[2]&gt;=0&amp;&amp;We(t);return{c(){e=g("h3"),e.textContent="Vote for Charity Fund Allocation",n=A(),l=g("p"),l.textContent=`Vote on how the charity funds should be allocated. Voting weight is based on your points
-			(ERC-20 token holdings).`,o=A(),i&amp;&amp;i.c(),s=H()},m(r,c){_(r,e,c),_(r,n,c),_(r,l,c),_(r,o,c),i&amp;&amp;i.m(r,c),_(r,s,c)},p(r,c){r[2]&gt;=0?i?i.p(r,c):(i=We(r),i.c(),i.m(s.parentNode,s)):i&amp;&amp;(i.d(1),i=null)},d(r){r&amp;&amp;(p(e),p(n),p(l),p(o),p(s)),i&amp;&amp;i.d(r)}}}function We(t){let e;function n(s,i){return s[2]&gt;=1?ct:ft}let l=n(t),o=l(t);return{c(){o.c(),e=H()},m(s,i){o.m(s,i),_(s,e,i)},p(s,i){l===(l=n(s))&amp;&amp;o?o.p(s,i):(o.d(1),o=l(s),o&amp;&amp;(o.c(),o.m(e.parentNode,e)))},d(s){s&amp;&amp;p(e),o.d(s)}}}function ft(t){let e;return{c(){e=g("p"),e.textContent="You don't have points yet. Checkin to get some."},m(n,l){_(n,e,l)},p:C,d(n){n&amp;&amp;p(e)}}}function ct(t){let e,n,l,o,s,i,r,c,f;return{c(){e=g("p"),n=I("You currently have "),l=I(t[2]),o=I(" points."),s=A(),i=g("p"),r=g("button"),r.textContent="Vote here",N(r,"class","btn btn-primary")},m(d,h){_(d,e,h),$(e,n),$(e,l),$(e,o),_(d,s,h),_(d,i,h),$(i,r),c||(f=T(r,"click",at),c=!0)},p(d,h){h&amp;4&amp;&amp;ee(l,d[2])},d(d){d&amp;&amp;(p(e),p(s),p(i)),c=!1,f()}}}function ut(t){let e,n,l,o,s=t[0]&amp;&amp;Ae(t);return l=new K({props:{show:t[1]}}),{c(){e=g("div"),s&amp;&amp;s.c(),n=A(),q(l.$$.fragment)},m(i,r){_(i,e,r),s&amp;&amp;s.m(e,null),$(e,n),E(l,e,null),o=!0},p(i,[r]){i[0]?s?s.p(i,r):(s=Ae(i),s.c(),s.m(e,n)):s&amp;&amp;(s.d(1),s=null);const c={};r&amp;2&amp;&amp;(c.show=i[1]),l.$set(c)},i(i){o||(S(l.$$.fragment,i),o=!0)},o(i){O(l.$$.fragment,i),o=!1},d(i){i&amp;&amp;p(e),s&amp;&amp;s.d(),G(l)}}}function at(){window.open("https://testnet.snapshot.org/#/charityconnect.eth","_blank")}function dt(t,e,n){let l,o=!0,s=-1;return te.data.subscribe(async i=&gt;{i.token&amp;&amp;(n(0,l=i.token),i.token.ownerAddress,n(2,s=i.token.points),n(1,o=!1))}),[l,o,s]}class pt extends U{constructor(e){super(),J(this,e,dt,ut,z,{})}}function _t(t){let e,n,l,o,s,i;var r=t[0];function c(f,d){return{}}return r&amp;&amp;(l=de(r,c())),{c(){e=g("div"),n=g("div"),l&amp;&amp;q(l.$$.fragment),N(n,"id","token-container")},m(f,d){_(f,e,d),$(e,n),l&amp;&amp;E(l,n,null),o=!0,s||(i=T(window,"hashchange",t[1]),s=!0)},p(f,[d]){if(d&amp;1&amp;&amp;r!==(r=f[0])){if(l){Z();const h=l;O(h.$$.fragment,1,0,()=&gt;{G(h,1)}),x()}r?(l=de(r,c()),q(l.$$.fragment),S(l.$$.fragment,1),E(l,n,null)):l=null}},i(f){o||(l&amp;&amp;S(l.$$.fragment,f),o=!0)},o(f){l&amp;&amp;O(l.$$.fragment,f),o=!1},d(f){f&amp;&amp;p(e),l&amp;&amp;G(l),s=!1,i()}}}function ht(t,e,n){let l,o=!1;const s={"#checkin":xe,"#walletPass":rt,"#vote":pt};let i;function r(){n(0,i=s[l.level==0?"#adopt":document.location.hash]||Be)}return web3.tokens.dataChanged=async(c,f,d)=&gt;{o||(te.setToken(f.currentInstance),l=f.currentInstance,o=!0,r())},[i,r]}class mt extends U{constructor(e){super(),J(this,e,ht,_t,z,{})}}new mt({target:document.body});
+var Ke=Object.defineProperty;var Xe=(l,e,t)=&gt;e in l?Ke(l,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):l[e]=t;var be=(l,e,t)=&gt;(Xe(l,typeof e!="symbol"?e+"":e,t),t);(function(){const e=document.createElement("link").relList;if(e&amp;&amp;e.supports&amp;&amp;e.supports("modulepreload"))return;for(const o of document.querySelectorAll('link[rel="modulepreload"]'))n(o);new MutationObserver(o=&gt;{for(const s of o)if(s.type==="childList")for(const i of s.addedNodes)i.tagName==="LINK"&amp;&amp;i.rel==="modulepreload"&amp;&amp;n(i)}).observe(document,{childList:!0,subtree:!0});function t(o){const s={};return o.integrity&amp;&amp;(s.integrity=o.integrity),o.referrerPolicy&amp;&amp;(s.referrerPolicy=o.referrerPolicy),o.crossOrigin==="use-credentials"?s.credentials="include":o.crossOrigin==="anonymous"?s.credentials="omit":s.credentials="same-origin",s}function n(o){if(o.ep)return;o.ep=!0;const s=t(o);fetch(o.href,s)}})();function A(){}function ze(l){return l()}function ve(){return Object.create(null)}function oe(l){l.forEach(ze)}function Ye(l){return typeof l=="function"}function H(l,e){return l!=l?e==e:l!==e||l&amp;&amp;typeof l=="object"||typeof l=="function"}function Ze(l){return Object.keys(l).length===0}function Ce(l){return l??""}function v(l,e){l.appendChild(e)}function d(l,e,t){l.insertBefore(e,t||null)}function u(l){l.parentNode&amp;&amp;l.parentNode.removeChild(l)}function Ue(l,e){for(let t=0;t&lt;l.length;t+=1)l[t]&amp;&amp;l[t].d(e)}function p(l){return document.createElement(l)}function O(l){return document.createTextNode(l)}function C(){return O(" ")}function Y(){return O("")}function F(l,e,t,n){return l.addEventListener(e,t,n),()=&gt;l.removeEventListener(e,t,n)}function g(l,e,t){t==null?l.removeAttribute(e):l.getAttribute(e)!==t&amp;&amp;l.setAttribute(e,t)}function et(l){return Array.from(l.childNodes)}function se(l,e){e=""+e,l.data!==e&amp;&amp;(l.data=e)}function ee(l,e){l.value=e??""}function de(l,e,t){for(let n=0;n&lt;l.options.length;n+=1){const o=l.options[n];if(o.__value===e){o.selected=!0;return}}(!t||e!==void 0)&amp;&amp;(l.selectedIndex=-1)}function Je(l){const e=l.querySelector(":checked");return e&amp;&amp;e.__value}function xe(l,e){return new l(e)}let we;function ce(l){we=l}const Z=[],Pe=[];let te=[];const Ae=[],tt=Promise.resolve();let ke=!1;function nt(){ke||(ke=!0,tt.then(Be))}function ue(l){te.push(l)}const he=new Set;let K=0;function Be(){if(K!==0)return;const l=we;do{try{for(;K&lt;Z.length;){const e=Z[K];K++,ce(e),lt(e.$$)}}catch(e){throw Z.length=0,K=0,e}for(ce(null),Z.length=0,K=0;Pe.length;)Pe.pop()();for(let e=0;e&lt;te.length;e+=1){const t=te[e];he.has(t)||(he.add(t),t())}te.length=0}while(Z.length);for(;Ae.length;)Ae.pop()();ke=!1,he.clear(),ce(l)}function lt(l){if(l.fragment!==null){l.update(),oe(l.before_update);const e=l.dirty;l.dirty=[-1],l.fragment&amp;&amp;l.fragment.p(l.ctx,e),l.after_update.forEach(ue)}}function ot(l){const e=[],t=[];te.forEach(n=&gt;l.indexOf(n)===-1?e.push(n):t.push(n)),t.forEach(n=&gt;n()),te=e}const ae=new Set;let U;function ne(){U={r:0,c:[],p:U}}function le(){U.r||oe(U.c),U=U.p}function I(l,e){l&amp;&amp;l.i&amp;&amp;(ae.delete(l),l.i(e))}function N(l,e,t,n){if(l&amp;&amp;l.o){if(ae.has(l))return;ae.add(l),U.c.push(()=&gt;{ae.delete(l),n&amp;&amp;(t&amp;&amp;l.d(1),n())}),l.o(e)}else n&amp;&amp;n()}function pe(l){return(l==null?void 0:l.length)!==void 0?l:Array.from(l)}function D(l){l&amp;&amp;l.c()}function G(l,e,t){const{fragment:n,after_update:o}=l.$$;n&amp;&amp;n.m(e,t),ue(()=&gt;{const s=l.$$.on_mount.map(ze).filter(Ye);l.$$.on_destroy?l.$$.on_destroy.push(...s):oe(s),l.$$.on_mount=[]}),o.forEach(ue)}function j(l,e){const t=l.$$;t.fragment!==null&amp;&amp;(ot(t.after_update),oe(t.on_destroy),t.fragment&amp;&amp;t.fragment.d(e),t.on_destroy=t.fragment=null,t.ctx=[])}function st(l,e){l.$$.dirty[0]===-1&amp;&amp;(Z.push(l),nt(),l.$$.dirty.fill(0)),l.$$.dirty[e/31|0]|=1&lt;&lt;e%31}function V(l,e,t,n,o,s,i=null,c=[-1]){const f=we;ce(l);const r=l.$$={fragment:null,ctx:[],props:s,update:A,not_equal:o,bound:ve(),on_mount:[],on_destroy:[],on_disconnect:[],before_update:[],after_update:[],context:new Map(e.context||(f?f.$$.context:[])),callbacks:ve(),dirty:c,skip_bound:!1,root:e.target||f.$$.root};i&amp;&amp;i(r.root);let _=!1;if(r.ctx=t?t(l,e.props||{},(a,b,...w)=&gt;{const W=w.length?w[0]:b;return r.ctx&amp;&amp;o(r.ctx[a],r.ctx[a]=W)&amp;&amp;(!r.skip_bound&amp;&amp;r.bound[a]&amp;&amp;r.bound[a](W),_&amp;&amp;st(l,a)),b}):[],r.update(),_=!0,oe(r.before_update),r.fragment=n?n(r.ctx):!1,e.target){if(e.hydrate){const a=et(e.target);r.fragment&amp;&amp;r.fragment.l(a),a.forEach(u)}else r.fragment&amp;&amp;r.fragment.c();e.intro&amp;&amp;I(l.$$.fragment),G(l,e.target,e.anchor),Be()}ce(f)}class z{constructor(){be(this,"$$");be(this,"$$set")}$destroy(){j(this,1),this.$destroy=A}$on(e,t){if(!Ye(t))return A;const n=this.$$.callbacks[e]||(this.$$.callbacks[e]=[]);return n.push(t),()=&gt;{const o=n.indexOf(t);o!==-1&amp;&amp;n.splice(o,1)}}$set(e){this.$$set&amp;&amp;!Ze(e)&amp;&amp;(this.$$.skip_bound=!0,this.$$set(e),this.$$.skip_bound=!1)}}const it="4";typeof window&lt;"u"&amp;&amp;(window.__svelte||(window.__svelte={v:new Set})).v.add(it);const X=[];function rt(l,e=A){let t;const n=new Set;function o(c){if(H(l,c)&amp;&amp;(l=c,t)){const f=!X.length;for(const r of n)r[1](),X.push(r,l);if(f){for(let r=0;r&lt;X.length;r+=2)X[r][0](X[r+1]);X.length=0}}}function s(c){o(c(l))}function i(c,f=A){const r=[c,f];return n.add(r),n.size===1&amp;&amp;(t=e(o,s)||A),c(l),()=&gt;{n.delete(r),n.size===0&amp;&amp;t&amp;&amp;(t(),t=null)}}return{set:o,update:s,subscribe:i}}const ge=rt({token:null});function ct(l){ge.set({...ge,token:l})}const ie={data:ge,setToken:ct};function ft(l){let e;return{c(){e=p("h1"),e.textContent="404"},m(t,n){d(t,e,n)},p:A,i:A,o:A,d(t){t&amp;&amp;u(e)}}}class ut extends z{constructor(e){super(),V(this,e,null,ft,H,{})}}function Te(l){let e,t,n;return{c(){e=p("div"),t=p("div"),t.innerHTML='&lt;div class="svelte-1av2oaf"&gt;&lt;/div&gt; &lt;div class="svelte-1av2oaf"&gt;&lt;/div&gt; &lt;div class="svelte-1av2oaf"&gt;&lt;/div&gt; &lt;div class="svelte-1av2oaf"&gt;&lt;/div&gt;',g(t,"class","lds-ring svelte-1av2oaf"),g(e,"class",n=Ce(`loader-container ${l[1]}`)+" svelte-1av2oaf")},m(o,s){d(o,e,s),v(e,t)},p(o,s){s&amp;2&amp;&amp;n!==(n=Ce(`loader-container ${o[1]}`)+" svelte-1av2oaf")&amp;&amp;g(e,"class",n)},d(o){o&amp;&amp;u(e)}}}function at(l){let e,t=l[0]&amp;&amp;Te(l);return{c(){t&amp;&amp;t.c(),e=Y()},m(n,o){t&amp;&amp;t.m(n,o),d(n,e,o)},p(n,[o]){n[0]?t?t.p(n,o):(t=Te(n),t.c(),t.m(e.parentNode,e)):t&amp;&amp;(t.d(1),t=null)},i:A,o:A,d(n){n&amp;&amp;u(e),t&amp;&amp;t.d(n)}}}function dt(l,e,t){let{show:n}=e,{size:o="normal"}=e;return l.$$set=s=&gt;{"show"in s&amp;&amp;t(0,n=s.show),"size"in s&amp;&amp;t(1,o=s.size)},[n,o]}class J extends z{constructor(e){super(),V(this,e,dt,at,H,{show:0,size:1})}}function Se(l,e,t){const n=l.slice();return n[12]=e[t],n}function We(l){let e,t,n,o,s,i,c,f,r,_,a,b,w,W,k=l[5]&gt;=0&amp;&amp;Ie(l),$=pe(l[7]),x=[];for(let m=0;m&lt;$.length;m+=1)x[m]=Le(Se(l,$,m));let P=!l[2]&amp;&amp;Ne(l),T=l[4].length&gt;0&amp;&amp;Oe(l);return{c(){e=p("h3"),e.textContent="Checkin",t=C(),n=p("p"),n.textContent=`Select a store to check-in. Stay for more than 30 seconds to successfully check-in and receive
+			1 point.`,o=C(),k&amp;&amp;k.c(),s=C(),i=p("div"),i.textContent="Check in to merchant:",c=C(),f=p("p"),r=p("select");for(let m=0;m&lt;x.length;m+=1)x[m].c();_=C(),P&amp;&amp;P.c(),a=C(),T&amp;&amp;T.c(),b=Y(),g(i,"id","message-title"),g(r,"id","stores"),l[0]===void 0&amp;&amp;ue(()=&gt;l[10].call(r))},m(m,h){d(m,e,h),d(m,t,h),d(m,n,h),d(m,o,h),k&amp;&amp;k.m(m,h),d(m,s,h),d(m,i,h),d(m,c,h),d(m,f,h),v(f,r);for(let y=0;y&lt;x.length;y+=1)x[y]&amp;&amp;x[y].m(r,null);de(r,l[0],!0),d(m,_,h),P&amp;&amp;P.m(m,h),d(m,a,h),T&amp;&amp;T.m(m,h),d(m,b,h),w||(W=F(r,"change",l[10]),w=!0)},p(m,h){if(m[5]&gt;=0?k?k.p(m,h):(k=Ie(m),k.c(),k.m(s.parentNode,s)):k&amp;&amp;(k.d(1),k=null),h&amp;128){$=pe(m[7]);let y;for(y=0;y&lt;$.length;y+=1){const R=Se(m,$,y);x[y]?x[y].p(R,h):(x[y]=Le(R),x[y].c(),x[y].m(r,null))}for(;y&lt;x.length;y+=1)x[y].d(1);x.length=$.length}h&amp;129&amp;&amp;de(r,m[0]),m[2]?P&amp;&amp;(P.d(1),P=null):P?P.p(m,h):(P=Ne(m),P.c(),P.m(a.parentNode,a)),m[4].length&gt;0?T?T.p(m,h):(T=Oe(m),T.c(),T.m(b.parentNode,b)):T&amp;&amp;(T.d(1),T=null)},d(m){m&amp;&amp;(u(e),u(t),u(n),u(o),u(s),u(i),u(c),u(f),u(_),u(a),u(b)),k&amp;&amp;k.d(m),Ue(x,m),P&amp;&amp;P.d(m),T&amp;&amp;T.d(m),w=!1,W()}}}function Ie(l){let e,t,n,o;return{c(){e=p("p"),t=O("You currently have "),n=O(l[5]),o=O(" points.")},m(s,i){d(s,e,i),v(e,t),v(e,n),v(e,o)},p(s,i){i&amp;32&amp;&amp;se(n,s[5])},d(s){s&amp;&amp;u(e)}}}function Le(l){let e,t=l[12].name+"",n;return{c(){e=p("option"),n=O(t),e.__value=l[12].id,ee(e,e.__value)},m(o,s){d(o,e,s),v(e,n)},p:A,d(o){o&amp;&amp;u(e)}}}function Ne(l){let e,t,n,o;return{c(){e=p("button"),t=O("Checkin"),g(e,"type","button"),e.disabled=l[6],g(e,"class","btn btn-primary")},m(s,i){d(s,e,i),v(e,t),n||(o=F(e,"click",l[11]),n=!0)},p(s,i){i&amp;64&amp;&amp;(e.disabled=s[6])},d(s){s&amp;&amp;u(e),n=!1,o()}}}function Oe(l){let e,t;return{c(){e=p("p"),t=O(l[4])},m(n,o){d(n,e,o),v(e,t)},p(n,o){o&amp;16&amp;&amp;se(t,n[4])},d(n){n&amp;&amp;u(e)}}}function pt(l){let e,t,n,o,s=l[3]&amp;&amp;We(l);return n=new J({props:{show:l[1]}}),{c(){e=p("div"),s&amp;&amp;s.c(),t=C(),D(n.$$.fragment)},m(i,c){d(i,e,c),s&amp;&amp;s.m(e,null),v(e,t),G(n,e,null),o=!0},p(i,[c]){i[3]?s?s.p(i,c):(s=We(i),s.c(),s.m(e,t)):s&amp;&amp;(s.d(1),s=null);const f={};c&amp;2&amp;&amp;(f.show=i[1]),n.$set(f)},i(i){o||(I(n.$$.fragment,i),o=!0)},o(i){N(n.$$.fragment,i),o=!1},d(i){i&amp;&amp;u(e),s&amp;&amp;s.d(),j(n)}}}const _t="https://d37i1m1hx1fc5p.cloudfront.net";function Ee(l,e,t,n){return!(l||!e.length||!t||n)}function mt(l,e,t){let n,o,s,i=null,c="",f=!0,r=!1,_=-1;const a=[{id:1,name:"Grocery Store 1"},{id:2,name:"Candy Store 2"},{id:3,name:"Perfume Store 3"}];ie.data.subscribe(async k=&gt;{k.token&amp;&amp;(t(3,o=k.token),t(9,s=k.token.ownerAddress),t(5,_=k.token.points),t(1,f=!1))});async function b(){if(Ee(f,s,i,r)){console.log("Checkin..."),t(4,c=""),t(1,f=!0);try{const k="POST",$={"Content-type":"application/json",Accept:"application/json"},P=await fetch(`${_t}/user/${s}/checkin`,{method:k,headers:$,body:JSON.stringify({merchantID:String(i),passId:o.tokenId})});let T;T=await P.json(),console.log(`Status code: ${P.status} data: ${JSON.stringify(T)}`),t(4,c="Done checkin"),t(2,r=!0),t(5,_=T.totalPoints)}catch(k){t(4,c="Failed to checkin"),console.error(k)}t(1,f=!1)}}function w(){i=Je(this),t(0,i),t(7,a)}const W=()=&gt;b();return l.$$.update=()=&gt;{l.$$.dirty&amp;519&amp;&amp;t(6,n=!Ee(f,s,i,r))},[i,f,r,o,c,_,n,a,b,s,w,W]}class bt extends z{constructor(e){super(),V(this,e,mt,pt,H,{})}}class ht{constructor(){this.baseURI="https://d37i1m1hx1fc5p.cloudfront.net"}async generateWalletPass(e,t){return this.sendReqeust("/wallet-pass",{method:"POST",body:JSON.stringify({platform:e,passId:t})})}async getWalletPasses(e){return this.sendReqeust(`/wallet-pass/${e}`)}async updateWalletPass(e,t,n){return this.sendReqeust("/wallet-pass",{method:"PUT",body:JSON.stringify({passId:e,donationAmount:t,charityName:n})})}async sendReqeust(e,t={}){const n=await fetch(this.baseURI+e,{...t,headers:{...t.headers,"Content-Type":"application/json"}});if(!n.ok){const o=(await n.json()).error;throw new Error(`api request failed: ${e}, error: ${o}`)}try{return await n.json()}catch{return null}}}const fe=new ht;function Fe(l){let e,t,n;return{c(){e=p("h3"),e.textContent="Ongoing transaction",t=C(),n=p("p"),n.textContent="You need to approve this transaction in your wallet"},m(o,s){d(o,e,s),d(o,t,s),d(o,n,s)},d(o){o&amp;&amp;(u(e),u(t),u(n))}}}function kt(l){let e,t=l[0]&amp;&amp;Fe();return{c(){t&amp;&amp;t.c(),e=Y()},m(n,o){t&amp;&amp;t.m(n,o),d(n,e,o)},p(n,[o]){n[0]?t||(t=Fe(),t.c(),t.m(e.parentNode,e)):t&amp;&amp;(t.d(1),t=null)},i:A,o:A,d(n){n&amp;&amp;u(e),t&amp;&amp;t.d(n)}}}function gt(l,e,t){let{show:n}=e;return l.$$set=o=&gt;{"show"in o&amp;&amp;t(0,n=o.show)},[n]}class Qe extends z{constructor(e){super(),V(this,e,gt,kt,H,{show:0})}}function Me(l,e,t){const n=l.slice();return n[16]=e[t],n}function wt(l){let e;return{c(){e=O("FAILED")},m(t,n){d(t,e,n)},p:A,i:A,o:A,d(t){t&amp;&amp;u(e)}}}function yt(l){let e,t,n,o,s,i,c,f,r,_,a;return{c(){e=p("h3"),e.textContent="Feel Gud1",t=C(),n=p("div"),o=p("span"),s=O("You have donated "),i=O(l[1]),c=O(" ETH to:"),f=C(),r=p("div"),r.innerHTML="&lt;span&gt;Save the Children&lt;/span&gt;",_=C(),a=p("div"),a.innerHTML="&lt;span&gt;View transaction&lt;/span&gt;"},m(b,w){d(b,e,w),d(b,t,w),d(b,n,w),v(n,o),v(o,s),v(o,i),v(o,c),d(b,f,w),d(b,r,w),d(b,_,w),d(b,a,w)},p(b,w){w&amp;2&amp;&amp;se(i,b[1])},i:A,o:A,d(b){b&amp;&amp;(u(e),u(t),u(n),u(f),u(r),u(_),u(a))}}}function $t(l){let e,t;return e=new Qe({props:{show:l[4]==="pending sign or txn confirmation"}}),{c(){D(e.$$.fragment)},m(n,o){G(e,n,o),t=!0},p(n,o){const s={};o&amp;16&amp;&amp;(s.show=n[4]==="pending sign or txn confirmation"),e.$set(s)},i(n){t||(I(e.$$.fragment,n),t=!0)},o(n){N(e.$$.fragment,n),t=!1},d(n){j(e,n)}}}function vt(l){let e,t=l[2]&amp;&amp;l[0]&amp;&amp;Ge(l);return{c(){t&amp;&amp;t.c(),e=Y()},m(n,o){t&amp;&amp;t.m(n,o),d(n,e,o)},p(n,o){n[2]&amp;&amp;n[0]?t?t.p(n,o):(t=Ge(n),t.c(),t.m(e.parentNode,e)):t&amp;&amp;(t.d(1),t=null)},i:A,o:A,d(n){n&amp;&amp;u(e),t&amp;&amp;t.d(n)}}}function Ge(l){let e,t,n,o,s,i,c,f,r,_,a,b,w,W,k,$,x,P,T,m,h,y,R,q,_e,re,B,me,ye,Q=pe(l[6]),M=[];for(let S=0;S&lt;Q.length;S+=1)M[S]=je(Me(l,Q,S));return{c(){e=p("h3"),e.textContent="Donate to Charity",t=C(),n=p("p"),n.textContent="Choose a Charity and an amount to donate",o=C(),s=p("p"),s.textContent="Charity",i=C(),c=p("div"),f=p("select"),r=p("option"),r.textContent="Select Charity";for(let S=0;S&lt;M.length;S+=1)M[S].c();_=C(),a=p("p"),a.textContent="Amount",b=C(),w=p("input"),W=C(),k=p("p"),k.textContent="Suggested amounts",$=C(),x=p("div"),P=p("button"),P.textContent="0.001",T=C(),m=p("button"),m.textContent="0.002",h=C(),y=p("button"),y.textContent="0.003",R=C(),q=p("button"),q.textContent="0.004",_e=C(),re=p("div"),B=p("button"),B.textContent="Confirm",g(e,"class","text-lg font-semibold mb-2"),g(n,"class","text-sm text-gray-600"),g(s,"class","text-sm text-gray-500"),r.__value="",ee(r,r.__value),r.disabled=!0,g(f,"id","charities"),g(f,"class","rounded-md border-2 border-gray-100 p-2"),l[5]===void 0&amp;&amp;ue(()=&gt;l[9].call(f)),g(a,"class","text-sm text-gray-500"),g(w,"type","text"),g(w,"placeholder","0.00"),g(w,"class","rounded-md border-2 border-gray-100 p-2"),g(k,"class","text-sm text-gray-600"),g(P,"type","button"),g(P,"class","text-purple-300 bg-purple-50 border-2 border-purple-300 rounded-2xl px-2 py-1"),g(m,"type","button"),g(m,"class","text-purple-300 bg-purple-50 border-2 border-purple-300 rounded-2xl px-2 py-1"),g(y,"type","button"),g(y,"class","text-purple-300 bg-purple-50 border-2 border-purple-300 rounded-2xl px-2 py-1"),g(q,"type","button"),g(q,"class","text-purple-300 bg-purple-50 border-2 border-purple-300 rounded-2xl px-2 py-1"),g(B,"type","button"),g(B,"class","w-full py-4 bg-blue-700 text-white rounded hover:bg-blue-800"),g(re,"class","w-full p-2")},m(S,L){d(S,e,L),d(S,t,L),d(S,n,L),d(S,o,L),d(S,s,L),d(S,i,L),d(S,c,L),v(c,f),v(f,r);for(let E=0;E&lt;M.length;E+=1)M[E]&amp;&amp;M[E].m(f,null);de(f,l[5],!0),d(S,_,L),d(S,a,L),d(S,b,L),d(S,w,L),ee(w,l[1]),d(S,W,L),d(S,k,L),d(S,$,L),d(S,x,L),v(x,P),v(x,T),v(x,m),v(x,h),v(x,y),v(x,R),v(x,q),d(S,_e,L),d(S,re,L),v(re,B),me||(ye=[F(f,"change",l[9]),F(w,"input",l[10]),F(P,"click",l[11]),F(m,"click",l[12]),F(y,"click",l[13]),F(q,"click",l[14]),F(B,"click",l[15])],me=!0)},p(S,L){if(L&amp;64){Q=pe(S[6]);let E;for(E=0;E&lt;Q.length;E+=1){const $e=Me(S,Q,E);M[E]?M[E].p($e,L):(M[E]=je($e),M[E].c(),M[E].m(f,null))}for(;E&lt;M.length;E+=1)M[E].d(1);M.length=Q.length}L&amp;96&amp;&amp;de(f,S[5]),L&amp;2&amp;&amp;w.value!==S[1]&amp;&amp;ee(w,S[1])},d(S){S&amp;&amp;(u(e),u(t),u(n),u(o),u(s),u(i),u(c),u(_),u(a),u(b),u(w),u(W),u(k),u($),u(x),u(_e),u(re)),Ue(M,S),me=!1,oe(ye)}}}function je(l){let e,t=l[16]+"",n,o;return{c(){e=p("option"),n=O(t),e.__value=o=l[16],ee(e,e.__value)},m(s,i){d(s,e,i),v(e,n)},p(s,i){i&amp;64&amp;&amp;t!==(t=s[16]+"")&amp;&amp;se(n,t),i&amp;64&amp;&amp;o!==(o=s[16])&amp;&amp;(e.__value=o,ee(e,e.__value))},d(s){s&amp;&amp;u(e)}}}function Ct(l){let e,t,n,o,s,i,c;const f=[vt,$t,yt,wt],r=[];function _(a,b){return a[4]==="initial"?0:a[4]==="pending sign or txn confirmation"?1:a[4]==="succeeded"?2:a[4]==="failed"?3:-1}return~(n=_(l))&amp;&amp;(o=r[n]=f[n](l)),i=new J({props:{show:l[3]}}),{c(){e=p("div"),t=p("div"),o&amp;&amp;o.c(),s=C(),D(i.$$.fragment),g(t,"class","flex flex-col items-center")},m(a,b){d(a,e,b),v(e,t),~n&amp;&amp;r[n].m(t,null),v(e,s),G(i,e,null),c=!0},p(a,[b]){let w=n;n=_(a),n===w?~n&amp;&amp;r[n].p(a,b):(o&amp;&amp;(ne(),N(r[w],1,1,()=&gt;{r[w]=null}),le()),~n?(o=r[n],o?o.p(a,b):(o=r[n]=f[n](a),o.c()),I(o,1),o.m(t,null)):o=null);const W={};b&amp;8&amp;&amp;(W.show=a[3]),i.$set(W)},i(a){c||(I(o),I(i.$$.fragment,a),c=!0)},o(a){N(o),N(i.$$.fragment,a),c=!1},d(a){a&amp;&amp;u(e),~n&amp;&amp;r[n].d(),j(i)}}}function xt(l,e,t){let n,o="",s,i=!0,c="initial",f="",r=[];ie.data.subscribe(async T=&gt;{if(!T.token)return;console.log(T.token);const m=T.token;t(2,s=m.ownerAddress),t(0,n=m.tokenId),console.log("xxx got charities2: %o",Object.values(m.charityList)),t(6,r=Object.values(m.charityList)),t(3,i=!1)});async function _(){const T=parseFloat(o);if(!f){console.log("xxx must enter charity");return}if(console.log("xxx using amount: %o float: %o",o,T),!T||T&lt;=0){console.log("xxx must enter amount");return}t(4,c="pending sign or txn confirmation");const m={charity:f,amount:T*Math.pow(10,18)};tokenscript.action.setProps(m),console.log("xxx post transaction with args: %o",m);const h=await tokenscript.action.executeTransaction();if(console.log("xxx donate1: %o",h),h){t(4,c="succeeded");const y=await fe.updateWalletPass(n,T*Math.pow(10,18),f);console.log("xxx PUT result: %o",y)}else t(4,c="failed");console.log("xxx state: %s",c)}function a(T){t(1,o=T.toString())}function b(){f=Je(this),t(5,f),t(6,r)}function w(){o=this.value,t(1,o)}return[n,o,s,i,c,f,r,_,a,b,w,()=&gt;a(.001),()=&gt;a(.002),()=&gt;a(.003),()=&gt;a(.004),()=&gt;_()]}class Pt extends z{constructor(e){super(),V(this,e,xt,Ct,H,{})}}function At(l){let e;return{c(){e=p("div"),e.textContent="FAILED",g(e,"class","text-red-500 font-semibold")},m(t,n){d(t,e,n)},p:A,i:A,o:A,d(t){t&amp;&amp;u(e)}}}function Tt(l){let e,t,n,o,s,i,c;return{c(){e=p("h3"),e.textContent="Feel Gud1",t=C(),n=p("div"),n.innerHTML="&lt;span&gt;You have donated 0.001 ETH to:&lt;/span&gt;",o=C(),s=p("div"),s.innerHTML="&lt;span&gt;Save the Children&lt;/span&gt;",i=C(),c=p("div"),c.innerHTML="&lt;span&gt;View transaction&lt;/span&gt;",g(e,"class","text-lg font-semibold mb-2"),g(n,"class","text-sm text-gray-600"),g(s,"class","text-lg font-semibold text-green-500"),g(c,"class","text-sm text-blue-500 underline cursor-pointer")},m(f,r){d(f,e,r),d(f,t,r),d(f,n,r),d(f,o,r),d(f,s,r),d(f,i,r),d(f,c,r)},p:A,i:A,o:A,d(f){f&amp;&amp;(u(e),u(t),u(n),u(o),u(s),u(i),u(c))}}}function St(l){let e,t;return e=new Qe({props:{show:l[3]==="pending sign or txn confirmation"}}),{c(){D(e.$$.fragment)},m(n,o){G(e,n,o),t=!0},p(n,o){const s={};o&amp;8&amp;&amp;(s.show=n[3]==="pending sign or txn confirmation"),e.$set(s)},i(n){t||(I(e.$$.fragment,n),t=!0)},o(n){N(e.$$.fragment,n),t=!1},d(n){j(e,n)}}}function Wt(l){let e,t=l[1]&amp;&amp;l[0]&amp;&amp;De(l);return{c(){t&amp;&amp;t.c(),e=Y()},m(n,o){t&amp;&amp;t.m(n,o),d(n,e,o)},p(n,o){n[1]&amp;&amp;n[0]?t?t.p(n,o):(t=De(n),t.c(),t.m(e.parentNode,e)):t&amp;&amp;(t.d(1),t=null)},i:A,o:A,d(n){n&amp;&amp;u(e),t&amp;&amp;t.d(n)}}}function De(l){let e,t,n,o,s,i,c,f,r,_,a,b,w,W;return{c(){e=p("h3"),e.textContent="Quick donate",t=C(),n=p("p"),n.textContent="You are donating",o=C(),s=p("p"),s.textContent="0.001 ETH",i=C(),c=p("p"),c.textContent="to",f=C(),r=p("p"),r.textContent="Random Charity",_=C(),a=p("div"),b=p("button"),b.textContent="Confirm",g(e,"class","text-lg font-semibold mb-2"),g(n,"class","text-sm text-gray-600"),g(s,"class","text-xl font-semibold"),g(c,"class","text-sm text-gray-600"),g(r,"class","text-lg font-semibold text-purple-300 bg-purple-50 border-2 border-purple-300 rounded-3xl p-2"),g(b,"type","button"),g(b,"class","w-full py-4 bg-blue-700 text-white rounded hover:bg-blue-800"),g(a,"class","w-full p-2")},m(k,$){d(k,e,$),d(k,t,$),d(k,n,$),d(k,o,$),d(k,s,$),d(k,i,$),d(k,c,$),d(k,f,$),d(k,r,$),d(k,_,$),d(k,a,$),v(a,b),w||(W=F(b,"click",l[5]),w=!0)},p:A,d(k){k&amp;&amp;(u(e),u(t),u(n),u(o),u(s),u(i),u(c),u(f),u(r),u(_),u(a)),w=!1,W()}}}function It(l){let e,t,n,o,s,i,c;const f=[Wt,St,Tt,At],r=[];function _(a,b){return a[3]==="initial"?0:a[3]==="pending sign or txn confirmation"?1:a[3]==="succeeded"?2:a[3]==="failed"?3:-1}return~(n=_(l))&amp;&amp;(o=r[n]=f[n](l)),i=new J({props:{show:l[2]}}),{c(){e=p("div"),t=p("div"),o&amp;&amp;o.c(),s=C(),D(i.$$.fragment),g(t,"class","flex flex-col items-center")},m(a,b){d(a,e,b),v(e,t),~n&amp;&amp;r[n].m(t,null),v(e,s),G(i,e,null),c=!0},p(a,[b]){let w=n;n=_(a),n===w?~n&amp;&amp;r[n].p(a,b):(o&amp;&amp;(ne(),N(r[w],1,1,()=&gt;{r[w]=null}),le()),~n?(o=r[n],o?o.p(a,b):(o=r[n]=f[n](a),o.c()),I(o,1),o.m(t,null)):o=null);const W={};b&amp;4&amp;&amp;(W.show=a[2]),i.$set(W)},i(a){c||(I(o),I(i.$$.fragment,a),c=!0)},o(a){N(o),N(i.$$.fragment,a),c=!1},d(a){a&amp;&amp;u(e),~n&amp;&amp;r[n].d(),j(i)}}}function Lt(l,e,t){let n,o,s=!0,i="initial";ie.data.subscribe(async r=&gt;{if(!r.token)return;console.log(r.token);const _=r.token;t(1,o=_.ownerAddress),t(0,n=_.tokenId),t(2,s=!1)});async function c(){t(3,i="pending sign or txn confirmation"),console.log("xxx before executeTransaction");const r=await tokenscript.action.executeTransaction();if(console.log("xxx donate1: %o",r),r){t(3,i="succeeded");const _=await fe.updateWalletPass(n,.001*Math.pow(10,18));console.log("xxx PUT result: %o",_)}else t(3,i="failed")}return[n,o,s,i,c,()=&gt;c()]}class Nt extends z{constructor(e){super(),V(this,e,Lt,It,H,{})}}function qe(l){let e,t,n,o,s,i,c,f,r,_,a,b,w;const W=[Et,Ot],k=[];function $(h,y){return h[4]?0:1}i=$(l),c=k[i]=W[i](l);const x=[Mt,Ft],P=[];function T(h,y){return h[5]?0:1}r=T(l),_=P[r]=x[r](l);let m=l[2].length&gt;0&amp;&amp;He(l);return{c(){e=p("h3"),e.textContent="Wallet Pass",t=C(),n=p("p"),n.textContent="Generate and install wallet pass on your phone, so that you can access your Pass easily.",o=C(),s=p("div"),c.c(),f=C(),_.c(),a=C(),m&amp;&amp;m.c(),b=Y(),g(s,"class","wallet-pass section-gap")},m(h,y){d(h,e,y),d(h,t,y),d(h,n,y),d(h,o,y),d(h,s,y),k[i].m(s,null),v(s,f),P[r].m(s,null),d(h,a,y),m&amp;&amp;m.m(h,y),d(h,b,y),w=!0},p(h,y){let R=i;i=$(h),i===R?k[i].p(h,y):(ne(),N(k[R],1,1,()=&gt;{k[R]=null}),le(),c=k[i],c?c.p(h,y):(c=k[i]=W[i](h),c.c()),I(c,1),c.m(s,f));let q=r;r=T(h),r===q?P[r].p(h,y):(ne(),N(P[q],1,1,()=&gt;{P[q]=null}),le(),_=P[r],_?_.p(h,y):(_=P[r]=x[r](h),_.c()),I(_,1),_.m(s,null)),h[2].length&gt;0?m?m.p(h,y):(m=He(h),m.c(),m.m(b.parentNode,b)):m&amp;&amp;(m.d(1),m=null)},i(h){w||(I(c),I(_),w=!0)},o(h){N(c),N(_),w=!1},d(h){h&amp;&amp;(u(e),u(t),u(n),u(o),u(s),u(a),u(b)),k[i].d(),P[r].d(),m&amp;&amp;m.d(h)}}}function Ot(l){let e,t,n,o,s,i,c;return o=new J({props:{show:l[6],size:"small"}}),{c(){e=p("div"),t=p("button"),n=O(`Generate Google Wallet Pass
+						`),D(o.$$.fragment),g(t,"class","btn btn-secondary"),t.disabled=l[6]},m(f,r){d(f,e,r),v(e,t),v(t,n),G(o,t,null),s=!0,i||(c=F(t,"click",l[8]),i=!0)},p(f,r){const _={};r&amp;64&amp;&amp;(_.show=f[6]),o.$set(_),(!s||r&amp;64)&amp;&amp;(t.disabled=f[6])},i(f){s||(I(o.$$.fragment,f),s=!0)},o(f){N(o.$$.fragment,f),s=!1},d(f){f&amp;&amp;u(e),j(o),i=!1,c()}}}function Et(l){let e,t,n;return{c(){e=p("button"),e.textContent="Install Google Wallet Pass",g(e,"class","btn btn-primary")},m(o,s){d(o,e,s),t||(n=F(e,"click",l[9]),t=!0)},p:A,i:A,o:A,d(o){o&amp;&amp;u(e),t=!1,n()}}}function Ft(l){let e,t,n,o,s,i,c;return o=new J({props:{show:l[7],size:"small"}}),{c(){e=p("div"),t=p("button"),n=O(`Generate Apple Wallet Pass
+						`),D(o.$$.fragment),g(t,"class","btn btn-secondary"),t.disabled=l[7]},m(f,r){d(f,e,r),v(e,t),v(t,n),G(o,t,null),s=!0,i||(c=F(t,"click",l[10]),i=!0)},p(f,r){const _={};r&amp;128&amp;&amp;(_.show=f[7]),o.$set(_),(!s||r&amp;128)&amp;&amp;(t.disabled=f[7])},i(f){s||(I(o.$$.fragment,f),s=!0)},o(f){N(o.$$.fragment,f),s=!1},d(f){f&amp;&amp;u(e),j(o),i=!1,c()}}}function Mt(l){let e,t,n;return{c(){e=p("button"),e.textContent="Install Apple Wallet Pass",g(e,"class","btn btn-primary")},m(o,s){d(o,e,s),t||(n=F(e,"click",l[11]),t=!0)},p:A,i:A,o:A,d(o){o&amp;&amp;u(e),t=!1,n()}}}function He(l){let e,t;return{c(){e=p("p"),t=O(l[2]),g(e,"class","error-message")},m(n,o){d(n,e,o),v(e,t)},p(n,o){o&amp;4&amp;&amp;se(t,n[2])},d(n){n&amp;&amp;u(e)}}}function Gt(l){let e,t,n,o,s=l[1]&amp;&amp;l[0]&amp;&amp;qe(l);return n=new J({props:{show:l[3]}}),{c(){e=p("div"),s&amp;&amp;s.c(),t=C(),D(n.$$.fragment)},m(i,c){d(i,e,c),s&amp;&amp;s.m(e,null),v(e,t),G(n,e,null),o=!0},p(i,[c]){i[1]&amp;&amp;i[0]?s?(s.p(i,c),c&amp;3&amp;&amp;I(s,1)):(s=qe(i),s.c(),I(s,1),s.m(e,t)):s&amp;&amp;(ne(),N(s,1,1,()=&gt;{s=null}),le());const f={};c&amp;8&amp;&amp;(f.show=i[3]),n.$set(f)},i(i){o||(I(s),I(n.$$.fragment,i),o=!0)},o(i){N(s),N(n.$$.fragment,i),o=!1},d(i){i&amp;&amp;u(e),s&amp;&amp;s.d(),j(n)}}}function jt(l,e,t){let n,o,s="",i=!0,c="",f="",r=!1,_=!1;ie.data.subscribe(async $=&gt;{if(!$.token)return;console.log($.token);const x=$.token;t(1,o=x.ownerAddress),t(0,n=x.tokenId),await a(),t(3,i=!1)});async function a($,x=0){try{const P=await fe.getWalletPasses(n);if(t(4,c=P.google),t(5,f=P.apple),$){if($==="google"&amp;&amp;c){t(6,r=!1);return}if($==="apple"&amp;&amp;f){t(7,_=!1);return}x&gt;0&amp;&amp;setTimeout(()=&gt;a($,x-1),5e3)}}catch{x&gt;0&amp;&amp;setTimeout(()=&gt;a($,x-1),5e3)}}async function b(){try{t(6,r=!0),await fe.generateWalletPass("google",n),setTimeout(()=&gt;a("google",5),5e3)}catch($){console.log($,"Failed to generate Google Wallet Pass"),t(2,s="Failed to generate Google Wallet Pass")}}function w(){window.open(c,"_blank")}async function W(){try{t(7,_=!0),await fe.generateWalletPass("apple",n),setTimeout(()=&gt;a("apple",5),5e3)}catch($){console.log($,"Failed to generate Apple Wallet Pass"),t(2,s="Failed to generate Apple Wallet Pass")}}function k(){window.open(f,"_blank")}return[n,o,s,i,c,f,r,_,b,w,W,k]}class Dt extends z{constructor(e){super(),V(this,e,jt,Gt,H,{})}}function Re(l){let e,t,n,o,s,i=l[2]&gt;=0&amp;&amp;Ve(l);return{c(){e=p("h3"),e.textContent="Vote for Charity Fund Allocation",t=C(),n=p("p"),n.textContent=`Vote on how the charity funds should be allocated. Voting weight is based on your points
+			(ERC-20 token holdings).`,o=C(),i&amp;&amp;i.c(),s=Y()},m(c,f){d(c,e,f),d(c,t,f),d(c,n,f),d(c,o,f),i&amp;&amp;i.m(c,f),d(c,s,f)},p(c,f){c[2]&gt;=0?i?i.p(c,f):(i=Ve(c),i.c(),i.m(s.parentNode,s)):i&amp;&amp;(i.d(1),i=null)},d(c){c&amp;&amp;(u(e),u(t),u(n),u(o),u(s)),i&amp;&amp;i.d(c)}}}function Ve(l){let e;function t(s,i){return s[2]&gt;=1?Ht:qt}let n=t(l),o=n(l);return{c(){o.c(),e=Y()},m(s,i){o.m(s,i),d(s,e,i)},p(s,i){n===(n=t(s))&amp;&amp;o?o.p(s,i):(o.d(1),o=n(s),o&amp;&amp;(o.c(),o.m(e.parentNode,e)))},d(s){s&amp;&amp;u(e),o.d(s)}}}function qt(l){let e;return{c(){e=p("p"),e.textContent="You don't have points yet. Checkin to get some."},m(t,n){d(t,e,n)},p:A,d(t){t&amp;&amp;u(e)}}}function Ht(l){let e,t,n,o,s,i,c,f,r;return{c(){e=p("p"),t=O("You currently have "),n=O(l[2]),o=O(" points."),s=C(),i=p("p"),c=p("button"),c.textContent="Vote here",g(c,"class","btn btn-primary")},m(_,a){d(_,e,a),v(e,t),v(e,n),v(e,o),d(_,s,a),d(_,i,a),v(i,c),f||(r=F(c,"click",Vt),f=!0)},p(_,a){a&amp;4&amp;&amp;se(n,_[2])},d(_){_&amp;&amp;(u(e),u(s),u(i)),f=!1,r()}}}function Rt(l){let e,t,n,o,s=l[0]&amp;&amp;Re(l);return n=new J({props:{show:l[1]}}),{c(){e=p("div"),s&amp;&amp;s.c(),t=C(),D(n.$$.fragment)},m(i,c){d(i,e,c),s&amp;&amp;s.m(e,null),v(e,t),G(n,e,null),o=!0},p(i,[c]){i[0]?s?s.p(i,c):(s=Re(i),s.c(),s.m(e,t)):s&amp;&amp;(s.d(1),s=null);const f={};c&amp;2&amp;&amp;(f.show=i[1]),n.$set(f)},i(i){o||(I(n.$$.fragment,i),o=!0)},o(i){N(n.$$.fragment,i),o=!1},d(i){i&amp;&amp;u(e),s&amp;&amp;s.d(),j(n)}}}function Vt(){window.open("https://testnet.snapshot.org/#/charityconnect.eth","_blank")}function zt(l,e,t){let n,o=!0,s=-1;return ie.data.subscribe(async i=&gt;{i.token&amp;&amp;(t(0,n=i.token),i.token.ownerAddress,t(2,s=i.token.points),t(1,o=!1))}),[n,o,s]}class Yt extends z{constructor(e){super(),V(this,e,zt,Rt,H,{})}}function Ut(l){let e,t,n,o,s,i;var c=l[0];function f(r,_){return{}}return c&amp;&amp;(n=xe(c,f())),{c(){e=p("div"),t=p("div"),n&amp;&amp;D(n.$$.fragment),g(t,"id","token-container")},m(r,_){d(r,e,_),v(e,t),n&amp;&amp;G(n,t,null),o=!0,s||(i=F(window,"hashchange",l[1]),s=!0)},p(r,[_]){if(_&amp;1&amp;&amp;c!==(c=r[0])){if(n){ne();const a=n;N(a.$$.fragment,1,0,()=&gt;{j(a,1)}),le()}c?(n=xe(c,f()),D(n.$$.fragment),I(n.$$.fragment,1),G(n,t,null)):n=null}},i(r){o||(n&amp;&amp;I(n.$$.fragment,r),o=!0)},o(r){n&amp;&amp;N(n.$$.fragment,r),o=!1},d(r){r&amp;&amp;u(e),n&amp;&amp;j(n),s=!1,i()}}}function Jt(l,e,t){let n,o=!1;const s={"#donateToCharity":Pt,"#quickDonate":Nt,"#checkin":bt,"#walletPass":Dt,"#vote":Yt};let i;function c(){t(0,i=s[n.level==0?"#adopt":document.location.hash]||ut)}return web3.tokens.dataChanged=async(f,r,_)=&gt;{o||(ie.setToken(r.currentInstance),n=r.currentInstance,o=!0,c())},[i,c]}class Bt extends z{constructor(e){super(),V(this,e,Jt,Ut,H,{})}}new Bt({target:document.body});
 
 
 //]]&gt;</script>
@@ -56,105 +85,180 @@ var Oe=Object.defineProperty;var Le=(t,e,n)=&gt;e in t?Oe(t,e,{enumerable:!0,con
 <style>
 					/* <![CDATA[ */
 					
-* {
-	font-family: "Rubik", sans-serif;
-	box-sizing: border-box;
-}
+/** {*/
+	/*font-family: "Rubik", sans-serif;*/
+	/*box-sizing: border-box;*/
+/*}*/
 
-body {
-    color: #0B0B0B;
-}
+/*body {*/
+    /*color: #0B0B0B;*/
+/*}*/
 
-h1 {
-	font-size: 22px;
-}
+/*h1 {*/
+	/*font-size: 22px;*/
+/*}*/
 
-h2 {
-	font-size: 20px;
-}
+/*h2 {*/
+	/*font-size: 20px;*/
+/*}*/
 
-h3 {
-	font-size: 18px;
-}
+/*h3 {*/
+	/*font-size: 18px;*/
+/*}*/
 
-h5 {
-	font-size: 16px;
-	margin-bottom: 12px;
-}
+/*h5 {*/
+	/*font-size: 16px;*/
+	/*margin-bottom: 12px;*/
+/*}*/
 
-p.light {
-	color: #545454;
-}
+/*p.light {*/
+	/*color: #545454;*/
+/*}*/
 
-.loader-modal {
-	position: absolute;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-}
+/*.loader-modal {*/
+	/*position: absolute;*/
+	/*left: 0;*/
+	/*top: 0;*/
+	/*width: 100%;*/
+	/*height: 100%;*/
+/*}*/
 
-.btn {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	border-radius: 10px;
-	height: 36px;
-	min-width: 50px;
-	background: #EEEEEE;
-	color: #0B0B0B;
-	border: none;
-	cursor: pointer;
-}
+/*.btn {*/
+	/*display: flex;*/
+	/*align-items: center;*/
+	/*gap: 6px;*/
+	/*border-radius: 10px;*/
+	/*height: 36px;*/
+	/*min-width: 50px;*/
+	/*background: #EEEEEE;*/
+	/*color: #0B0B0B;*/
+	/*border: none;*/
+	/*cursor: pointer;*/
+/*}*/
 
-.btn-primary {
-	color: #fff;
-	background: linear-gradient(234.79deg, #001AFF 37.73%, #4F95FF 118.69%), #8A9CB8;
-}
+/*.btn-primary {*/
+	/*color: #fff;*/
+	/*background: linear-gradient(234.79deg, #001AFF 37.73%, #4F95FF 118.69%), #8A9CB8;*/
+/*}*/
 
-.btn-primary:hover {
-	background: linear-gradient(214.82deg, #001AFF -21.14%, #4F95FF 89.22%);
-}
+/*.btn-primary:hover {*/
+	/*background: linear-gradient(214.82deg, #001AFF -21.14%, #4F95FF 89.22%);*/
+/*}*/
 
-.btn-primary:disabled {
-	background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), linear-gradient(234.79deg, #001AFF 37.73%, #4F95FF 118.69%) !important;
-}
+/*.btn-primary:disabled {*/
+	/*background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), linear-gradient(234.79deg, #001AFF 37.73%, #4F95FF 118.69%) !important;*/
+/*}*/
 
-/* TODO: Secondary button hover & disable states are not distinct enough */
-.btn-secondary {
-	border: 2px solid #001AFF;
-	background: #fff;
-	color: #001AFF;
-}
+/*[> TODO: Secondary button hover & disable states are not distinct enough <]*/
+/*.btn-secondary {*/
+	/*border: 2px solid #001AFF;*/
+	/*background: #fff;*/
+	/*color: #001AFF;*/
+/*}*/
 
-.btn-secondary:hover {
-	border-color: #4F95FF;
-	color: #4F95FF !important;
-}
+/*.btn-secondary:hover {*/
+	/*border-color: #4F95FF;*/
+	/*color: #4F95FF !important;*/
+/*}*/
 
-.btn-secondary:disabled {
-	border-color: #4F95FF !important;
-	color: #4F95FF !important;
-	pointer-events: auto !important;
-}
+/*.btn-secondary:disabled {*/
+	/*border-color: #4F95FF !important;*/
+	/*color: #4F95FF !important;*/
+	/*pointer-events: auto !important;*/
+/*}*/
 
-.section-gap {
-	margin-top: 20px
-}
+/*.section-gap {*/
+	/*margin-top: 20px*/
+/*}*/
 
-.wallet-pass {
-	display: flex;
-	gap: 20px;
-}
+/*.wallet-pass {*/
+	/*display: flex;*/
+	/*gap: 20px;*/
+/*}*/
 
-.error-message {
-	color: red;
-}
+/*.error-message {*/
+	/*color: red;*/
+/*}*/
 
 					/* ]]> */
 				</style></ts:viewContent>
 
-        <ts:card exclude="dummyForcePointsToLoadAlwaysFalse" name="Checkin" type="action">
+        <ts:card name="QuickDonate" origins="Token" type="action">
+			<ts:label>
+				<ts:string xml:lang="en">Quick Donate</ts:string>
+			</ts:label>
+            <ts:transaction>
+                <ethereum:transaction as="uint" contract="DonationManager" function="quickDonate">
+                    <ts:data>
+                        <ts:uint256 ref="tokenId"/>
+                    </ts:data>
+                    <ethereum:value>1005000000000000</ethereum:value>
+                </ethereum:transaction>
+            </ts:transaction>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="quickDonate" xml:lang="en">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
+		<ts:card name="DonateToCharity" origins="Token" type="action">
+			<ts:label>
+				<ts:string xml:lang="en">Donate to Charity</ts:string>
+			</ts:label>
+            <ts:transaction>
+                <ethereum:transaction as="uint" contract="DonationManager" function="donateETH">
+                    <ts:data>
+                        <ts:uint256 ref="tokenId"/>
+                        <ts:string local-ref="charity"/>
+                    </ts:data>
+                    <ethereum:value local-ref="amount"/>
+                </ethereum:transaction>
+            </ts:transaction>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="donateToCharity" xml:lang="en">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
+		<ts:card name="WalletPass" origins="Token" type="action">
+			<ts:label>
+				<ts:string xml:lang="en">Show as QR</ts:string>
+			</ts:label>
+            
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="walletPass" xml:lang="en">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
+        <ts:card name="Vote" origins="Token" type="action">
+            <ts:label>
+                <ts:string xml:lang="en">Vote for Charity Fund Allocation</ts:string>
+            </ts:label>
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="vote" xml:lang="en">
+                <ts:viewContent name="common"/>
+            </ts:view>
+		</ts:card>
+
+        <ts:card name="Leaderboard" origins="Token" type="action">
+            <ts:label>
+                <ts:string xml:lang="en">Leaderboard</ts:string>
+            </ts:label>
+            
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="vote" xml:lang="en">
+                <ts:viewContent name="common"/>
+            </ts:view>
+		</ts:card>
+
+        
+        <ts:card name="Foo" origins="Points" type="action">
+			<ts:label>
+				<ts:string xml:lang="en">Foo action</ts:string>
+			</ts:label>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="vote" xml:lang="en">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
+        
+        <ts:card exclude="dummyForcePointsToLoadAlwaysFalse" name="Checkin" origins="Token" type="action">
 			<ts:label>
 				<ts:string xml:lang="en">Checkin</ts:string>
 			</ts:label>
@@ -163,26 +267,9 @@ p.light {
 			</ts:view>
 		</ts:card>
 
-		<ts:card name="WalletPass" type="action">
-			<ts:label>
-				<ts:string xml:lang="en">Wallet Pass</ts:string>
-			</ts:label>
-			<ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="walletPass" xml:lang="en">
-				<ts:viewContent name="common"/>
-			</ts:view>
-		</ts:card>
-
-        <ts:card name="Vote" type="action">
-			<ts:label>
-				<ts:string xml:lang="en">Vote for Charity Fund Allocation</ts:string>
-			</ts:label>
-			<ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="vote" xml:lang="en">
-				<ts:viewContent name="common"/>
-			</ts:view>
-		</ts:card>
-
 	</ts:cards>
 
+    
 	<ts:attribute name="points">
 		<ts:type>
 			<ts:syntax>1.3.6.1.4.1.1466.115.121.1.27</ts:syntax>
@@ -195,6 +282,19 @@ p.light {
 				<ts:data>
 					<ts:address ref="ownerAddress"/>
 				</ts:data>
+			</ethereum:call>
+		</ts:origins>
+	</ts:attribute>
+
+	<ts:attribute name="charityList">
+		<ts:type>
+			<ts:syntax>1.3.6.1.4.1.1466.115.121.1.15</ts:syntax>
+		</ts:type>
+		<ts:label>
+			<ts:string xml:lang="en">Charity List</ts:string>
+		</ts:label>
+		<ts:origins>
+            <ethereum:call as="abi" contract="DonationManager" function="getAllCharityNames">
 			</ethereum:call>
 		</ts:origins>
 	</ts:attribute>

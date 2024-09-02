@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ts:token xmlns:ts="http://tokenscript.org/2022/09/tokenscript"
+<ts:token xmlns:ts="http://tokenscript.org/2024/01/tokenscript"
 		  xmlns:xml="http://www.w3.org/XML/1998/namespace"
-		  xsi:schemaLocation="http://tokenscript.org/2022/09/tokenscript https://www.tokenscript.org/schemas/2022-09/tokenscript.xsd"
+		  xsi:schemaLocation="http://tokenscript.org/2024/01/tokenscript https://www.tokenscript.org/schemas/2024-01/tokenscript.xsd"
 		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xmlns:ethereum="urn:ethereum:constantinople"
 		  name="charityConnect">
@@ -16,15 +16,44 @@
 		<ts:aboutUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/</ts:aboutUrl>
 		<ts:iconUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/assets/icon/cc/charity-connect-card.png</ts:iconUrl>
 	</ts:meta>
+    <!--Renaming `"Token"` to `"MembershipCard"` breaks filtering cards by origins. Don't do this without verifying cards are displayed correctly-->
 	<ts:contract interface="erc721" name="Token">
-		<ts:address network="84532">0x1C0d1dAE51B37017BB6950E48D8690B085647E63</ts:address>
+		<!--<ts:address network="84532">0x1C0d1dAE51B37017BB6950E48D8690B085647E63</ts:address>-->
+		<ts:address network="84532">0x40dc7D0B5E11Ee259314C548a238b9c909A4B721</ts:address>
 	</ts:contract>
 	<ts:contract interface="erc20" name="Points">
-		<ts:address network="84532">0xc7177825307A9717C8d79d41136a311a8Ccd65e9</ts:address>
+		<!--<ts:address network="84532">0xc7177825307A9717C8d79d41136a311a8Ccd65e9</ts:address>-->
+		<ts:address network="84532">0x6E651E97D10D330b761b1759DA88616c4764093d</ts:address>
+	</ts:contract>
+	<ts:contract name="DonationManager">
+		<ts:address network="84532">0x87Aa0A8d5E560F413Eb7C1E860EC3741Ad5cb7DD</ts:address>
+
+        <ts:abi>
+            <![CDATA[
+            [
+                {
+                    "constant": true,
+                    "inputs": [],
+                    "name": "getAllCharityNames",
+                    "outputs": [
+                        {
+                            "name": "charityNames",
+                            "type": "string[]"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                }
+            ]
+            ]]>
+        </ts:abi>
+
 	</ts:contract>
 	<ts:origins>
 		<!-- Define the contract which holds the token that the user will use -->
-		<ts:ethereum contract="Token"/>
+        <ts:ethereum contract="Token"/>
+		<ts:ethereum contract="Points"/>
 	</ts:origins>
 
     <!--Comparing with points=-1 didn't work when points is 0 so use a magic number-->
@@ -40,7 +69,82 @@
 			<ts:include type="css" src="./src/styles.css"/>
 		</ts:viewContent>
 
-        <ts:card type="action" name="Checkin" exclude="dummyForcePointsToLoadAlwaysFalse">
+        <ts:card type="action" name="QuickDonate" origins="Token">
+			<ts:label>
+				<ts:string xml:lang="en">Quick Donate</ts:string>
+			</ts:label>
+            <ts:transaction>
+                <ethereum:transaction contract="DonationManager" function="quickDonate" as="uint">
+                    <ts:data>
+                        <ts:uint256 ref="tokenId"/>
+                    </ts:data>
+                    <ethereum:value>1005000000000000</ethereum:value>
+                </ethereum:transaction>
+            </ts:transaction>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="quickDonate" uiButton="false">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
+		<ts:card type="action" name="DonateToCharity" origins="Token">
+			<ts:label>
+				<ts:string xml:lang="en">Donate to Charity</ts:string>
+			</ts:label>
+            <ts:transaction>
+                <ethereum:transaction contract="DonationManager" function="donateETH" as="uint">
+                    <ts:data>
+                        <ts:uint256 ref="tokenId"/>
+                        <ts:string local-ref="charity"/>
+                    </ts:data>
+                    <ethereum:value local-ref="amount"/>
+                </ethereum:transaction>
+            </ts:transaction>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="donateToCharity" uiButton="false">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
+		<ts:card type="action" name="WalletPass" origins="Token">
+			<ts:label>
+				<ts:string xml:lang="en">Show as QR</ts:string>
+			</ts:label>
+            <!--hhh3 showAsQR-->
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="walletPass" uiButton="false">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
+        <ts:card type="action" name="Vote" origins="Token">
+            <ts:label>
+                <ts:string xml:lang="en">Vote for Charity Fund Allocation</ts:string>
+            </ts:label>
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="vote" uiButton="false">
+                <ts:viewContent name="common"/>
+            </ts:view>
+		</ts:card>
+
+        <ts:card type="action" name="Leaderboard" origins="Token">
+            <ts:label>
+                <ts:string xml:lang="en">Leaderboard</ts:string>
+            </ts:label>
+            <!--hhh3 leaderboard-->
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="vote" uiButton="false">
+                <ts:viewContent name="common"/>
+            </ts:view>
+		</ts:card>
+
+        <!--hhh3 points for ERC-20 or what?-->
+        <ts:card type="action" name="Foo" origins="Points">
+			<ts:label>
+				<ts:string xml:lang="en">Foo action</ts:string>
+			</ts:label>
+			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="vote" uiButton="false">
+				<ts:viewContent name="common"/>
+			</ts:view>
+		</ts:card>
+
+        <!--hhh3 remove checkin, then must use the dummy to load points on another card/action -->
+        <ts:card type="action" name="Checkin" exclude="dummyForcePointsToLoadAlwaysFalse" origins="Token">
 			<ts:label>
 				<ts:string xml:lang="en">Checkin</ts:string>
 			</ts:label>
@@ -49,26 +153,9 @@
 			</ts:view>
 		</ts:card>
 
-		<ts:card type="action" name="WalletPass">
-			<ts:label>
-				<ts:string xml:lang="en">Wallet Pass</ts:string>
-			</ts:label>
-			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="walletPass" uiButton="false">
-				<ts:viewContent name="common"/>
-			</ts:view>
-		</ts:card>
-
-        <ts:card type="action" name="Vote">
-			<ts:label>
-				<ts:string xml:lang="en">Vote for Charity Fund Allocation</ts:string>
-			</ts:label>
-			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="vote" uiButton="false">
-				<ts:viewContent name="common"/>
-			</ts:view>
-		</ts:card>
-
 	</ts:cards>
 
+    <!--hhh3 clean up points-->
 	<ts:attribute name="points">
 		<ts:type>
 			<ts:syntax>1.3.6.1.4.1.1466.115.121.1.27</ts:syntax>
@@ -81,6 +168,19 @@
 				<ts:data>
 					<ts:address ref="ownerAddress"/>
 				</ts:data>
+			</ethereum:call>
+		</ts:origins>
+	</ts:attribute>
+
+	<ts:attribute name="charityList">
+		<ts:type>
+			<ts:syntax>1.3.6.1.4.1.1466.115.121.1.15</ts:syntax>
+		</ts:type>
+		<ts:label>
+			<ts:string xml:lang="en">Charity List</ts:string>
+		</ts:label>
+		<ts:origins>
+            <ethereum:call as="abi" contract="DonationManager" function="getAllCharityNames">
 			</ethereum:call>
 		</ts:origins>
 	</ts:attribute>
