@@ -1,6 +1,6 @@
-import { ethers } from "ethers";
-import { serverProvider } from "../constant";
-import { ERC20_ABI, ERC721_ABI } from "./abi";
+import { ethers } from 'ethers';
+import { DONATION_MGR_CONTRACT, serverProvider } from '../constant';
+import { DONATION_MGR_ABI, ERC20_ABI, ERC721_ABI } from './abi';
 
 export async function getDecimals(erc20: string) {
   return await new ethers.Contract(erc20, ERC20_ABI, serverProvider).decimals();
@@ -23,7 +23,7 @@ export async function getApproved(
   try {
     return await erc721Contract.isApprovedForAll(owner, dvp);
   } catch (error) {
-    console.error("isApprovedForAll failed, try getApproved function");
+    console.error('isApprovedForAll failed, try getApproved function');
 
     return (
       (await erc721Contract.getApproved(tokenId)).toLowerCase() ===
@@ -40,4 +40,13 @@ export function balanceOf(contract: string, owner: string) {
   return new ethers.Contract(contract, ERC721_ABI, serverProvider).balanceOf(
     owner
   );
+}
+
+// Only reading ETH donations as of now
+export async function totalDonations(passId: string) {
+  return new ethers.Contract(
+    DONATION_MGR_CONTRACT,
+    DONATION_MGR_ABI,
+    serverProvider
+  ).donationByCardId(passId, ethers.ZeroAddress);
 }

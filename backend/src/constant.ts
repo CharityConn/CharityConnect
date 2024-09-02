@@ -32,3 +32,6 @@ export const PASS_CONTRACT = isProd
 export const POINTS_CONTRACT = isProd
   ? ''
   : '0x6E651E97D10D330b761b1759DA88616c4764093d';
+export const DONATION_MGR_CONTRACT = isProd
+  ? ''
+  : '0x87Aa0A8d5E560F413Eb7C1E860EC3741Ad5cb7DD';

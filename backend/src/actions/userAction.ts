@@ -113,20 +113,6 @@ async function checkinHandler(
     })
     .where(eq(checkins.id, record.id));
 
-  // Update points on cc pass, it's based on the pass owner's cc token balance
-  // const walletPasses = await getPassByPassId(dbService, passId);
-  // if (walletPasses && (walletPasses.googleId || walletPasses.appleId)) {
-  //   if (walletPasses.appleId) {
-  //     const params = buildAppleUpdatePayload(passId, merchantID, existing + tokenCount);
-  //     await enqueueWalletPassUpdate(walletPasses.appleId, params);
-  //   }
-
-  //   if (walletPasses.googleId) {
-  //     const params = buildGoogleUpdatePayload(merchantID, existing + tokenCount);
-  //     await enqueueWalletPassUpdate(walletPasses.googleId, params);
-  //   }
-  // }
-
   return reply
     .status(200)
     .send({ wallet: userWallet, totalPoints: existing + tokenCount });

@@ -85,7 +85,7 @@ export function buildAppleCreatePayload(passId: string) {
           label: 'DONATIONS',
           textAlignment: 'PKTextAlignmentCenter',
           key: 'donations',
-          value: 0,
+          value: '0',
         },
       ],
       primaryFields: [
@@ -104,7 +104,7 @@ export function buildAppleCreatePayload(passId: string) {
 export function buildAppleUpdatePayload(
   passId: string,
   notificationMsg: string,
-  totalDonations?: number
+  totalDonations?: string
 ) {
   const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
 
@@ -113,7 +113,7 @@ export function buildAppleUpdatePayload(
       backFields: [
         {
           key: 'note',
-          value: 'Please refresh your pass to update your points.',
+          value: 'Please refresh your pass to update your donation amount.',
         },
         {
           key: 'website',
@@ -202,7 +202,7 @@ export function buildGoogleCreatePayload(passId: string) {
         {
           id: 'oneMiddle',
           header: 'DONATIONS',
-          body: 0,
+          body: '0',
         },
       ],
     },
@@ -211,13 +211,13 @@ export function buildGoogleCreatePayload(passId: string) {
 
 export function buildGoogleUpdatePayload(
   notificationMsg: string,
-  totalDonations: number
+  totalDonations?: string
 ) {
   const payload: any = {
     message: {
       header: 'CharityConnect',
       body: notificationMsg,
-      id: totalDonations.toString(),
+      id: `${totalDonations || 'onlyMsg'}-${Date.now()}`,
       message_type: 'TEXT_AND_NOTIFY',
     },
   };
