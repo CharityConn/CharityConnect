@@ -43,6 +43,7 @@
     "fastify-type-provider-zod": "1.1.9",
     "node-schedule": "2.1.0",
     "pg": "8.10.0",
+    "pino": "^8.5.0",
     "siwe": "^2.1.4",
     "zod": "3.22.4"
   },
