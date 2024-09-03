@@ -238,8 +238,8 @@ export class NewViewer {
   render() {
     return (
       <Host>
-        <h3>Charity Connect</h3>
-        <p>Connect your wallet.</p>
+        <p class="header-title">Dashboard</p>
+        <p class="header-subtitle">Interact with your Charity Connect Token.</p>
         <div class="toolbar">
           <wallet-button></wallet-button>
         </div>

@@ -1,34 +1,34 @@
-
 :host {
-	height: 100dvh;
+  height: 100dvh;
 }
 
 .app-container {
-	min-height: 100dvh;
-	display: flex;
-	flex-direction: column;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
-html:has(.popover-modal.open){
-	overflow: hidden;
+html:has(.popover-modal.open) {
+  overflow: hidden;
 }
 
 header {
-  background: white; /*brand color*/
-  height: 65px;
+  height: 64px;
   display: flex;
   align-items: center;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  background: linear-gradient(to right, rgba(220, 121, 255, 0.15), rgba(104, 104, 255, 0.15));
 }
 
 .header-icon {
-	height: 65px;
-	width: auto;
-	padding-left: 25px;
+  height: auto;
+  width: auto;
+  max-width: 190px;
+  padding-left: 25px;
 }
 
 header h1 {
-	margin: 5px 0 0;
+  margin: 5px 0 0;
 }
 
 h1 {
@@ -38,19 +38,19 @@ h1 {
 }
 
 main {
-	display: flex;
-	flex-direction: column;
-	flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 #ts-loader {
-	display: none;
-	position: fixed;
-	z-index: 100;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	align-items: center;
-	justify-content: center;
-	background-color: rgba(87, 87, 87, 0.67)
+  display: none;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(87, 87, 87, 0.67);
 }
