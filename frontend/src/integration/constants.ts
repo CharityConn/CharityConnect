@@ -1,3 +1,4 @@
+import { Env } from '@stencil/core';
 import { IChainConfig } from '@tokenscript/engine-js/dist/lib.esm/wallet/EthersAdapter';
 
 export interface ChainMapInterface {
@@ -1454,9 +1455,11 @@ export const CC_PASS_ABI = [
   'function approve(address, uint256) public',
 ];
 
-export const isProd = false; // TODO: inject deployment env or check window.location
+export const isProd = Env.ENVIRONMENT === 'prod';
 export const CHAIN_ID = isProd ? ChainID.BASE : ChainID.BASE_SEPOLIA;
-export const PAYMASTER_URL = isProd ? '' : 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/RIGFbLCMoypxQWq7dHnvh0hoMH3igUP_';
+export const PAYMASTER_URL = isProd
+  ? 'https://api.developer.coinbase.com/rpc/v1/base/CM2yIw1w7H2HqDhfTJeqC6abVGt1wLU7'
+  : 'https://api.developer.coinbase.com/rpc/v1/base-sepolia/RIGFbLCMoypxQWq7dHnvh0hoMH3igUP_';
 
-export const PASS_CONTRACT = isProd ? "" : "0x40dc7D0B5E11Ee259314C548a238b9c909A4B721";
-export const POINTS_CONTRACT = isProd ? "" : "0x6E651E97D10D330b761b1759DA88616c4764093d";
+export const PASS_CONTRACT = isProd ? '' : '0x40dc7D0B5E11Ee259314C548a238b9c909A4B721';
+export const POINTS_CONTRACT = isProd ? '' : '0x6E651E97D10D330b761b1759DA88616c4764093d';

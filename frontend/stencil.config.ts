@@ -19,6 +19,9 @@ export const config: Config = {
 			polyfills: false
 		},
 	],
+	env: {
+		ENVIRONMENT: process.env.ENVIRONMENT
+	},
 	nodeResolve: {
 		module: true,
 		browser: true,
