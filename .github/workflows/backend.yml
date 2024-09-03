@@ -1,0 +1,159 @@
+name: 'backend CI'
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+  pull_request:
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-west-1
+  PROJ_PATH: backend
+  ECR_REPOSITORY: charity-connect-backend
+  ECS_CLUSTER: alphawallet-ecs
+  DEPLOY_URL_PROD: https://backend.charityconnect.io
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+          package_json_file: '${{ env.PROJ_PATH }}/package.json'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+          cache-dependency-path: ${{ env.PROJ_PATH }}/pnpm-lock.yaml
+      - run: |
+          echo -n "Node version: "
+          node -v
+          echo -n "Npm version: "
+          npm -v
+      - name: build
+        run: |
+          cd "${PROJ_PATH}"
+          pnpm install
+          pnpm run build
+      - uses: actions/upload-artifact@v3
+        with:
+          name: charity-connect-backend
+          path: ${{ env.PROJ_PATH }}/dist/
+
+  docker-build:
+    runs-on: ubuntu-latest
+    if: ${{ contains(
+      fromJson('["push", "workflow_dispatch"]'),
+      github.event_name) &&
+      contains(
+      fromJson('["prod"]'),
+      github.ref_name)
+      }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: calc docker tags
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          BRANCH="${GITHUB_REF##*/}"
+          SHORT_SHA="${GITHUB_SHA:0:7}"
+          IMAGES="${ECR_REGISTRY}/${ECR_REPOSITORY}:${BRANCH}-${SHORT_SHA},${ECR_REGISTRY}/${ECR_REPOSITORY}:${BRANCH}"
+          if [ "${GITHUB_REF}" = 'refs/heads/main' ]; then
+            IMAGES="${IMAGES},${ECR_REGISTRY}/${ECR_REPOSITORY}:latest"
+          fi
+          echo "IMAGES=${IMAGES}" >> $GITHUB_ENV
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ${{ env.PROJ_PATH }}
+          platforms: linux/amd64,linux/arm64
+          pull: true
+          push: ${{ contains(
+            fromJson('["push", "workflow_dispatch"]'),
+            github.event_name) &&
+            contains(
+            fromJson('["prod"]'),
+            github.ref_name)
+            }}
+          tags: ${{ env.IMAGES }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-ecs:
+    environment:
+      name: backend-${{ github.ref_name }}
+      url: ${{ env.DEPLOY_URL_PROD }}
+    needs:
+      - build
+      - docker-build
+    runs-on: ubuntu-latest
+    if: ${{ contains(
+      fromJson('["push", "workflow_dispatch"]'),
+      github.event_name) &&
+      contains(
+      fromJson('["prod"]'),
+      github.ref_name)
+      }}
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [backend]
+    steps:
+      - name: inject env based on branch
+        run: |
+          echo "TASK_DEFINITION_FAMILY=cc-${{matrix.service}}-prod-task" >> $GITHUB_ENV
+          echo "ECS_SERVICE=cc-${{matrix.service}}-prod-svc" >> $GITHUB_ENV
+          echo "ECS_CONTAINER=cc-${{matrix.service}}-prod" >> $GITHUB_ENV
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+      - name: calc docker tags
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          BRANCH="${GITHUB_REF##*/}"
+          SHORT_SHA="${GITHUB_SHA:0:7}"
+          IMAGE="${ECR_REGISTRY}/${ECR_REPOSITORY}:${BRANCH}-${SHORT_SHA}"
+          echo "IMAGE=${IMAGE}" >> $GITHUB_ENV
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition "${TASK_DEFINITION_FAMILY}" --query taskDefinition > task-definition.json
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.ECS_CONTAINER }}
+          image: ${{ env.IMAGE }}
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
+          wait-for-minutes: 5
