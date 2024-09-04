@@ -1,35 +1,82 @@
-.section-gap {
-	margin-top: 20px
+.action-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action-section .title-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.action-section .desc {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #707070;
+}
+
+.action-section .sl-coinbase {
+  width: auto;
+  height: 16px;
+}
+
+.action-section .claim-btn {
+  min-width: 343px;
+  height: 56px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #fffefe;
+  background: #6868ff;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Ensure it covers full viewport width */
+  height: 100vh; /* Ensure it covers full viewport height */
+  backdrop-filter: blur(10px); /* Apply blur effect */
+  background: rgba(0, 0, 0, 0.5); /* Optional: semi-transparent background for better visibility */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10; /* Ensure it is above other content */
+}
+
+.loading-overlay .loading-icon {
+  width: 80px;
+  height: 80px;
 }
 
 .pass {
-	max-width: 500px;
-	position: relative;
+  max-width: 500px;
+  position: relative;
 }
 
 .pass-cover {
-	width: 100%;
-	border-radius: 12px;
-	object-fit: contain;
+  width: 100%;
+  border-radius: 12px;
+  object-fit: contain;
 }
 
 .pass-no {
-	position: absolute;
-	bottom: 20px;
-	right: 30px;
-	color: #141414; /*brand color*/
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  color: #141414; /*brand color*/
 }
 
 .pass-link {
-	text-decoration: none;
-	color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 .pass:hover {
-	opacity: 0.8;
-}
-
-.wallet-pass {
-	display: flex;
-	gap: 20px;
+  opacity: 0.8;
 }

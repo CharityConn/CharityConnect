@@ -21,16 +21,7 @@ export class PassSection {
   private tokenId: string;
 
   @State()
-  private googleLink: string;
-
-  @State()
-  private appleLink: string;
-
-  @State()
-  private creatingGooglePass = false;
-
-  @State()
-  private creatingApplePass = false;
+  private isLoading: boolean = false;
 
   @Event({
     eventName: 'showToast',
@@ -45,10 +36,12 @@ export class PassSection {
       this.walletConnection = walletConnection;
 
       if (this.walletConnection) {
+        this.isLoading = true;
         const provider = this.walletConnection.provider;
         const ccPassContract = new ethers.Contract(PASS_CONTRACT, CC_PASS_ABI, provider);
 
         this.tokenId = String(await ccPassContract.tokenOfOwnerByIndex(this.walletConnection.address, 0));
+        this.isLoading = false;
       }
     });
   }
@@ -120,17 +113,40 @@ export class PassSection {
   }
 
   render() {
-    if (!this.walletConnection) return null;
-    if (!this.tokenId)
+    if (!this.walletConnection) {
       return (
-        <button class="btn btn-primary section-gap" onClick={this.claim.bind(this)}>
-          Claim
-        </button>
+        <div class="action-section">
+          <img class="title-icon" alt="wallet icon" src="assets/images/wallet-icon.png" />
+          <p class="desc">Connect your crypto wallet to continue</p>
+          <wallet-button></wallet-button>
+          <img class="sl-coinbase" alt="smart layer & coinbase" src="assets/images/sl-coinbase.png" />
+        </div>
       );
+    }
+
+    if (!this.tokenId || this.isLoading) {
+      return (
+        <div class="action-section">
+          <img class="title-icon" alt="ticket icon" src="assets/images/ticket-icon.png" />
+          <p class="desc">Claim your free pass to continue</p>
+          <button class="btn claim-btn" onClick={this.claim.bind(this)}>
+            Claim Free Pass
+          </button>
+          <img class="sl-coinbase" alt="smart layer & coinbase" src="assets/images/sl-coinbase.png" />
+
+          {this.isLoading && (
+            <div class="loading-overlay">
+              <img class="loading-icon" alt="loading" src="assets/images/loading-icon.png" />
+            </div>
+          )}
+        </div>
+      );
+    }
 
     return (
-      <div class="section-gap">
-        <a class="pass-link" href={`/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${this.tokenId}`}>
+      <div class="">
+          <wallet-button></wallet-button>
+          <a class="pass-link" href={`/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${this.tokenId}`}>
           <div class="pass">
             <img class="pass-cover" src="assets/icon/cc/charity-connect-card.png" />
             <div class="pass-no">

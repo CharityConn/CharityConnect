@@ -250,7 +250,7 @@ export class AppRoot {
         <div class="app-container">
           <cb-toast class="toast" style={{ zIndex: '500' }}></cb-toast>
           <header class="header">
-            <img class="header-icon" alt="TokenScript icon" src="assets/icon/cc/charity-connect-banner.png"/>
+            <img class="header-icon" alt="TokenScript icon" src="assets/images/charity-connect-banner.png"/>
           </header>
 
           <main>

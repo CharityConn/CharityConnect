@@ -51,7 +51,7 @@ export class WalletButton {
 	render(){
 		return (
 			<div class="btn-container" onClick={(e) => e.stopPropagation()}>
-				<button class={"btn wallet-connect-btn " + (this.walletInfo ? 'btn-connected' : 'btn-primary')} onClick={() => {
+				<button class={"btn wallet-connect-btn" + (this.walletInfo ? 'btn-connected' : '')} onClick={() => {
 
 					if (this.walletInfo){
 						// await Web3WalletProvider.disconnectWallet();

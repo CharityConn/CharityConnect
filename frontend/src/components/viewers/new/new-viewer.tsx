@@ -43,7 +43,6 @@ export class NewViewer {
   showToast: EventEmitter<ShowToastEventArgs>;
 
   componentWillLoad() {
-    // this.init();
     this.processUrlLoad();
   }
 
@@ -238,13 +237,13 @@ export class NewViewer {
   render() {
     return (
       <Host>
-        <p class="header-title">Dashboard</p>
-        <p class="header-subtitle">Interact with your Charity Connect Token.</p>
-        <div class="toolbar">
-          <wallet-button></wallet-button>
-        </div>
-        <div>
+        <div class="container">
+          <div class="header-section">
+            <p class="header-title">Dashboard</p>
+            <p class="header-subtitle">Interact with your Charity Connect Token.</p>
+          </div>
           <pass-section></pass-section>
+          <div> </div>
         </div>
         <add-selector ref={el => (this.addDialog = el as HTMLAddSelectorElement)} onFormSubmit={this.addFormSubmit.bind(this)}></add-selector>
         <viewer-popover ref={el => (this.viewerPopover = el as HTMLViewerPopoverElement)}></viewer-popover>

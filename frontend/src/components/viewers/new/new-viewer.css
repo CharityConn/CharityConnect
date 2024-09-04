@@ -4,24 +4,23 @@ new-viewer {
   flex-grow: 1;
 }
 
-.toolbar {
+.container {
+  height: calc(100vh - 240px);
   display: flex;
-  padding: 5px 0;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: start;
-  flex-wrap: wrap;
 }
 
 .header-title {
   font-size: 32px;
   line-height: 44px;
   font-weight: 500;
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .header-subtitle {
   font-size: 18px;
   line-height: 22px;
   font-weight: 400;
-	color: #707070;
+  color: #707070;
 }
