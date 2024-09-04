@@ -13,8 +13,8 @@
 	</ts:label>
 	<ts:meta>
 		<ts:description xml:lang="en">This is your Charity Membership Card, represented as an ERC-721 NFT.</ts:description>
-		<ts:aboutUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/</ts:aboutUrl>
-		<ts:iconUrl xml:lang="en">https://d2r984ic4ow4wn.cloudfront.net/assets/icon/cc/charity-connect-card.png</ts:iconUrl>
+		<ts:aboutUrl xml:lang="en">https://d31vrfdo6b6g17.cloudfront.net/</ts:aboutUrl>
+		<ts:iconUrl xml:lang="en">https://d31vrfdo6b6g17.cloudfront.net/assets/icon/cc/charity-connect-card.png</ts:iconUrl>
 	</ts:meta>
     <!--Renaming `"Token"` to `"MembershipCard"` breaks filtering cards by origins. Don't do this without verifying cards are displayed correctly-->
 	<ts:contract interface="erc721" name="Token">
