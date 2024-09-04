@@ -240,7 +240,7 @@ export class NewViewer {
         <div class="container">
           <div class="header-section">
             <p class="header-title">Dashboard</p>
-            <p class="header-subtitle">Interact with your Charity Connect Token.</p>
+            <p class="header-subtitle">Interact with your Charity Connect Membership Card.</p>
           </div>
           <pass-section></pass-section>
           <div> </div>

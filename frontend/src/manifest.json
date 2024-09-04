@@ -4,7 +4,7 @@
   "start_url": "/",
   "display": "standalone",
   "icons": [{
-    "src": "assets/icon/cc/charity-connect-logo.png",
+    "src": "assets/images/charity-connect-logo.png",
     "sizes": "192x192",
     "type": "image/png"
   }],

@@ -144,14 +144,9 @@ export class PassSection {
     }
 
     return (
-      <div class="">
-          <a class="pass-link" href={`/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${this.tokenId}`}>
-          <div class="pass">
-            <img class="pass-cover" src="assets/icon/cc/charity-connect-card.png" />
-            <div class="pass-no">
-              No. <strong>{this.tokenId}</strong>
-            </div>
-          </div>
+      <div class="pass-section">
+        <a class="pass-link" href={`/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${this.tokenId}`}>
+          <img class="pass" src="assets/images/charity-connect-card.png" />
         </a>
       </div>
     );

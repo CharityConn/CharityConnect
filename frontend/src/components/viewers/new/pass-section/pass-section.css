@@ -54,29 +54,21 @@
   height: 80px;
 }
 
+.pass-section {
+  display: flex;
+  justify-content: center;
+}
+
+.pass-section:hover {
+  opacity: 0.8;
+}
+
 .pass {
   max-width: 500px;
-  position: relative;
-}
-
-.pass-cover {
   width: 100%;
-  border-radius: 12px;
-  object-fit: contain;
-}
-
-.pass-no {
-  position: absolute;
-  bottom: 20px;
-  right: 30px;
-  color: #141414; /*brand color*/
 }
 
 .pass-link {
   text-decoration: none;
   color: inherit;
-}
-
-.pass:hover {
-  opacity: 0.8;
 }

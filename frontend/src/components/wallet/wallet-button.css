@@ -63,9 +63,12 @@
   color: #fffefe;
 }
 
-.btn-connected:hover,
+.btn-connected:hover {
+  opacity: 0.8;
+}
+
 .btn-dropdown button:hover {
-  background: #808080;
+  background: #e0e0e0;
 }
 
 .status-dot {
