@@ -31,24 +31,29 @@ export class PassSection {
   })
   showToast: EventEmitter<ShowToastEventArgs>;
 
+  private async loadPass() {
+    if (this.walletConnection) {
+      this.isLoading = true;
+
+      const provider = this.walletConnection.provider;
+      const ccPassContract = new ethers.Contract(PASS_CONTRACT, CC_PASS_ABI, provider);
+      try {
+        this.tokenId = String(await ccPassContract.tokenOfOwnerByIndex(this.walletConnection.address, 0));
+      } catch {}
+
+      this.isLoading = false;
+    }
+  }
+
   componentWillLoad() {
     Web3WalletProvider.registerWalletChangeListener(async (walletConnection?: WalletConnection) => {
       this.walletConnection = walletConnection;
-
-      if (this.walletConnection) {
-        this.isLoading = true;
-        const provider = this.walletConnection.provider;
-        const ccPassContract = new ethers.Contract(PASS_CONTRACT, CC_PASS_ABI, provider);
-
-        this.tokenId = String(await ccPassContract.tokenOfOwnerByIndex(this.walletConnection.address, 0));
-        this.isLoading = false;
-      }
+      await this.loadPass();
     });
   }
 
   private async claim() {
     const smprovider = Web3WalletProvider.smartWalletSdk.makeWeb3Provider();
-
     try {
       const [account] = (await smprovider.request({ method: 'eth_requestAccounts' })) as any[];
 
@@ -85,6 +90,7 @@ export class PassSection {
           });
 
           if (status === 'CONFIRMED') {
+            await this.loadPass()
             this.showToast.emit({
               type: 'success',
               title: 'CharityConnect Pass claimed',
@@ -113,6 +119,7 @@ export class PassSection {
   }
 
   render() {
+    // Wallet not connected
     if (!this.walletConnection) {
       return (
         <div class="action-section">
@@ -124,12 +131,13 @@ export class PassSection {
       );
     }
 
+    // Wallet connected, but no pass or loading pass in progress
     if (!this.tokenId || this.isLoading) {
       return (
         <div class="action-section">
           <img class="title-icon" alt="ticket icon" src="assets/images/ticket-icon.png" />
           <p class="desc">Claim your free pass to continue</p>
-          <button class="btn claim-btn" onClick={this.claim.bind(this)}>
+          <button class="btn action-btn" onClick={this.claim.bind(this)}>
             Claim Free Pass
           </button>
           <img class="sl-coinbase" alt="smart layer & coinbase" src="assets/images/sl-coinbase.png" />
@@ -143,6 +151,7 @@ export class PassSection {
       );
     }
 
+    // Pass view
     return (
       <div class="pass-section">
         <a class="pass-link" href={`/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${this.tokenId}`}>

@@ -172,29 +172,6 @@ export class ViewerPopover {
             </button>
             <h3>{this.tokenScript.getLabel(2) ?? this.tokenScript.getName()}</h3>
           </div>
-          <div class="view-toolbar-buttons">
-            <share-to-tg-button></share-to-tg-button>
-            <security-status tokenScript={this.tokenScript} />
-            <div>
-              <button
-                class="btn"
-                style={{ marginRight: '5px', minWidth: '35px', fontSize: '16px' }}
-                onClick={() => {
-                  this.tokenScript
-                    .getCards()
-                    .getAllCards()
-                    .forEach(card => {
-                      card.getAttributes().invalidate();
-                    });
-                  this.tokenScript.getAttributes().invalidate();
-                  this.tokenScript.getTokenMetadata(true, true);
-                }}
-              >
-                ↻
-              </button>
-              <wallet-button></wallet-button>
-            </div>
-          </div>
         </div>
         <div class="meta-details">
           {this.tokenScript.getMetadata().description ? <p>{this.tokenScript.getMetadata().description}</p> : ''}

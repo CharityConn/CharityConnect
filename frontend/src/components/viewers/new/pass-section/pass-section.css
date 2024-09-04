@@ -25,7 +25,7 @@
   height: 16px;
 }
 
-.action-section .claim-btn {
+.action-section .action-btn {
   min-width: 343px;
   height: 56px;
   font-size: 18px;
@@ -33,6 +33,10 @@
   font-weight: 400;
   color: #fffefe;
   background: #6868ff;
+}
+
+.action-section .action-btn:hover {
+  opacity: 0.8;
 }
 
 .loading-overlay {
