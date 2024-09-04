@@ -64,7 +64,7 @@ export class PopoverDialog {
                 }
               }}
             >
-              <img alt="about" src="/assets/icon/close.svg" />
+              <img alt="close" src="/assets/icon/close.svg" />
             </button>
             <slot />
           </div>
