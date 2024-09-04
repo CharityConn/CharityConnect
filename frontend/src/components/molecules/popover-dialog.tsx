@@ -45,19 +45,6 @@ export class PopoverDialog {
     return (
       <div class={'popover-modal' + (this.open ? ' open' : '')} style={this.modalStyles}>
         <div class={'popover-container' + (this.fullScreen ? ' fullscreen ' : '') + ' ' + this.dialogClasses.join(' ')} style={this.dialogStyles}>
-          <button
-            class="close-btn"
-            disabled={this.disableClose}
-            onClick={() => {
-              this.open = false;
-              if (this.dismissCallback) {
-                this.dismissCallback();
-                this.dismissCallback = null;
-              }
-            }}
-          >
-            x
-          </button>
           {this.showShareToTg && (
             <div class="share-to-tg">
               <share-to-tg-button></share-to-tg-button>
@@ -66,6 +53,19 @@ export class PopoverDialog {
 
           <slot name="outer-content" />
           <div class="popover-inner">
+            <button
+              class="close-btn"
+              disabled={this.disableClose}
+              onClick={() => {
+                this.open = false;
+                if (this.dismissCallback) {
+                  this.dismissCallback();
+                  this.dismissCallback = null;
+                }
+              }}
+            >
+              <img alt="about" src="/assets/icon/close.svg" />
+            </button>
             <slot />
           </div>
         </div>

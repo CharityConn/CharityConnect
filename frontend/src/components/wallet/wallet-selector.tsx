@@ -55,9 +55,8 @@ export class WalletSelector {
 
   render() {
     return (
-      <popover-dialog ref={el => (this.dialog = el as HTMLPopoverDialogElement)}>
-        <h4>Select Wallet</h4>
-        <p>You need to connect your wallet to get access to your tokens.</p>
+      <popover-dialog class="wallet-selector" ref={el => (this.dialog = el as HTMLPopoverDialogElement)}>
+        <p class="popover-title">Connect Coinbase Wallet</p>
         {this.providerList.map(provider => {
           return (
             <button
@@ -68,7 +67,7 @@ export class WalletSelector {
               }}
             >
               <div class="wallet-icon" innerHTML={provider.imgBig} style={{ overflow: 'hidden' }}></div>
-              <div class="wallet-name">{provider.label}</div>
+              <div class="wallet-name">Coinbase Wallet</div>
             </button>
           );
         })}
