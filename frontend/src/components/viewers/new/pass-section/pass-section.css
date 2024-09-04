@@ -72,3 +72,15 @@
   text-decoration: none;
   color: inherit;
 }
+
+@media screen and (max-width: 480px) {
+	.action-section .desc {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .action-section .title-icon {
+    width: 56px;
+    height: 56px;
+  }
+}
