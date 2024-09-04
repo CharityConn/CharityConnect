@@ -27,7 +27,6 @@
   transform: rotate(135deg);
   vertical-align: top;
   width: 0.45em;
-  border-color: #000;
   margin: 0 10px;
 }
 
@@ -40,26 +39,33 @@
   cursor: pointer;
 }
 
-.btn-container .wallet-connect-btn {
+.btn-container .btn-connect {
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 343px;
   height: 56px;
-	font-size: 18px;
-	line-height: 18px;
-	font-weight: 400;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 400;
   color: #fffefe;
   background: #6868ff;
 }
 
-.btn-connected {
-  background: #eeeeee;
+.btn-container .btn-connected {
+  background: #6868ff;
+}
+
+.btn-container .btn-connected .wallet-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fffefe;
 }
 
 .btn-connected:hover,
 .btn-dropdown button:hover {
-  background: linear-gradient(0deg, #cecece, #cecece), #dddddd;
+  background: #808080;
 }
 
 .status-dot {

@@ -15,9 +15,14 @@ html:has(.popover-modal.open) {
 header {
   height: 64px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   background: linear-gradient(to right, rgba(220, 121, 255, 0.15), rgba(104, 104, 255, 0.15));
+}
+
+.header-actions {
+  margin-right: 10px;
 }
 
 .header-icon {

@@ -1,6 +1,6 @@
 import '../../integration/rum';
 
-import { Component, Element, Host, JSX, Listen, Method, h } from '@stencil/core';
+import { Component, Element, Host, JSX, Listen, Method, h, State } from '@stencil/core';
 import { TokenScriptEngine } from '@tokenscript/engine-js/dist/lib.esm/Engine';
 
 import { TokenScript } from '@tokenscript/engine-js/dist/lib.esm/TokenScript';
@@ -15,6 +15,7 @@ import { DiscoveryAdapter } from '../../integration/discoveryAdapter';
 import { LocalStorageAdapter } from '../../integration/localStorageAdapter';
 import { dbProvider } from '../../providers/databaseProvider';
 import { showToastNotification } from '../viewers/util/showToast';
+import { WalletConnection, Web3WalletProvider } from '../wallet/Web3WalletProvider';
 
 export type TokenScriptSource = 'resolve' | 'file' | 'url';
 
@@ -70,6 +71,9 @@ const initViewerType = (params: URLSearchParams): ViewerTypes => {
   shadow: false,
 })
 export class AppRoot {
+  @State()
+  private walletConnection: WalletConnection;
+
   walletSelector: HTMLWalletSelectorElement;
 
   discoveryAdapter: ITokenDiscoveryAdapter = new DiscoveryAdapter();
@@ -233,10 +237,13 @@ export class AppRoot {
     return showToastNotification(type, title, description);
   }
 
-  async componentDidLoad() {
-    //const queryStr = document.location.search.substring(1);
-    //const query = new URLSearchParams(queryStr);
+  componentWillLoad() {
+    Web3WalletProvider.registerWalletChangeListener(async (walletConnection?: WalletConnection) => {
+      this.walletConnection = walletConnection;
+    });
+  }
 
+  async componentDidLoad() {
     if (!this.shouldUseIframeProvider() && this.viewerType !== 'opensea') {
       const Web3WalletProvider = (await import('../wallet/Web3WalletProvider')).Web3WalletProvider;
       Web3WalletProvider.setWalletSelectorCallback(async () => this.walletSelector.connectWallet());
@@ -250,7 +257,10 @@ export class AppRoot {
         <div class="app-container">
           <cb-toast class="toast" style={{ zIndex: '500' }}></cb-toast>
           <header class="header">
-            <img class="header-icon" alt="TokenScript icon" src="assets/images/charity-connect-banner.png"/>
+            <img class="header-icon" alt="TokenScript icon" src="assets/images/charity-connect-banner.png" />
+            <div class="header-actions">
+              {this.walletConnection && <wallet-button></wallet-button>}
+            </div>
           </header>
 
           <main>
