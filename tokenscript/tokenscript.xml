@@ -71,7 +71,7 @@
 			<ts:include type="css" src="./src/styles.css"/>
 		</ts:viewContent>
 
-        <ts:card type="action" name="QuickDonate" origins="Token">
+        <ts:card type="action" name="QuickDonate" origins="Token" exclude="dummyForcePointsToLoadAlwaysFalse">
 			<ts:label>
 				<ts:string xml:lang="en">Quick Donate</ts:string>
 			</ts:label>
@@ -140,16 +140,6 @@
 				<ts:string xml:lang="en">Foo action</ts:string>
 			</ts:label>
 			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="vote" uiButton="false">
-				<ts:viewContent name="common"/>
-			</ts:view>
-		</ts:card>
-
-        <!--hhh3 remove checkin, then must use the dummy to load points on another card/action -->
-        <ts:card type="action" name="Checkin" exclude="dummyForcePointsToLoadAlwaysFalse" origins="Token">
-			<ts:label>
-				<ts:string xml:lang="en">Checkin</ts:string>
-			</ts:label>
-			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="checkin" uiButton="false">
 				<ts:viewContent name="common"/>
 			</ts:view>
 		</ts:card>

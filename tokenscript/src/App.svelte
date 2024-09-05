@@ -2,7 +2,6 @@
 	import './tailwind.css';
 	import context from './lib/context';
 	import NotFound from './routes/NotFound.svelte';
-	import Checkin from './routes/Checkin.svelte';
 	import DonateToCharity from './routes/DonateToCharity.svelte';
 	import QuickDonate from './routes/QuickDonate.svelte';
 	import WalletPass from './routes/WalletPass.svelte';
@@ -14,7 +13,6 @@
 	const routingMap = {
 		'#donateToCharity': DonateToCharity,
 		'#quickDonate': QuickDonate,
-		'#checkin': Checkin,
 		'#walletPass': WalletPass,
 		'#vote': Vote
 	};
