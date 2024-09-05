@@ -7,6 +7,7 @@
 	import { apiAdapter } from '../lib/apiAdapter';
 	import Loader from '../components/Loader.svelte';
 	import WaitApproveOrTransactionConfirmation from '../components/WaitApproveOrTransactionConfirmation.svelte';
+	import Failed from '../components/Failed.svelte';
 
 	let tokenId: string;
 	let amount: string = '';
@@ -57,7 +58,6 @@
 			);
 			console.log('xxx PUT result: %o', result);
 		} else {
-			//hhh3 failed
 			state = 'failed';
 		}
 		console.log('xxx state: %s', state);
@@ -146,8 +146,7 @@
 				<span>View transaction</span>
 			</div>
 		{:else if state === 'failed'}
-			<!--hhh3 implement failure handling-->
-			FAILED
+			<Failed retry={donate}/>
 		{/if}
 	</div>
 	<Loader show={loading} />
