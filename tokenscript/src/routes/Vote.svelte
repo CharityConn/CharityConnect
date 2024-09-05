@@ -23,25 +23,22 @@
 </script>
 
 <div>
-	{#if token}
-		<h3>Vote for Charity Fund Allocation</h3>
-		<p>
-			Vote on how the charity funds should be allocated. Voting weight is based on your points
-			(ERC-20 token holdings).
-		</p>
+	<div class="flex flex-col items-center w-full px-6">
+		{#if token}
+			<h3 class="text-xl font-semibold mt-14">Vote for Charity Fund Allocation</h3>
+			<p class="text text-gray-600 mt-3 text-center">Vote on how the charity funds should be allocated. Voting weight is based on your points (ERC-20 token holdings)</p>
 
-		{#if points >= 0}
-			{#if points >= 1}
-				<p>
-					You currently have {points} points.
-				</p>
-				<p>
-					<button class="btn btn-primary" on:click={openVote}>Vote here</button>
-				</p>
-			{:else}
-				<p>You don't have points yet. Checkin to get some.</p>
+			{#if points >= 0}
+				{#if points >= 1}
+					<p class="text text-gray-600 mt-3 text-center">You currently have {points / Math.pow(10, 18)} points.</p>
+					<div class="w-full mt-5">
+						<button type="button" on:click={openVote} class="w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl">Vote here</button>
+					</div>
+				{:else}
+					<p class="text text-gray-600 mt-3 text-center">You don't have points yet. Donate to get some.</p>
+				{/if}
 			{/if}
 		{/if}
-	{/if}
+	</div>
 	<Loader show={loading} />
 </div>
