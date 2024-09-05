@@ -48,6 +48,7 @@ export class PassSection {
   componentWillLoad() {
     Web3WalletProvider.registerWalletChangeListener(async (walletConnection?: WalletConnection) => {
       this.walletConnection = walletConnection;
+      this.tokenId = null;
       await this.loadPass();
     });
   }
