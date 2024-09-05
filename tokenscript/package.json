@@ -20,6 +20,7 @@
 		"@sveltejs/kit": "^1.20.4",
 		"@tokenscript/card-sdk": "^1.2.0",
 		"@tokenscript/cli": "^1.2.0",
+		"@types/qrcode": "^1.5.5",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"autoprefixer": "^10.4.20",
@@ -38,5 +39,8 @@
 		"vite": "^4.4.2",
 		"vite-plugin-singlefile": "^0.13.5"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"qrcode": "^1.5.4"
+	}
 }
