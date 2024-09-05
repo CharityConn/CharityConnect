@@ -14,11 +14,11 @@
 
 ### Start 
 
-`npm run start`
+`pnpm run emulate`
 
 ### Build
 
-`npm run build`
+`pnpm run build`
 
 ### Test
 
@@ -29,16 +29,9 @@ Import the output `/out/tokenscript.tsml` file into a supported platform
 - [Joy.id](https://joy.id/) 
 - [AlphaWallet](https://alphawallet.com/)
 
-### Deploy
+### Production deployment
 
-Email us at <sayhi@smarttokenlabs.com>
-
-## Docs and Resources
-
-- [Smart Token Launch Pad Docs](https://launchpad-doc.vercel.app/)
-- [Smart Token Launch Pad](https://launchpad.smartlayer.network/)
-- [Smart Token Layer](https://www.smartlayer.network/)
-- [TokenScript](https://www.tokenscript.org/)
-
-
-
+1. Manually replace frontend servers references to production's
+2. Manually replace contract addresses and chains in `tokenscript.xml`
+3. `pnpm run build` (rename the TokenScript file and only commit the TokenScript file in `frontend/src/assets/tokenscripts/`)
+4. One-time only: Make sure production contract `scriptURI` links to this correctly
