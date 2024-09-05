@@ -110,7 +110,6 @@
 			<ts:label>
 				<ts:string xml:lang="en">Show as QR</ts:string>
 			</ts:label>
-            <!--hhh3 showAsQR-->
 			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="walletPass" uiButton="false">
 				<ts:viewContent name="common"/>
 			</ts:view>
