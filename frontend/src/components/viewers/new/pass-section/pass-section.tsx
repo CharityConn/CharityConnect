@@ -145,7 +145,7 @@ export class PassSection {
 
           {this.isLoading && (
             <div class="loading-overlay">
-              <img class="loading-icon" alt="loading" src="assets/images/loading-icon.png" />
+              <img class="loading-icon" alt="loading" src="assets/images/loading-icon.gif" />
             </div>
           )}
         </div>
