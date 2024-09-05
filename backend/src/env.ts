@@ -43,7 +43,7 @@ export const env = createEnv({
       .string()
       .default("e7e74bbd-5a14-4a43-95a6-cfdf2f8eeb16"),
     CALLBACK_URL_ROOT: z.string().default("http://127.0.0.1:3006"),
-    FRONTEND_URL_ROOT: z.string().default("http://127.0.0.1:3000"),
+    FRONTEND_URL_ROOT: z.string().default("http://127.0.0.1:3333"),
     LAUNCHPAD_BACKEND_URL: z
       .string()
       .default("https://store-backend-stage.smartlayer.network"),
