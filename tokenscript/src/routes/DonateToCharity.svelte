@@ -37,13 +37,11 @@
 	async function donate() {
 		const amountFloat = parseFloat(amount);
 		if (!charityID) {
-			//hhh3 display validation errors
-			console.log('xxx must enter charity');
+			tokenscript.action.showMessageToast("error", "Can't Donate", "Select a Charity");
 			return;
 		}
 		if (!amountFloat || amountFloat <= 0) {
-			//hhh3 display validation errors
-			console.log('xxx must enter amount');
+			tokenscript.action.showMessageToast("error", "Can't Donate", "Enter an amount");
 			return;
 		}
 		state = 'pending sign or txn confirmation';
