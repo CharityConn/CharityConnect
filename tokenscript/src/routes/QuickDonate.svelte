@@ -67,7 +67,7 @@
 				<p class="ml-2">Random Charity</p>
 			</div>
 			<div class="w-full p-2 mt-5">
-				<button type="button" on:click={() => donate()} class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-x text-xl">Review</button>
+				<button type="button" on:click={() => donate()} class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl">Review</button>
 			</div>
 		{/if}
 	{:else if state === 'pending sign or txn confirmation'}
