@@ -8,10 +8,13 @@
 	import Loader from '../components/Loader.svelte';
 	import WaitApproveOrTransactionConfirmation from '../components/WaitApproveOrTransactionConfirmation.svelte';
 	import Failed from '../components/Failed.svelte';
+	import Succeeded from '../components/Succeeded.svelte';
+	import { ITransactionStatus } from '@tokenscript/card-sdk/dist/types';
 
 	let tokenId: string;
 	let amount: string = '';
 	let walletAddress: string;
+	let txnLink: string | undefined
 	let loading = true;
 	let state: 'initial' | 'pending sign or txn confirmation' | 'succeeded' | 'failed' = 'initial';
 
@@ -25,7 +28,7 @@
 		walletAddress = token.ownerAddress;
 		tokenId = token.tokenId;
 		//Convert object's "values" (like a dictionary's values) to an array. This works correctly even if it's already an array. We don't know why it's sometimes an array and sometimes an object.
-		console.log('xxx got charities2: %o', Object.values(token.charityList));
+		console.log('Charities: %o', Object.values(token.charityList));
 		charities = Object.values(token.charityList);
 
 		loading = false;
@@ -34,33 +37,35 @@
 	async function donate() {
 		const amountFloat = parseFloat(amount);
 		if (!charityID) {
+			//hhh3 display validation errors
 			console.log('xxx must enter charity');
 			return;
 		}
-		console.log('xxx using amount: %o float: %o', amount, amountFloat);
 		if (!amountFloat || amountFloat <= 0) {
+			//hhh3 display validation errors
 			console.log('xxx must enter amount');
 			return;
 		}
 		state = 'pending sign or txn confirmation';
 		const args = { charity: charityID, amount: amountFloat * Math.pow(10, 18) };
 		tokenscript.action.setProps(args);
-		console.log('xxx post transaction with args: %o', args);
-		const result = await tokenscript.action.executeTransaction();
-		console.log('xxx donate1: %o', result);
+		const listener = (foo: ITransactionStatus) => {
+			if (foo.status === 'confirmed') {
+				txnLink = foo.txLink
+			}
+		}
+		const result = await tokenscript.action.executeTransaction(undefined, listener);
 		if (result) {
-			//hhh3 successful
 			state = 'succeeded';
 			const result = await apiAdapter.updateWalletPass(
 				tokenId,
 				amountFloat * Math.pow(10, 18),
 				charityID
 			);
-			console.log('xxx PUT result: %o', result);
+			console.log('PUT wallet pass result: %o', result);
 		} else {
 			state = 'failed';
 		}
-		console.log('xxx state: %s', state);
 	}
 
 	function setWithDefaultAmount(amt: number) {
@@ -135,16 +140,9 @@
 		{:else if state === 'pending sign or txn confirmation'}
 			<WaitApproveOrTransactionConfirmation show={state === 'pending sign or txn confirmation'} />
 		{:else if state === 'succeeded'}
-			<h3>Feel Gud1</h3>
-			<div>
-				<span>You have donated {amount} ETH to:</span>
-			</div>
-			<div>
-				<span>Save the Children</span>
-			</div>
-			<div>
-				<span>View transaction</span>
-			</div>
+			{#if txnLink}
+				<Succeeded amount={amount} transactionLink={txnLink} charity={charityID}/>
+			{/if}
 		{:else if state === 'failed'}
 			<Failed retry={donate}/>
 		{/if}

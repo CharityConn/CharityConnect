@@ -8,9 +8,12 @@
 	import { apiAdapter } from '../lib/apiAdapter';
 	import WaitApproveOrTransactionConfirmation from '../components/WaitApproveOrTransactionConfirmation.svelte';
 	import Failed from '../components/Failed.svelte';
+	import Succeeded from '../components/Succeeded.svelte';
+	import { ITransactionStatus } from '@tokenscript/card-sdk/dist/types';
 
 	let tokenId: string;
 	let walletAddress: string;
+	let txnLink: string | undefined
 	let loading = true;
 	let state: 'initial' | 'pending sign or txn confirmation' | 'succeeded' | 'failed' = 'initial';
 
@@ -27,14 +30,16 @@
 
 	async function donate() {
 		state = 'pending sign or txn confirmation';
-		console.log('xxx before executeTransaction');
-		const result = await tokenscript.action.executeTransaction();
-		console.log('xxx donate1: %o', result);
+		const listener = (foo: ITransactionStatus) => {
+			if (foo.status === 'confirmed') {
+				txnLink = foo.txLink
+			}
+		}
+		const result = await tokenscript.action.executeTransaction(undefined, listener);
 		if (result) {
-			//hhh3 successful
 			state = 'succeeded';
 			const result = await apiAdapter.updateWalletPass(tokenId, 0.001 * Math.pow(10, 18));
-			console.log('xxx PUT result: %o', result);
+			console.log('PUT wallet pass result: %o', result);
 		} else {
 			state = 'failed';
 		}
@@ -68,16 +73,9 @@
 	{:else if state === 'pending sign or txn confirmation'}
 		<WaitApproveOrTransactionConfirmation show={state === 'pending sign or txn confirmation'} />
 	{:else if state === 'succeeded'}
-		<h3 class="text-lg font-semibold mb-2">Feel Gud1</h3>
-		<div class="text-sm text-gray-600">
-			<span>You have donated 0.001 ETH to:</span>
-		</div>
-		<div class="text-lg font-semibold text-green-500">
-			<span>Save the Children</span>
-		</div>
-		<div class="text-sm text-blue-500 underline cursor-pointer">
-			<span>View transaction</span>
-		</div>
+		{#if txnLink}
+			<Succeeded amount=0.001 transactionLink={txnLink} charity="Random Charity"/>
+		{/if}
 	{:else if state === 'failed'}
 		<Failed retry={donate}/>
 	{/if}
