@@ -1,13 +1,11 @@
 
 import {writable} from 'svelte/store';
 
-let messageClient = null;
-
 const data = writable({
 	token: null
 });
 
-function setToken(token){
+function setToken(token: never){
 	data.set({
 		...data,
 		token
