@@ -9,7 +9,7 @@
 	import WaitApproveOrTransactionConfirmation from '../components/WaitApproveOrTransactionConfirmation.svelte';
 	import Failed from '../components/Failed.svelte';
 	import Succeeded from '../components/Succeeded.svelte';
-	import { ITransactionStatus } from '@tokenscript/card-sdk/dist/types';
+	import type { ITransactionStatus } from '@tokenscript/card-sdk/dist/types';
 
 	let tokenId: string;
 	let walletAddress: string;
