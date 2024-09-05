@@ -1,5 +1,4 @@
-<script context="module" lang="ts">
-	import type { IWeb3LegacySDK } from '@tokenscript/card-sdk/dist/types';
+<script context="module" lang="ts"> import type { IWeb3LegacySDK } from '@tokenscript/card-sdk/dist/types';
 
 	declare let tokenscript: IWeb3LegacySDK;
 </script>
@@ -12,13 +11,17 @@
 	import Failed from '../components/Failed.svelte';
 	import Succeeded from '../components/Succeeded.svelte';
 	import type { ITransactionStatus } from '@tokenscript/card-sdk/dist/types';
+	import Confirmation from '../components/Confirmation.svelte';
+	import { computeOperationalFee } from '../lib/donation';
 
 	let tokenId: string;
 	let amount: string = '';
+	let amountFloat: number
+	let operationalFee: number
 	let walletAddress: string;
 	let txnLink: string | undefined
 	let loading = true;
-	let state: 'initial' | 'pending sign or txn confirmation' | 'succeeded' | 'failed' = 'initial';
+	let state: 'initial' | 'pending confirmation' | 'pending sign or txn confirmation' | 'succeeded' | 'failed' = 'initial';
 
 	let charityID: string = '';
 	let charities: string[] = [];
@@ -36,18 +39,32 @@
 		loading = false;
 	});
 
-	async function donate() {
-		const amountFloat = parseFloat(amount);
+	//Return null if failed
+	function validate(): { charity: string; amount: number } | null {
+		amountFloat = parseFloat(amount);
 		if (!charityID) {
 			tokenscript.action.showMessageToast("error", "Can't Donate", "Select a Charity");
-			return;
+			return null
 		}
 		if (!amountFloat || amountFloat <= 0) {
 			tokenscript.action.showMessageToast("error", "Can't Donate", "Enter an amount");
-			return;
+			return null
 		}
+		operationalFee = computeOperationalFee(amountFloat)
+		return {charity: charityID, amount: amountFloat }
+	}
+
+	async function showConfirmation() {
+		const validationResults = validate()
+		if (!validationResults) {
+			return
+		}
+		state = 'pending confirmation';
+	}
+
+	async function donate() {
 		state = 'pending sign or txn confirmation';
-		const args = { charity: charityID, amount: amountFloat * Math.pow(10, 18) };
+		const args = { charity: charityID, amount: (amountFloat+operationalFee) * Math.pow(10, 18) };
 		tokenscript.action.setProps(args);
 		const listener = (foo: ITransactionStatus) => {
 			if (foo.status === 'confirmed') {
@@ -72,13 +89,13 @@
 		amount = amt.toString();
 	}
 
-	function sleep(ms: number): Promise<void> {
-		return new Promise((resolve) => setTimeout(resolve, ms));
+	function cancelConfirmation() {
+		state = 'initial';
 	}
 </script>
 
-<div>
-	<div class="flex flex-col items-center">
+<div class="w-full">
+	<div class="flex flex-col items-center w-full">
 		{#if state === 'initial'}
 			{#if walletAddress && tokenId}
 				<h3 class="text-xl font-semibold mt-14">Donate to Charity</h3>
@@ -134,9 +151,11 @@
 					>
 				</div>
 				<div class="w-full p-3 mt-5">
-					<button type="button" on:click={() => donate()} class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl">Review</button>
+					<button type="button" on:click={showConfirmation} class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl">Review</button>
 				</div>
 			{/if}
+		{:else if state === 'pending confirmation'}
+			<Confirmation confirm={donate} close={cancelConfirmation} charity={charityID} amount={amount} operationalFee={String(operationalFee)} totalAmount={String(amountFloat + operationalFee)} />
 		{:else if state === 'pending sign or txn confirmation'}
 			<WaitApproveOrTransactionConfirmation show={state === 'pending sign or txn confirmation'} />
 		{:else if state === 'succeeded'}

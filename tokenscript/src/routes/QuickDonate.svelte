@@ -12,12 +12,18 @@
 	import Failed from '../components/Failed.svelte';
 	import Succeeded from '../components/Succeeded.svelte';
 	import type { ITransactionStatus } from '@tokenscript/card-sdk/dist/types';
+	import Confirmation from '../components/Confirmation.svelte';
+	import { computeOperationalFee } from '../lib/donation';
 
 	let tokenId: string;
 	let walletAddress: string;
 	let txnLink: string | undefined
+	//TODO use this amount for transaction. Don't hardcode in tokenscript.xml, though hardcoding in tokenscript.xml is safer, but duplicated
+	const amountFloat = 0.001;
+	const amount = String(amountFloat)
+	const operationalFee = computeOperationalFee(amountFloat)
 	let loading = true;
-	let state: 'initial' | 'pending sign or txn confirmation' | 'succeeded' | 'failed' = 'initial';
+	let state: 'initial' | 'pending confirmation' | 'pending sign or txn confirmation' | 'succeeded' | 'failed' = 'initial';
 
 	context.data.subscribe(async (value) => {
 		if (!value.token) return;
@@ -29,6 +35,10 @@
 
 		loading = false;
 	});
+
+	async function showConfirmation() {
+		state = 'pending confirmation';
+	}
 
 	async function donate() {
 		state = 'pending sign or txn confirmation';
@@ -47,8 +57,8 @@
 		}
 	}
 
-	function sleep(ms: number): Promise<void> {
-		return new Promise((resolve) => setTimeout(resolve, ms));
+	function cancelConfirmation() {
+		state = 'initial';
 	}
 </script>
 
@@ -69,9 +79,11 @@
 				<p class="ml-2">Random Charity</p>
 			</div>
 			<div class="w-full p-2 mt-5">
-				<button type="button" on:click={() => donate()} class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl">Review</button>
+				<button type="button" on:click={showConfirmation} class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl">Review</button>
 			</div>
 		{/if}
+	{:else if state === 'pending confirmation'}
+		<Confirmation confirm={donate} close={cancelConfirmation} charity="Random Charity" amount={amount} operationalFee={String(operationalFee)} totalAmount={String(amountFloat + operationalFee)} />
 	{:else if state === 'pending sign or txn confirmation'}
 		<WaitApproveOrTransactionConfirmation show={state === 'pending sign or txn confirmation'} />
 	{:else if state === 'succeeded'}
