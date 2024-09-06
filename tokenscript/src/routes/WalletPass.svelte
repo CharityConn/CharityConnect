@@ -2,6 +2,7 @@
 	import context from '../lib/context';
 	import { apiAdapter } from '../lib/apiAdapter';
 	import Loader from '../components/Loader.svelte';
+	import { isProd, passContract } from '../lib/constants';
 	import QRCode, { QRCodeToDataURLOptions } from 'qrcode';
 
 	let tokenId: string;
@@ -24,8 +25,13 @@
 		// You can load other data before hiding the loader
 
 		await fetchWalletPassLinks();
-		const blockchainTokenURL = `https://sepolia.basescan.org/nft/0x40dc7D0B5E11Ee259314C548a238b9c909A4B721/${tokenId}`
-		qrCodeDataURL = await QRCode.toDataURL(blockchainTokenURL, { width: 512, height: 512 } as QRCodeToDataURLOptions)
+		const blockchainTokenURL = isProd
+			? `https://basescan.org/nft/${passContract.address}/${tokenId}`
+			: `https://sepolia.basescan.org/nft/${passContract.address}/${tokenId}`;
+		qrCodeDataURL = await QRCode.toDataURL(blockchainTokenURL, {
+			width: 512,
+			height: 512
+		} as QRCodeToDataURLOptions);
 		loading = false;
 	});
 
