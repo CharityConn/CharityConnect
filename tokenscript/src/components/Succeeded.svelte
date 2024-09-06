@@ -83,7 +83,7 @@
 		<p class="ml-2">{charity}</p>
 	</div>
 
-	<a href={transactionLink} target="_blank" class="mt-4 flex text-gray-600"
+	<a href={transactionLink} target="_blank" class="mt-4 flex text-gray-600 hover:underline"
 		>View transaction
 		<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-1.5">
 			<path
