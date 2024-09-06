@@ -2,7 +2,7 @@
 	import context from '../lib/context';
 	import { apiAdapter } from '../lib/apiAdapter';
 	import Loader from '../components/Loader.svelte';
-	import { isProd, passContract } from '../lib/constants';
+	import { frontendHost, isProd, passContract } from '../lib/constants';
 	import QRCode, { QRCodeToDataURLOptions } from 'qrcode';
 
 	let tokenId: string;
@@ -112,7 +112,7 @@
 						on:click={installGoogleWalletPass}
 					>
 						<img
-							src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/google-wallet-pass.svg"
+							src={`${frontendHost}/assets/images/google-wallet-pass.svg`}
 							alt="Google Wallet Pass"
 						/>
 						<span class="text-indigo-500">Install Google Wallet Pass</span>
@@ -124,7 +124,7 @@
 						on:click={generateGoogleWalletPass}
 					>
 						<img
-							src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/google-wallet-pass.svg"
+							src={`${frontendHost}/assets/images/google-wallet-pass.svg`}
 							alt="Google Wallet Pass"
 						/>
 						<span class="text-indigo-500">Generate Google Wallet Pass</span>
@@ -138,7 +138,7 @@
 						on:click={installAppleWalletPass}
 					>
 						<img
-							src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/apple-wallet-pass.svg"
+							src={`${frontendHost}/assets/images/apple-wallet-pass.svg`}
 							alt="Apple Wallet Pass"
 						/>
 						<span class="text-indigo-500">Install Apple Wallet Pass</span>
@@ -150,7 +150,7 @@
 						on:click={generateAppleWalletPass}
 					>
 						<img
-							src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/apple-wallet-pass.svg"
+							src={`${frontendHost}/assets/images/apple-wallet-pass.svg`}
 							alt="Apple Wallet Pass"
 						/>
 						<span class="text-indigo-500">Generate Apple Wallet Pass</span>

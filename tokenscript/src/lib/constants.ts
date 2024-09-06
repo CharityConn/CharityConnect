@@ -10,3 +10,7 @@ export const passContract: { address: string } = isProd
 	: {
 			address: '0x40dc7D0B5E11Ee259314C548a238b9c909A4B721'
 		};
+
+export const frontendHost = isProd
+	? 'www.charityconnect.io'
+	: 'https://d31vrfdo6b6g17.cloudfront.net';
