@@ -134,16 +134,6 @@
             </ts:view>
 		</ts:card>
 
-        <!--hhh3 points for ERC-20 or what?-->
-        <ts:card type="action" name="Foo" origins="Points">
-			<ts:label>
-				<ts:string xml:lang="en">Foo action</ts:string>
-			</ts:label>
-			<ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="vote" uiButton="false">
-				<ts:viewContent name="common"/>
-			</ts:view>
-		</ts:card>
-
 	</ts:cards>
 
     <!--hhh3 clean up points-->
