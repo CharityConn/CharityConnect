@@ -13,7 +13,7 @@
 	let appleLink = '';
 	let creatingGooglePass = false;
 	let creatingApplePass = false;
-	let qrCodeDataURL: string |null = null
+	let qrCodeDataURL: string | null = null;
 
 	context.data.subscribe(async (value) => {
 		if (!value.token) return;
@@ -94,30 +94,59 @@
 			<h3 class="text-xl font-semibold mt-14">Show as QR code</h3>
 			<p class="text text-gray-600 mt-3">Scan to validate your contributions</p>
 			<img src={qrCodeDataURL} alt="QR Code" class="w-64 h-64" />
-			<p class="text text-gray-600 mt-3 mx-6 text-center">Generate and install wallet pass on your phone, so that you can access your Membership Card easily.</p>
+			<p class="text text-gray-600 mt-3 mx-6 text-center">
+				Generate and install wallet pass on your phone, so that you can access your Membership Card
+				easily.
+			</p>
 
 			<div class="flex flex-col w-full mt-6 px-3">
 				{#if googleLink}
-					<button class="rounded-lg border-2 border-indigo-300 w-full h-14 text-xl flex items-center justify-evenly" on:click={installGoogleWalletPass}>
-						<img src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/google-wallet-pass.svg" alt="Google Wallet Pass"/>
+					<button
+						class="rounded-lg border-2 border-indigo-300 w-full h-14 text-xl flex items-center justify-evenly"
+						on:click={installGoogleWalletPass}
+					>
+						<img
+							src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/google-wallet-pass.svg"
+							alt="Google Wallet Pass"
+						/>
 						<span class="text-indigo-500">Install Google Wallet Pass</span>
 					</button>
 				{:else}
-					<button class="rounded-lg border-2 border-indigo-300 w-full h-14 text-xl flex items-center justify-evenly" disabled="{creatingGooglePass}" on:click={generateGoogleWalletPass}>
-						<img src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/google-wallet-pass.svg" alt="Google Wallet Pass"/>
+					<button
+						class="rounded-lg border-2 border-indigo-300 w-full h-14 text-xl flex items-center justify-evenly"
+						disabled={creatingGooglePass}
+						on:click={generateGoogleWalletPass}
+					>
+						<img
+							src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/google-wallet-pass.svg"
+							alt="Google Wallet Pass"
+						/>
 						<span class="text-indigo-500">Generate Google Wallet Pass</span>
 						<Loader show={creatingGooglePass} size="small" />
 					</button>
 				{/if}
 
 				{#if appleLink}
-					<button class="rounded-lg border-2 border-indigo-300 w-full h-14 text-xl flex items-center justify-evenly mt-2" on:click={installAppleWalletPass}>
-						<img src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/apple-wallet-pass.svg" alt="Apple Wallet Pass"/>
+					<button
+						class="rounded-lg border-2 border-indigo-300 w-full h-14 text-xl flex items-center justify-evenly mt-2"
+						on:click={installAppleWalletPass}
+					>
+						<img
+							src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/apple-wallet-pass.svg"
+							alt="Apple Wallet Pass"
+						/>
 						<span class="text-indigo-500">Install Apple Wallet Pass</span>
 					</button>
 				{:else}
-					<button class="rounded-lg border-2 border-indigo-300 w-full h-14 text-xl flex items-center justify-evenly mt-2" disabled="{creatingApplePass}" on:click={generateAppleWalletPass}>
-						<img src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/apple-wallet-pass.svg" alt="Apple Wallet Pass"/>
+					<button
+						class="rounded-lg border-2 border-indigo-300 w-full h-14 text-xl flex items-center justify-evenly mt-2"
+						disabled={creatingApplePass}
+						on:click={generateAppleWalletPass}
+					>
+						<img
+							src="https://d31vrfdo6b6g17.cloudfront.net/assets/images/apple-wallet-pass.svg"
+							alt="Apple Wallet Pass"
+						/>
 						<span class="text-indigo-500">Generate Apple Wallet Pass</span>
 						<Loader show={creatingApplePass} size="small" />
 					</button>
