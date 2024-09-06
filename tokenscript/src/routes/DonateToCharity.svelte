@@ -15,14 +15,13 @@
 	import Confirmation from '../components/Confirmation.svelte';
 	import { computeOperationalFee } from '../lib/donation';
 	import { isProd } from '../lib/constants';
+	import BigNumber from 'bignumber.js';
 
 	let tokenId: string;
 	let amount: string = '';
 	let amountFloat: number;
 	let operationalFee: number;
 	let walletAddress: string;
-	//hhh3 Get ETH balance
-	//hhh3 fix type. BigNumber or?
 	let nativeBalance: string = '-';
 	let txnLink: string | undefined;
 	let loading = true;
@@ -50,9 +49,9 @@
 		const response = await fetch(url);
 		if (response.ok) {
 			const result = await response.json();
-			console.info('xxx result: %o', result);
-			//hhh3 BigNumber
-			nativeBalance = String((Number(result.balance) / Math.pow(10, 18)).toFixed(4));
+			nativeBalance = String(
+				new BigNumber(result.balance).dividedBy(Math.pow(10, 18)).toFixed(4, 1)
+			);
 		}
 
 		//Convert object's "values" (like a dictionary's values) to an array. This works correctly even if it's already an array. We don't know why it's sometimes an array and sometimes an object.
