@@ -7,7 +7,7 @@ const CHARITY_ICON_BASE_URL = `${env.FRONTEND_URL_ROOT}/assets/icon/charities`;
 const CHARITIES = [
   {
     name: 'BoonCharity',
-    icon: `${CHARITY_ICON_BASE_URL}/boon-charity.png`,
+    icon: `${CHARITY_ICON_BASE_URL}/animal.svg`,
   },
 ];
 
