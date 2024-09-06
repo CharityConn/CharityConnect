@@ -14,12 +14,16 @@
 	import type { ITransactionStatus } from '@tokenscript/card-sdk/dist/types';
 	import Confirmation from '../components/Confirmation.svelte';
 	import { computeOperationalFee } from '../lib/donation';
+	import { isProd } from '../lib/constants';
 
 	let tokenId: string;
 	let amount: string = '';
 	let amountFloat: number;
 	let operationalFee: number;
 	let walletAddress: string;
+	//hhh3 Get ETH balance
+	//hhh3 fix type. BigNumber or?
+	let nativeBalance: string = '-';
 	let txnLink: string | undefined;
 	let loading = true;
 	let state:
@@ -38,6 +42,19 @@
 		const token = value.token as { ownerAddress: string; tokenId: string; charityList: string[] };
 		walletAddress = token.ownerAddress;
 		tokenId = token.tokenId;
+
+		const chain = isProd ? 'base' : 'base-sepolia';
+		const host = 'https://api.token-discovery.tokenscript.org';
+		//const host = 'http://localhost:3001';
+		const url = `${host}/get-owner-native-balance?chain=${chain}&blockchain=evm&owner=${walletAddress}`;
+		const response = await fetch(url);
+		if (response.ok) {
+			const result = await response.json();
+			console.info('xxx result: %o', result);
+			//hhh3 BigNumber
+			nativeBalance = String((Number(result.balance) / Math.pow(10, 18)).toFixed(4));
+		}
+
 		//Convert object's "values" (like a dictionary's values) to an array. This works correctly even if it's already an array. We don't know why it's sometimes an array and sometimes an object.
 		console.log('Charities: %o', Object.values(token.charityList));
 		charities = Object.values(token.charityList);
@@ -152,10 +169,9 @@
 					</div>
 				</div>
 				<div class="flex justify-between w-full px-3 mt-8">
-					<!--hhh3 Get ETH balance-->
 					<span class="text-sm text-gray-600">Suggested amounts</span><span
 						class="text-sm text-indigo-500"
-						><span>Balance: </span><span class="underline">0.002 ETH</span></span
+						><span>Balance: </span><span class="underline">{nativeBalance} ETH</span></span
 					>
 				</div>
 				<div class="flex justify-evenly w-full mt-6">
