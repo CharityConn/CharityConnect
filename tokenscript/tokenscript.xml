@@ -163,17 +163,4 @@
 		</ts:origins>
 	</ts:attribute>
 
-	<ts:attribute name="charityList">
-		<ts:type>
-			<ts:syntax>1.3.6.1.4.1.1466.115.121.1.15</ts:syntax>
-		</ts:type>
-		<ts:label>
-			<ts:string xml:lang="en">Charity List</ts:string>
-		</ts:label>
-		<ts:origins>
-            <ethereum:call as="abi" contract="DonationManager" function="getAllCharityNames">
-			</ethereum:call>
-		</ts:origins>
-	</ts:attribute>
-
 </ts:token>

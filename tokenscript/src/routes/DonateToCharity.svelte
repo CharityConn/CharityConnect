@@ -16,6 +16,7 @@
 	import { computeOperationalFee } from '../lib/donation';
 	import { isProd } from '../lib/constants';
 	import BigNumber from 'bignumber.js';
+	import { backendHost } from '../lib/constants';
 
 	let tokenId: string;
 	let amount: string = '';
@@ -25,6 +26,7 @@
 	let nativeBalance: string = '-';
 	let txnLink: string | undefined;
 	let loading = true;
+	let isCharityListExpanded = false;
 	let state:
 		| 'initial'
 		| 'pending confirmation'
@@ -32,8 +34,8 @@
 		| 'succeeded'
 		| 'failed' = 'initial';
 
-	let charityID: string = '';
-	let charities: string[] = [];
+	let selectedCharity: { name: string; icon: string } | null = null;
+	let charities: { name: string; icon: string }[] = [];
 
 	context.data.subscribe(async (value) => {
 		if (!value.token) return;
@@ -54,9 +56,10 @@
 			);
 		}
 
-		//Convert object's "values" (like a dictionary's values) to an array. This works correctly even if it's already an array. We don't know why it's sometimes an array and sometimes an object.
-		console.log('Charities: %o', Object.values(token.charityList));
-		charities = Object.values(token.charityList);
+		const charityListResponse = await fetch(`${backendHost}/charities`);
+		if (charityListResponse.ok) {
+			charities = await charityListResponse.json();
+		}
 
 		loading = false;
 	});
@@ -64,7 +67,7 @@
 	//Return null if failed
 	function validate(): { charity: string; amount: number } | null {
 		amountFloat = parseFloat(amount);
-		if (!charityID) {
+		if (!selectedCharity) {
 			tokenscript.action.showMessageToast('error', "Can't Donate", 'Select a Charity');
 			return null;
 		}
@@ -73,7 +76,7 @@
 			return null;
 		}
 		operationalFee = computeOperationalFee(amountFloat);
-		return { charity: charityID, amount: amountFloat };
+		return { charity: selectedCharity.name, amount: amountFloat };
 	}
 
 	async function showConfirmation() {
@@ -85,8 +88,14 @@
 	}
 
 	async function donate() {
+		if (!selectedCharity) {
+			return;
+		}
 		state = 'pending sign or txn confirmation';
-		const args = { charity: charityID, amount: (amountFloat + operationalFee) * Math.pow(10, 18) };
+		const args = {
+			charity: selectedCharity.name,
+			amount: (amountFloat + operationalFee) * Math.pow(10, 18)
+		};
 		tokenscript.action.setProps(args);
 		const listener = (foo: ITransactionStatus) => {
 			if (foo.status === 'confirmed') {
@@ -99,7 +108,7 @@
 			const result = await apiAdapter.updateWalletPass(
 				tokenId,
 				amountFloat * Math.pow(10, 18),
-				charityID
+				selectedCharity.name
 			);
 			console.log('PUT wallet pass result: %o', result);
 		} else {
@@ -114,6 +123,11 @@
 	function cancelConfirmation() {
 		state = 'initial';
 	}
+
+	function selectCharity(charity: { name: string; icon: string }) {
+		selectedCharity = charity;
+		isCharityListExpanded = false;
+	}
 </script>
 
 <div class="w-full">
@@ -124,16 +138,86 @@
 				<p class="text text-gray-600 mt-3">Choose a Charity and an amount to donate</p>
 				<p class="text-sm text-gray-500 mt-6 w-full ml-6">Charity</p>
 				<div class="w-full mt-1 px-3">
-					<select
-						id="charities"
-						bind:value={charityID}
-						class="rounded-lg border-2 border-gray-100 w-full bg-white h-14"
-					>
-						<option value="" disabled>Select Charity</option>
-						{#each charities as charity}
-							<option value={charity}>{charity}</option>
-						{/each}
-					</select>
+					<div class="relative">
+						<button
+							class="w-full h-14 border py-2 px-4 rounded-md flex items-center justify-between"
+							on:click={() => (isCharityListExpanded = !isCharityListExpanded)}
+						>
+							{#if selectedCharity}
+								<img src={selectedCharity.icon} alt={selectedCharity.name} class="w-6 h-6 mr-2" />
+								<span class="flex-grow text-left">{selectedCharity.name}</span>
+							{:else}
+								<span class="flex-grow text-left">Select Charity</span>
+							{/if}
+							{#if isCharityListExpanded}
+								<svg
+									width="20"
+									height="20"
+									viewBox="0 0 20 20"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M15.625 12.8125L10 7.1875L4.375 12.8125"
+										stroke="#707070"
+										stroke-width="1.875"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							{:else}
+								<svg
+									width="20"
+									height="20"
+									viewBox="0 0 20 20"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<path
+										d="M4.375 7.1875L10 12.8125L15.625 7.1875"
+										stroke="#8E8E8E"
+										stroke-width="1.875"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									/>
+								</svg>
+							{/if}
+						</button>
+						{#if isCharityListExpanded}
+							<ul
+								class="absolute w-full mt-2 px-2 border shadow-md rounded-md z-10 bg-white max-h-60 overflow-y-auto"
+							>
+								{#each charities as option}
+									<button
+										class="w-full h-11 py-2 cursor-pointer"
+										on:click={() => selectCharity(option)}
+									>
+										<span class="w-full px-2 py-2 flex items-center rounded-lg hover:bg-indigo-100">
+											<img src={option.icon} alt={option.name} class="w-6 h-6" />
+											<span class="flex-grow text-left ml-2">{option.name}</span>
+											{#if option.name === selectedCharity?.name}
+												<svg
+													width="19"
+													height="20"
+													viewBox="0 0 19 20"
+													fill="none"
+													xmlns="http://www.w3.org/2000/svg"
+												>
+													<path
+														d="M15.4375 5.25L7.125 14.75L3.5625 11.1875"
+														stroke="#6868FF"
+														stroke-width="1.1875"
+														stroke-linecap="round"
+														stroke-linejoin="round"
+													/>
+												</svg>
+											{/if}
+										</span>
+									</button>
+								{/each}
+							</ul>
+						{/if}
+					</div>
 				</div>
 				<p class="text-sm text-gray-500 mt-8 w-full ml-6">Amount</p>
 				<div class="w-full mt-1 px-3">
@@ -204,11 +288,12 @@
 					>
 				</div>
 			{/if}
-		{:else if state === 'pending confirmation'}
+		{:else if state === 'pending confirmation' && selectedCharity}
 			<Confirmation
 				confirm={donate}
 				close={cancelConfirmation}
-				charity={charityID}
+				charityName={selectedCharity.name}
+				charityIcon={selectedCharity.icon}
 				{amount}
 				operationalFee={String(operationalFee)}
 				totalAmount={String(amountFloat + operationalFee)}
@@ -217,7 +302,12 @@
 			<WaitApproveOrTransactionConfirmation show={state === 'pending sign or txn confirmation'} />
 		{:else if state === 'succeeded'}
 			{#if txnLink}
-				<Succeeded {amount} transactionLink={txnLink} charity={charityID} />
+				<Succeeded
+					{amount}
+					transactionLink={txnLink}
+					charityName={selectedCharity?.name ?? ''}
+					charityIcon={selectedCharity?.icon}
+				/>
 			{/if}
 		{:else if state === 'failed'}
 			<Failed retry={donate} />

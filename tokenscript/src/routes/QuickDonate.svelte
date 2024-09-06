@@ -116,7 +116,7 @@
 			<Confirmation
 				confirm={donate}
 				close={cancelConfirmation}
-				charity="Random Charity"
+				charityName="Random Charity"
 				{amount}
 				operationalFee={String(operationalFee)}
 				totalAmount={String(amountFloat + operationalFee)}
@@ -125,7 +125,7 @@
 			<WaitApproveOrTransactionConfirmation show={state === 'pending sign or txn confirmation'} />
 		{:else if state === 'succeeded'}
 			{#if txnLink}
-				<Succeeded amount="0.001" transactionLink={txnLink} charity="Random Charity" />
+				<Succeeded amount="0.001" transactionLink={txnLink} charityName="Random Charity" />
 			{/if}
 		{:else if state === 'failed'}
 			<Failed retry={donate} />
