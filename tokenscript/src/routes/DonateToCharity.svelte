@@ -145,9 +145,9 @@
 						>
 							{#if selectedCharity}
 								<img src={selectedCharity.icon} alt={selectedCharity.name} class="w-6 h-6 mr-2" />
-								<span class="flex-grow text-left">{selectedCharity.name}</span>
+								<span class="flex-grow text-left text-ccBlack">{selectedCharity.name}</span>
 							{:else}
-								<span class="flex-grow text-left">Select Charity</span>
+								<span class="flex-grow text-left text-ccBlack">Select Charity</span>
 							{/if}
 							{#if isCharityListExpanded}
 								<svg
