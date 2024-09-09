@@ -27,7 +27,7 @@ Charity Connect is a tapp which gives consumers the ability to donate and influe
 (Show USD$ Donated in next version)
 ![image](https://github.com/user-attachments/assets/d22c14ff-fabe-48b3-826e-bcc8d0ecb997)
 
-### 2. CHARITYeet (ERC20 tapp)
+### 2. CHARITYeet (ERC20 tapp) token symbol is CHTY.
 - Earned through donations, redeemable for rewards or further donations
 - Implement as an ERC20 token with ERC5169 to have tapp functionality
 - Mint to the current Membership Card holder
