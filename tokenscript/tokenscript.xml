@@ -130,15 +130,15 @@
             </ts:view>
 		</ts:card>
 
-        <ts:card type="action" name="Leaderboard" origins="Token">
-            <ts:label>
-                <ts:string xml:lang="en">Leaderboard</ts:string>
-            </ts:label>
-            <!--hhh3 leaderboard-->
-            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="vote" uiButton="false">
-                <ts:viewContent name="common"/>
-            </ts:view>
-		</ts:card>
+		<!--hhh3 leaderboard-->
+<!--        <ts:card type="action" name="Leaderboard" origins="Token">-->
+<!--            <ts:label>-->
+<!--                <ts:string xml:lang="en">Leaderboard</ts:string>-->
+<!--            </ts:label>-->
+<!--            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="vote" uiButton="false">-->
+<!--                <ts:viewContent name="common"/>-->
+<!--            </ts:view>-->
+<!--		</ts:card>-->
 
 	</ts:cards>
 
