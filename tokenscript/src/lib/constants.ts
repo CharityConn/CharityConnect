@@ -1,5 +1,4 @@
-//hhh3 figure out how to set this
-//hhh3 use this
+//This is meant to be manually toggled to true for production build (and not committed), for now
 export const isProd = false;
 
 //TODO pass contract address for prod

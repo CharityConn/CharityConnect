@@ -130,7 +130,7 @@
             </ts:view>
 		</ts:card>
 
-		<!--hhh3 leaderboard-->
+		<!-- TODO leaderboard-->
 <!--        <ts:card type="action" name="Leaderboard" origins="Token">-->
 <!--            <ts:label>-->
 <!--                <ts:string xml:lang="en">Leaderboard</ts:string>-->
