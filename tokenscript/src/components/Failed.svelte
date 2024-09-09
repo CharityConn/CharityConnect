@@ -17,6 +17,7 @@
 	<h3 class="text-xl font-semibold mt-4">Something went wrong</h3>
 	<p class="text text-gray-600 mt-3 mx-6 text-center">Please, try again.</p>
 	<div class="w-full p-3 mt-5">
-		<button type="button" on:click={retry} class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl">Try Again</button>
+		<button type="button" on:click={retry} class="w-full py-4 bg-ccPurple-dark hover:bg-indigo-700 text-white rounded-xl text-xl">Try Again</button>
+
 	</div>
 </div>

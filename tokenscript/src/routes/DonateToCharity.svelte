@@ -221,7 +221,7 @@
 				</div>
 				<p class="text-sm text-gray-500 mt-8 w-full ml-6">Amount</p>
 				<div class="w-full mt-1 px-3">
-					<div class="flex items-center rounded-lg border-2 border-gray-100">
+					<div class="flex items-center rounded-lg border border-gray-100">
 						<input
 							type="text"
 							bind:value={amount}
@@ -253,29 +253,29 @@
 				</div>
 				<div class="flex justify-between w-full px-3 mt-8">
 					<span class="text-sm text-gray-600">Suggested amounts</span><span
-						class="text-sm text-indigo-500"
+						class="text-sm text-ccPurple-dark"
 						><span>Balance: </span><span class="underline">{nativeBalance} ETH</span></span
 					>
 				</div>
 				<div class="flex justify-evenly w-full mt-6">
 					<button
 						type="button"
-						class="text-indigo-300 border-2 border-indigo-300 rounded-3xl px-5 py-2"
+						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2"
 						on:click={() => setWithDefaultAmount(0.001)}>0.001</button
 					>
 					<button
 						type="button"
-						class="text-indigo-300 border-2 border-indigo-300 rounded-3xl px-5 py-2"
+						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2"
 						on:click={() => setWithDefaultAmount(0.002)}>0.002</button
 					>
 					<button
 						type="button"
-						class="text-indigo-300 border-2 border-indigo-300 rounded-3xl px-5 py-2"
+						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2"
 						on:click={() => setWithDefaultAmount(0.003)}>0.003</button
 					>
 					<button
 						type="button"
-						class="text-indigo-300 border-2 border-indigo-300 rounded-3xl px-5 py-2"
+						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2"
 						on:click={() => setWithDefaultAmount(0.004)}>0.004</button
 					>
 				</div>
@@ -283,7 +283,7 @@
 					<button
 						type="button"
 						on:click={showConfirmation}
-						class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl"
+						class="w-full py-4 bg-ccPurple-dark hover:bg-indigo-700 text-white rounded-xl text-xl"
 						>Review</button
 					>
 				</div>

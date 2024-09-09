@@ -32,7 +32,7 @@
 				{#if points >= 1}
 					<p class="text text-gray-600 mt-3 text-center">You currently have {points / Math.pow(10, 18)} points.</p>
 					<div class="w-full mt-5">
-						<button type="button" on:click={openVote} class="w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl">Vote here</button>
+						<button type="button" on:click={openVote} class="w-full py-4 bg-ccPurple-dark hover:bg-indigo-700 text-white rounded-xl text-xl">Vote here</button>
 					</div>
 				{:else}
 					<p class="text text-gray-600 mt-3 text-center">You don't have points yet. Donate to get some.</p>

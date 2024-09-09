@@ -76,7 +76,7 @@
 				<p class="text-2xl mt-4">0.001 ETH</p>
 				<p class="text text-gray-600 mt-4">to</p>
 				<div
-					class="flex items-center text text-purple-400 bg-purple-100 border-2 border-purple-200 rounded-3xl px-6 py-1 mt-4"
+					class="flex items-center text text-ccPink-dark bg-ccPink-light border border-ccPink-border rounded-3xl px-6 py-1 mt-4"
 				>
 					<svg
 						width="20"
@@ -107,8 +107,8 @@
 					<button
 						type="button"
 						on:click={showConfirmation}
-						class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl"
-						>Review</button
+						class="w-full py-4 bg-ccPurple-dark hover:bg-indigo-700 text-white rounded-xl text-xl"
+					>Review</button
 					>
 				</div>
 			{/if}

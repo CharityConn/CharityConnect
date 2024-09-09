@@ -31,7 +31,7 @@
 		<p class="text text-gray-600 mt-3">Review and confirm your transaction</p>
 		<p class="text text-gray-600 mt-5">Recipient</p>
 		<div
-			class="flex items-center text text-purple-400 bg-purple-100 border-2 border-purple-200 rounded-3xl px-6 py-1 mt-2"
+			class="flex items-center text text-ccPink-dark bg-ccPink-light border border-ccPink-border rounded-3xl px-6 py-1 mt-4"
 		>
 			{#if charityIcon}
 				<img src={charityIcon} alt="Charity Icon" class="w-6 h-6" />
@@ -71,7 +71,7 @@
 			<button
 				type="button"
 				on:click={confirm}
-				class=" w-full py-4 bg-indigo-500 hover:bg-indigo-700 text-white rounded-xl text-xl"
+				class="w-full py-4 bg-ccPurple-dark hover:bg-indigo-700 text-white rounded-xl text-xl"
 				>Confirm</button
 			>
 		</div>
