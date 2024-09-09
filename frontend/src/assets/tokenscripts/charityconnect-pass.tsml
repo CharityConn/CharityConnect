@@ -262,7 +262,6 @@ Minimum version required to store current data is: `+o+`.
 
 	</ts:cards>
 
-    
 	<ts:attribute name="points">
 		<ts:type>
 			<ts:syntax>1.3.6.1.4.1.1466.115.121.1.27</ts:syntax>
