@@ -1,7 +1,7 @@
 import { Component, Method, Prop, State, h } from '@stencil/core';
 import { TokenScript } from '@tokenscript/engine-js/dist/lib.esm/TokenScript';
-import { getHardcodedDescription } from '../../viewers/util/getHardcodedDescription';
 import { TokenGridContext } from '../../viewers/util/getTokensFlat';
+import { ethers } from 'ethers';
 
 @Component({
   tag: 'token-info-popover',
@@ -15,10 +15,7 @@ export class TokenInfoPopover {
   private token: TokenGridContext;
 
   @State()
-  private tsAttributes: { label: string; value: string }[] = [];
-
-  @State()
-  description: string = '';
+  private tsAttributes: Record<string, bigint> = {};
 
   @Prop()
   tokenScript: TokenScript;
@@ -30,19 +27,12 @@ export class TokenInfoPopover {
     const [contract, index] = this.token.contextId.split('-');
     this.tokenScript.setCurrentTokenContext(contract, index ? parseInt(index) : null);
 
-    const newAttributes: { label: string; value: string }[] = [];
-
+    const newAttributes = {};
     for (const attribute of this.tokenScript.getAttributes()) {
       const value = await attribute.getCurrentValue();
-      if (value !== undefined)
-        newAttributes.push({
-          label: attribute.getLabel(),
-          value,
-        });
+      if (value !== undefined) newAttributes[attribute.getLabel()] = value;
     }
-
     this.tsAttributes = newAttributes;
-    this.description = 'attributes' in this.token ? await getHardcodedDescription(this.tokenScript, this.token) : this.token.description;
 
     await this.dialog.openDialog();
   }
@@ -56,72 +46,24 @@ export class TokenInfoPopover {
     return (
       <popover-dialog ref={el => (this.dialog = el as HTMLPopoverDialogElement)} dialogClasses={['ts-token-container']}>
         {this.token ? (
-          <div>
-            <h4>{this.token.name}</h4>
-            <p innerHTML={this.description !== this.token.name ? this.description.replace(/\n/g, '<br/>') : ''}></p>
-            {'attributes' in this.token && this.token.attributes.length ? (
-              <div class="attribute-container">
-                {this.token.attributes.map(attr => {
-                  let value = attr.value;
-
-                  switch (attr.display_type) {
-                    case 'date':
-                      const date = new Date(parseInt(value) * 1000);
-                      value = date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
-                      break;
-                  }
-
-                  return (
-                    <div class="attribute-item">
-                      <h5>{attr.trait_type}</h5>
-                      <span title={value}>{value}</span>
-                    </div>
-                  );
-                })}
+          <div class="token-info-container">
+            <div class="token-info-header">
+              <p class="token-info-title">Charity Card #{this.tsAttributes['Card ID']}</p>
+              <p class="token-info-subtitle">This is your Charity Connect Membership Card.</p>
+            </div>
+            <div class="token-info-attributes">
+              <div class="token-info-attribute">
+                <p class="label">Charity Balance</p>
+                <p class="value">$CHTY {Number(ethers.formatEther(this.tsAttributes['Charity Balance'])).toFixed(6)}</p>
               </div>
-            ) : (
-              ''
-            )}
-            {this.tsAttributes.length ? (
-              <div>
-                <h4>TokenScript Attributes</h4>
-                <div class="attribute-container">
-                  {this.tsAttributes
-                    .filter(({ label, value }) => label && typeof value !== 'object')
-                    .map(({ label, value }) => {
-                      return (
-                        <div class="attribute-item">
-                          <h5>{label}</h5>
-                          <span title={value.toString()}>{value.toString()}</span>
-                        </div>
-                      );
-                    })}
-                </div>
-                {/*<table class="token-info-attributes">
-								<thead>
-								<tr>
-									<th>Attribute</th>
-									<th>Value</th>
-								</tr>
-								</thead>
-								<tbody>
-								{
-									this.tsAttributes.map(({label, value}) => {
-
-										return (
-											<tr>
-												<td>{label}</td>
-												<td>{value.toString()}</td>
-											</tr>
-										)
-									})
-								}
-								</tbody>
-							</table>*/}
+              <div class="token-info-attribute">
+                <p class="label">Donated</p>
+                <p class="value">{Number(ethers.formatEther(this.tsAttributes['Donated'])).toFixed(6)} ETH</p>
               </div>
-            ) : (
-              ''
-            )}
+            </div>
+            <button class="btn action-btn" onClick={() => this.closeDialog()}>
+              Ok
+            </button>
           </div>
         ) : (
           ''

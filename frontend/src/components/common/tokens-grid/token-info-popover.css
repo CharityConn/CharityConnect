@@ -1,46 +1,87 @@
-
-.attribute-container {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-	grid-gap: 10px;
+.token-info-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
 }
 
-.attribute-item {
-	border: 2px solid #001AFF;
-	border-radius: 5px;
-	min-height: 80px;
-	padding: 5px;
-	overflow: hidden;
+.token-info-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-.attribute-item h5 {
-	margin: 2px 0 5px;
+.token-info-header .token-info-title {
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 600;
+  color: #2d2d2d;
 }
 
-.attribute-item span {
-	display: block;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	font-size: 14px;
+.token-info-header .token-info-subtitle {
+  margin: 0;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #707070;
 }
-
-/*
-Old attribute table
 
 .token-info-attributes {
-	border-collapse: collapse;
-	width: 100%;
-	border: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 15px;
 }
 
-.token-info-attributes th, td {
-	text-align: left;
-	padding: 8px;
+.token-info-attributes .token-info-attribute {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 10px;
+  background: linear-gradient(to right, rgba(220, 121, 255, 0.15), rgba(104, 104, 255, 0.15));
 }
 
-.token-info-attributes tr:nth-child(even){background-color: #f2f2f2}
+.token-info-attribute .label {
+  margin: 16px 0;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+  color: #dc79ff;
+}
 
-.token-info-attributes th {
-	background-color: #4383FF;
-	color: white;
-}*/
+.token-info-attribute .value {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 22px;
+  color: #dc79ff;
+}
+
+.token-info-container .action-btn {
+  min-width: 343px;
+  height: 56px;
+  font-size: 18px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #fffefe;
+  background: #6868ff;
+}
+
+.token-info-container .action-btn:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 480px) {
+  .token-info-header .token-info-subtitle {
+    max-width: 279px;
+  }
+}
