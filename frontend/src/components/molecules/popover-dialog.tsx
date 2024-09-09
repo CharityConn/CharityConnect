@@ -56,6 +56,7 @@ export class PopoverDialog {
             <button
               class="close-btn"
               disabled={this.disableClose}
+			  style={{"margin-right": "20px", "margin-top": "20px"}}
               onClick={() => {
                 this.open = false;
                 if (this.dismissCallback) {
