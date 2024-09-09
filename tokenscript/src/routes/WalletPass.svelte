@@ -108,44 +108,46 @@
 			<div class="flex flex-col w-full mt-6 px-3">
 				{#if googleLink}
 					<button
-						class="rounded-lg border border-ccPurple-dark w-full h-14 text-xl flex items-center justify-evenly"
+						class="rounded-lg border border-ccPurple-dark w-full h-14 text-xl flex items-center justify-evenly hover:bg-ccPurple-dark text-ccPurple-dark hover:text-white"
 						on:click={installGoogleWalletPass}
 					>
 						<img
 							src={`${frontendHost}/assets/images/google-wallet-pass.svg`}
 							alt="Google Wallet Pass"
+							class="pl-1"
 						/>
-						<span class="text-ccPurple-dark">Install Google Wallet Pass</span>
+						<span>Install Google Wallet Pass</span>
 					</button>
 				{:else}
 					<button
-						class="rounded-lg border border-ccPurple-dark w-full h-14 text-xl flex items-center justify-evenly"
+						class="rounded-lg border border-ccPurple-dark w-full h-14 text-xl flex items-center justify-evenly hover:bg-ccPurple-dark text-ccPurple-dark hover:text-white"
 						disabled={creatingGooglePass}
 						on:click={generateGoogleWalletPass}
 					>
 						<img
 							src={`${frontendHost}/assets/images/google-wallet-pass.svg`}
 							alt="Google Wallet Pass"
+							class="pl-1"
 						/>
-						<span class="text-ccPurple-dark">Generate Google Wallet Pass</span>
+						<span>Generate Google Wallet Pass</span>
 						<Loader show={creatingGooglePass} size="small" />
 					</button>
 				{/if}
 
 				{#if appleLink}
 					<button
-						class="rounded-lg border border-ccPurple-dark w-full h-14 text-xl flex items-center justify-evenly mt-2"
+						class="rounded-lg border border-ccPurple-dark w-full h-14 text-xl flex items-center justify-evenly mt-2 hover:bg-ccPurple-dark text-ccPurple-dark hover:text-white"
 						on:click={installAppleWalletPass}
 					>
 						<img
 							src={`${frontendHost}/assets/images/apple-wallet-pass.svg`}
 							alt="Apple Wallet Pass"
 						/>
-						<span class="text-ccPurple-dark">Install Apple Wallet Pass</span>
+						<span>Install Apple Wallet Pass</span>
 					</button>
 				{:else}
 					<button
-						class="rounded-lg border border-ccPurple-dark w-full h-14 text-xl flex items-center justify-evenly mt-2"
+						class="rounded-lg border border-ccPurple-dark w-full h-14 text-xl flex items-center justify-evenly mt-2 hover:bg-ccPurple-dark text-ccPurple-dark hover:text-white"
 						disabled={creatingApplePass}
 						on:click={generateAppleWalletPass}
 					>
@@ -153,7 +155,7 @@
 							src={`${frontendHost}/assets/images/apple-wallet-pass.svg`}
 							alt="Apple Wallet Pass"
 						/>
-						<span class="text-ccPurple-dark">Generate Apple Wallet Pass</span>
+						<span>Generate Apple Wallet Pass</span>
 						<Loader show={creatingApplePass} size="small" />
 					</button>
 				{/if}
