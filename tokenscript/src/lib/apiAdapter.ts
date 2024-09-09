@@ -1,4 +1,4 @@
-import { backendHost } from '../lib/constants';
+import { backendHost } from './constants';
 
 class ApiAdapter {
 	private baseURI: string;
