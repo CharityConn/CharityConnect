@@ -97,10 +97,10 @@
 <div>
 	<div class="flex flex-col items-center">
 		{#if walletAddress && tokenId}
-			<h3 class="text-xl font-semibold mt-14">Show as QR code</h3>
-			<p class="text text-gray-600 mt-3">Scan to validate your contributions</p>
+			<h3 class="text-xl font-semibold mt-14 text-ccBlack">Show as QR code</h3>
+			<p class="text text-ccGray mt-3">Scan to validate your contributions</p>
 			<img src={qrCodeDataURL} alt="QR Code" class="w-64 h-64" />
-			<p class="text text-gray-600 mt-3 mx-6 text-center">
+			<p class="text text-ccGray mt-3 mx-6 text-center">
 				Generate and install wallet pass on your phone, so that you can access your Membership Card
 				easily.
 			</p>

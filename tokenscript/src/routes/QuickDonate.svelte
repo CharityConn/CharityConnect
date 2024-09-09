@@ -71,10 +71,10 @@
 	<div class="flex flex-col items-center">
 		{#if state === 'initial'}
 			{#if walletAddress && tokenId}
-				<h3 class="text-xl font-semibold mt-14">Quick donate</h3>
-				<p class="text text-gray-600 mt-3">You are donating</p>
+				<h3 class="text-xl font-semibold mt-14 text-ccBlack">Quick donate</h3>
+				<p class="text text-ccGray mt-3">You are donating</p>
 				<p class="text-2xl mt-4">0.001 ETH</p>
-				<p class="text text-gray-600 mt-4">to</p>
+				<p class="text text-ccGray mt-4">to</p>
 				<div
 					class="flex items-center text text-ccPink-dark bg-ccPink-light border border-ccPink-border rounded-3xl px-6 py-1 mt-4"
 				>

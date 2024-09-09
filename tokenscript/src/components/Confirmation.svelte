@@ -28,8 +28,8 @@
 
 	<div class="flex flex-col items-center w-full px-3">
 		<h3 class="text-xl font-semibold mt-5">Summary</h3>
-		<p class="text text-gray-600 mt-3">Review and confirm your transaction</p>
-		<p class="text text-gray-600 mt-5">Recipient</p>
+		<p class="text text-ccGray mt-3">Review and confirm your transaction</p>
+		<p class="text text-ccGray mt-5">Recipient</p>
 		<div
 			class="flex items-center text text-ccPink-dark bg-ccPink-light border border-ccPink-border rounded-3xl px-6 py-1 mt-4"
 		>
@@ -61,11 +61,11 @@
 			{/if}
 			<p class="ml-2">{charityName}</p>
 		</div>
-		<p class="text text-gray-600 mt-3">Donation amount</p>
+		<p class="text text-ccGray mt-3">Donation amount</p>
 		<p class="text-xl mt-1">{amount} ETH</p>
-		<p class="text text-gray-600 mt-4">Operational fee</p>
+		<p class="text text-ccGray mt-4">Operational fee</p>
 		<p class="text-xl mt-1">{operationalFee} ETH</p>
-		<p class="text text-gray-600 mt-4">Total amount</p>
+		<p class="text text-ccGray mt-4">Total amount</p>
 		<p class="text-4xl mt-3">{totalAmount} ETH</p>
 		<div class="w-full p-2 mt-5">
 			<button

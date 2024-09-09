@@ -60,7 +60,7 @@
 	</svg>
 
 	<h3 class="text-xl font-semibold mt-4">Feel Gud!</h3>
-	<p class="text text-gray-600 mt-3 mx-6 text-center">You have donated {amount} ETH to:</p>
+	<p class="text text-ccGray mt-3 mx-6 text-center">You have donated {amount} ETH to:</p>
 
 	<div
 		class="flex items-center text text-ccPink-dark bg-ccPink-light border border-ccPink-border rounded-3xl px-6 py-1 mt-4"
@@ -94,7 +94,7 @@
 		<p class="ml-2">{charityName}</p>
 	</div>
 
-	<a href={transactionLink} target="_blank" class="mt-4 flex text-gray-600 hover:underline"
+	<a href={transactionLink} target="_blank" class="mt-4 flex text-ccGray hover:underline"
 		>View transaction
 		<svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 ml-1.5">
 			<path

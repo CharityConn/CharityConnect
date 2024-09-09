@@ -134,13 +134,13 @@
 	<div class="flex flex-col items-center w-full">
 		{#if state === 'initial'}
 			{#if walletAddress && tokenId}
-				<h3 class="text-xl font-semibold mt-14">Donate to Charity</h3>
-				<p class="text text-gray-600 mt-3">Choose a Charity and an amount to donate</p>
-				<p class="text-sm text-gray-500 mt-6 w-full ml-6">Charity</p>
+				<h3 class="text-xl font-semibold mt-14 text-ccBlack">Donate to Charity</h3>
+				<p class="text text-ccGray mt-3">Choose a Charity and an amount to donate</p>
+				<p class="text-sm mt-6 w-full ml-6 text-ccGray">Charity</p>
 				<div class="w-full mt-1 px-3">
 					<div class="relative">
 						<button
-							class="w-full h-14 border py-2 px-4 rounded-md flex items-center justify-between"
+							class="w-full h-14 border border-ccGray-soft py-2 px-4 rounded-md flex items-center justify-between"
 							on:click={() => (isCharityListExpanded = !isCharityListExpanded)}
 						>
 							{#if selectedCharity}
@@ -185,7 +185,7 @@
 						</button>
 						{#if isCharityListExpanded}
 							<ul
-								class="absolute w-full mt-2 px-2 border shadow-md rounded-md z-10 bg-white max-h-60 overflow-y-auto"
+								class="absolute w-full mt-2 px-2 pb-2 border border-ccGray-soft shadow-md rounded-md z-10 bg-white max-h-60 overflow-y-auto"
 							>
 								{#each charities as option}
 									<button
@@ -219,14 +219,14 @@
 						{/if}
 					</div>
 				</div>
-				<p class="text-sm text-gray-500 mt-8 w-full ml-6">Amount</p>
+				<p class="text-sm text-ccGray mt-8 w-full ml-6">Amount</p>
 				<div class="w-full mt-1 px-3">
-					<div class="flex items-center rounded-lg border border-gray-100">
+					<div class="flex items-center rounded-md border border-ccGray-soft shadow-md">
 						<input
 							type="text"
 							bind:value={amount}
 							placeholder="0.00"
-							class="w-full bg-white h-14 px-2 py-4 text-3xl"
+							class="w-full bg-transparent h-14 px-4 py-4 text-3xl text-ccBlack"
 						/>
 						<svg
 							width="36"
@@ -252,7 +252,7 @@
 					</div>
 				</div>
 				<div class="flex justify-between w-full px-3 mt-8">
-					<span class="text-sm text-gray-600">Suggested amounts</span><span
+					<span class="text-sm text-ccGray">Suggested amounts</span><span
 						class="text-sm text-ccPurple-dark"
 						><span>Balance: </span><span class="underline">{nativeBalance} ETH</span></span
 					>
@@ -260,22 +260,22 @@
 				<div class="flex justify-evenly w-full mt-6">
 					<button
 						type="button"
-						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2"
+						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2 hover:text-white hover:bg-ccPurple-dark"
 						on:click={() => setWithDefaultAmount(0.001)}>0.001</button
 					>
 					<button
 						type="button"
-						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2"
+						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2 hover:text-white hover:bg-ccPurple-dark"
 						on:click={() => setWithDefaultAmount(0.002)}>0.002</button
 					>
 					<button
 						type="button"
-						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2"
+						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2 hover:text-white hover:bg-ccPurple-dark"
 						on:click={() => setWithDefaultAmount(0.003)}>0.003</button
 					>
 					<button
 						type="button"
-						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2"
+						class="text-ccPurple-dark border border-ccPurple-dark rounded-3xl px-5 py-2 hover:text-white hover:bg-ccPurple-dark"
 						on:click={() => setWithDefaultAmount(0.004)}>0.004</button
 					>
 				</div>

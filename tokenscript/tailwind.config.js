@@ -4,6 +4,13 @@ export default {
 	theme: {
 		extend: {
 			colors: {
+				'ccBlack': {
+					DEFAULT: '#2D2D2D',
+				},
+				'ccGray': {
+					DEFAULT: '#707070',
+					soft: '#E3E3E3',
+				},
 				'ccPink': {
 					light: '#DC79FF1A',
 					dark: '#DC79FF',
