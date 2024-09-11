@@ -35,3 +35,7 @@ export const POINTS_CONTRACT = isProd
 export const DONATION_MGR_CONTRACT = isProd
   ? '0x504E041f9A381a7a52e1496f248908C664095b88'
   : '0x87Aa0A8d5E560F413Eb7C1E860EC3741Ad5cb7DD';
+
+export const TOKEN_EXPLORER_URL = isProd
+  ? 'https://basescan.org'
+  : 'https://sepolia.basescan.org';

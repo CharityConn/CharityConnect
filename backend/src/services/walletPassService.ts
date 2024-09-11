@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import { CHAIN_ID, PASS_CONTRACT } from '../constant';
+import { CHAIN_ID, PASS_CONTRACT, TOKEN_EXPLORER_URL } from '../constant';
 import { passes } from '../domain/schemas/passes';
 import { env } from '../env';
 import { DbService } from '../_core/services/dbService';
@@ -55,6 +55,7 @@ export function decodeExternalId(externalId: string) {
 
 export function buildAppleCreatePayload(passId: string) {
   const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
+  const tokenExplorerUrl = `${TOKEN_EXPLORER_URL}/nft/${PASS_CONTRACT}/${passId}`;
   const id = externalId('apple', passId);
 
   return {
@@ -62,13 +63,13 @@ export function buildAppleCreatePayload(passId: string) {
     platform: 'apple',
     barcode: {
       redirect: {
-        url: charityConnectUrl,
+        url: tokenExplorerUrl,
       },
-      altText: 'CharityConnect Pass',
+      altText: 'Charity Connect Pass',
     },
     externalId: id,
     pass: {
-      description: 'CharityConnect',
+      description: 'Charity Connect',
       backFields: [
         {
           key: 'note',
@@ -76,8 +77,9 @@ export function buildAppleCreatePayload(passId: string) {
         },
         {
           key: 'website',
-          label: 'CharityConnect',
-          value: charityConnectUrl,
+          label: 'Link',
+          attributedValue: `<a href='${charityConnectUrl}'>Charity Connect</a>`,
+          value: 'Charity Connect',
         },
       ],
       headerFields: [
@@ -113,6 +115,7 @@ export function buildAppleUpdatePayload(
   totalDonations?: string
 ) {
   const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
+  const tokenExplorerUrl = `${TOKEN_EXPLORER_URL}/nft/${PASS_CONTRACT}/${passId}`;
 
   const payload: any = {
     pass: {
@@ -123,8 +126,9 @@ export function buildAppleUpdatePayload(
         },
         {
           key: 'website',
-          label: 'CharityConnect',
-          value: charityConnectUrl,
+          label: 'Link',
+          attributedValue: `<a href='${charityConnectUrl}'>Charity Connect</a>`,
+          value: 'Charity Connect',
         },
         {
           key: 'notification',
@@ -168,6 +172,7 @@ export function buildAppleUpdatePayload(
 
 export function buildGoogleCreatePayload(passId: string) {
   const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
+  const tokenExplorerUrl = `${TOKEN_EXPLORER_URL}/nft/${PASS_CONTRACT}/${passId}`;
   const id = externalId('google', passId);
 
   return {
@@ -175,9 +180,9 @@ export function buildGoogleCreatePayload(passId: string) {
     platform: 'google',
     barcode: {
       redirect: {
-        url: charityConnectUrl,
+        url: tokenExplorerUrl,
       },
-      altText: 'CharityConnect Pass',
+      altText: 'Charity Connect Pass',
     },
     externalId: id,
     pass: {
@@ -194,7 +199,7 @@ export function buildGoogleCreatePayload(passId: string) {
       linksModuleData: {
         uris: [
           {
-            description: 'CharityConnect',
+            description: 'Charity Connect',
             id: 'website',
             uri: charityConnectUrl,
           },
@@ -240,9 +245,12 @@ export function buildGoogleUpdatePayload(
   notificationMsg: string,
   totalDonations?: string
 ) {
+  const charityConnectUrl = `${env.FRONTEND_URL_ROOT}/?chain=${CHAIN_ID}&contract=${PASS_CONTRACT}&tokenId=${passId}`;
+  const tokenExplorerUrl = `${TOKEN_EXPLORER_URL}/nft/${PASS_CONTRACT}/${passId}`;
+
   const payload: any = {
     message: {
-      header: 'CharityConnect',
+      header: 'Charity Connect',
       body: notificationMsg,
       id: `${totalDonations || 'onlyMsg'}-${Date.now()}`,
       message_type: 'TEXT_AND_NOTIFY',
@@ -257,6 +265,15 @@ export function buildGoogleUpdatePayload(
         sourceUri: {
           uri: 'https://resources.smartlayer.network/wallet-pass/charity-connect/hero.png',
         },
+      },
+      linksModuleData: {
+        uris: [
+          {
+            description: 'Charity Connect',
+            id: 'website',
+            uri: charityConnectUrl,
+          },
+        ],
       },
       hexBackgroundColor: '#ffffff',
       cardTitle: {
