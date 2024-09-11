@@ -127,6 +127,14 @@ Charity Connect is a tapp designed to bridge the gap between donors, charities, 
 5. Expansion of QR code functionality (e.g., dynamic QR codes for specific events or campaigns)
 6. Advanced analytics for tracking donation impact and user engagement
 
+## Contracts
+
+Contracts are deployed to Base mainnet.
+
+- Charityeet: 0xce8FEC9a10D4642368f124593098f2E4dD643652
+- MembershipCard: 0x2F6F12b68165aBb483484927919D0d3fE450462E
+- DonationManager: 0x504E041f9A381a7a52e1496f248908C664095b88
+
 ## Conclusion
 
 This documentation provides a comprehensive guide for developers to implement the new version of Charity Connect. It combines blockchain technology with user-friendly features like QR codes and digital wallet passes to create an engaging and transparent charitable donation platform. Developers should pay close attention to security considerations, especially regarding the generation and management of QR codes and wallet passes.
