@@ -83,20 +83,26 @@ export function buildAppleCreatePayload(passId: string) {
       headerFields: [
         {
           label: 'DONATIONS',
-          textAlignment: 'PKTextAlignmentCenter',
+          textAlignment: 'PKTextAlignmentRight',
           key: 'donations',
           value: '0',
         },
       ],
-      primaryFields: [
+      primaryFields: [],
+      secondaryFields: [
         {
-          label: 'No.',
-          textAlignment: 'PKTextAlignmentCenter',
-          key: 'passId',
+          label: 'TOKEN ID',
+          textAlignment: 'PKTextAlignmentLeft',
+          key: 'tokenId',
           value: passId,
         },
+        {
+          label: 'NETWORK',
+          textAlignment: 'PKTextAlignmentLeft',
+          key: 'network',
+          value: 'Ethereum',
+        },
       ],
-      secondaryFields: [],
     },
   };
 }
@@ -135,7 +141,7 @@ export function buildAppleUpdatePayload(
     payload.pass.headerFields = [
       {
         label: 'DONATIONS',
-        textAlignment: 'PKTextAlignmentCenter',
+        textAlignment: 'PKTextAlignmentRight',
         key: 'donations',
         value: totalDonations,
       },
