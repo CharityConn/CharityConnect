@@ -7,12 +7,12 @@
 		  name="charityConnect">
 	<ts:label>
 		<ts:plurals xml:lang="en">
-			<ts:string quantity="one">CharityConnect Token</ts:string>
-			<ts:string quantity="other">CharityConnect Tokens</ts:string>
+			<ts:string quantity="one">Charity Connect</ts:string>
+			<ts:string quantity="other">Charity Connect</ts:string>
 		</ts:plurals>
 	</ts:label>
 	<ts:meta>
-		<ts:description xml:lang="en">This is your Charity Membership Card, represented as an ERC-721 NFT.</ts:description>
+		<ts:description xml:lang="en">This is your Charity Membership Card, and reward points CHARITYeet.</ts:description>
         <!-- Toggle these pair to build for production, but do not commit to version control -->
 		<ts:aboutUrl xml:lang="en">https://testnet.charityconnect.io/</ts:aboutUrl>
 		<ts:iconUrl xml:lang="en">https://testnet.charityconnect.io/assets/icon/cc/charity-connect-card.png</ts:iconUrl>
