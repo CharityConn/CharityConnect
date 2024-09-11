@@ -16,7 +16,7 @@
 	import BigNumber from 'bignumber.js';
 
 	let amount: string = '';
-	let amountFloat: number;
+	let amountBigInt: bigint;
 	let walletAddress: string;
 	let recipientWalletAddress: string;
 	let pointsBalance: string = '-';
@@ -41,19 +41,19 @@
 	});
 
 	//Return null if failed
-	function validate(): { recipient: string; amount: number } | null {
-		amountFloat = parseFloat(amount);
+	function validate(): { recipient: string; amount: bigint } | null {
+		amountBigInt = ethers.parseUnits(amount, 18)
 		if (!ethers.isAddress(recipientWalletAddress)) {
 			tokenscript.action.showMessageToast('error', "Can't Transfer", 'Enter a recipient address');
 			return null;
 		}
-		if (!amountFloat || amountFloat <= 0) {
+		if (!amountBigInt || amountBigInt <= 0) {
 			tokenscript.action.showMessageToast('error', "Can't Transfer", 'Enter an amount');
 			return null;
 		}
 		return {
 			recipient: recipientWalletAddress,
-			amount: amountFloat * Math.pow(10, 18)
+			amount: amountBigInt
 		};
 	}
 
