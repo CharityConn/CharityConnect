@@ -13,6 +13,7 @@
 	import WalletPass from './routes/WalletPass.svelte';
 	import Vote from './routes/Vote.svelte';
 	import Redeem from './routes/Redeem.svelte';
+	import TransferERC20 from './routes/TransferERC20.svelte';
 
 	let token;
 	let initialised = false;
@@ -24,6 +25,7 @@
 		'#walletPass': WalletPass,
 		'#vote': Vote,
 		'#redeem': Redeem,
+		'#transfer': TransferERC20,
 	};
 
 	let page;
