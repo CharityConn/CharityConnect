@@ -94,7 +94,8 @@
 		state = 'pending sign or txn confirmation';
 		const args = {
 			charity: selectedCharity.name,
-			amount: (amountFloat + operationalFee) * Math.pow(10, 18)
+			//Minimal change to be sure it works. We can switch to bigint, but it will affect a few more places
+			amount: String((amountFloat + operationalFee) * Math.pow(10, 18))
 		};
 		tokenscript.action.setProps(args);
 		const listener = (foo: ITransactionStatus) => {
