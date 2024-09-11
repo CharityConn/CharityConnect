@@ -248,6 +248,23 @@ export function buildGoogleUpdatePayload(
       message_type: 'TEXT_AND_NOTIFY',
     },
     pass: {
+      logo: {
+        sourceUri: {
+          uri: 'https://resources.smartlayer.network/wallet-pass/charity-connect/logo.png',
+        },
+      },
+      heroImage: {
+        sourceUri: {
+          uri: 'https://resources.smartlayer.network/wallet-pass/charity-connect/hero.png',
+        },
+      },
+      hexBackgroundColor: '#ffffff',
+      cardTitle: {
+        defaultValue: {
+          language: 'en',
+          value: '',
+        },
+      },
       subheader: {
         defaultValue: {
           language: 'en',
