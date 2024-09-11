@@ -6,6 +6,7 @@
 	import QuickDonate from './routes/QuickDonate.svelte';
 	import WalletPass from './routes/WalletPass.svelte';
 	import Vote from './routes/Vote.svelte';
+	import Redeem from './routes/Redeem.svelte';
 
 	let token;
 	let initialised = false;
@@ -14,7 +15,8 @@
 		'#donateToCharity': DonateToCharity,
 		'#quickDonate': QuickDonate,
 		'#walletPass': WalletPass,
-		'#vote': Vote
+		'#vote': Vote,
+		'#redeem': Redeem,
 	};
 
 	let page;
