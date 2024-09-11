@@ -204,7 +204,7 @@ export function buildGoogleCreatePayload(passId: string) {
       cardTitle: {
         defaultValue: {
           language: 'en',
-          value: '',
+          value: ' ',
         },
       },
       subheader: {
@@ -262,7 +262,7 @@ export function buildGoogleUpdatePayload(
       cardTitle: {
         defaultValue: {
           language: 'en',
-          value: '',
+          value: ' ',
         },
       },
       subheader: {
