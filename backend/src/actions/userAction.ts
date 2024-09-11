@@ -5,12 +5,6 @@ import { z } from "zod";
 import { checkins } from "../domain/schemas/checkins";
 import { env } from "../env";
 import { zEthereumAddress } from "../lib/zod-validations";
-import { enqueueWalletPassUpdate } from "../services/commonApi";
-import {
-  buildAppleUpdatePayload,
-  buildGoogleUpdatePayload,
-  getPassByPassId,
-} from "../services/walletPassService";
 import { LOGGER } from "../_core/constant";
 import { DbService } from "../_core/services/dbService";
 import { Action } from "../_core/type";

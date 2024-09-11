@@ -183,12 +183,12 @@ export function buildGoogleCreatePayload(passId: string) {
     pass: {
       logo: {
         sourceUri: {
-          uri: 'https://resources.smartlayer.network/wallet-pass/v1/favicon.ico',
+          uri: 'https://resources.smartlayer.network/wallet-pass/charity-connect/logo.png',
         },
       },
       heroImage: {
         sourceUri: {
-          uri: 'https://resources.smartlayer.network/wallet-pass/v1/hero.png',
+          uri: 'https://resources.smartlayer.network/wallet-pass/charity-connect/hero.png',
         },
       },
       linksModuleData: {
@@ -200,30 +200,35 @@ export function buildGoogleCreatePayload(passId: string) {
           },
         ],
       },
-      hexBackgroundColor: '#000000',
+      hexBackgroundColor: '#ffffff',
       cardTitle: {
         defaultValue: {
           language: 'en',
-          value: 'CharityConnect Pass',
+          value: '',
         },
       },
       subheader: {
         defaultValue: {
           language: 'en',
-          value: 'No.',
+          value: 'Donations',
         },
       },
       header: {
         defaultValue: {
           language: 'en',
-          value: passId,
+          value: '0',
         },
       },
       textModulesData: [
         {
-          id: 'oneMiddle',
-          header: 'DONATIONS',
-          body: '0',
+          id: 'tokenId',
+          header: 'Token ID',
+          body: passId,
+        },
+        {
+          id: 'network',
+          header: 'Network',
+          body: 'Ethereum',
         },
       ],
     },
@@ -231,6 +236,7 @@ export function buildGoogleCreatePayload(passId: string) {
 }
 
 export function buildGoogleUpdatePayload(
+  passId: string,
   notificationMsg: string,
   totalDonations?: string
 ) {
@@ -241,17 +247,37 @@ export function buildGoogleUpdatePayload(
       id: `${totalDonations || 'onlyMsg'}-${Date.now()}`,
       message_type: 'TEXT_AND_NOTIFY',
     },
+    pass: {
+      subheader: {
+        defaultValue: {
+          language: 'en',
+          value: 'Donations',
+        },
+      },
+      textModulesData: [
+        {
+          id: 'tokenId',
+          header: 'Token ID',
+          body: passId,
+        },
+        {
+          id: 'network',
+          header: 'Network',
+          body: 'Ethereum',
+        },
+      ],
+    },
   };
 
   if (totalDonations) {
     payload.pass = {
-      textModulesData: [
-        {
-          id: 'oneMiddle',
-          header: 'DONATIONS',
-          body: totalDonations,
+      ...payload.pass,
+      header: {
+        defaultValue: {
+          language: 'en',
+          value: totalDonations,
         },
-      ],
+      },
     };
   }
 

@@ -141,7 +141,7 @@ async function updateWalletPassHandler(
     }
 
     if (walletPasses.googleId) {
-      const params = buildGoogleUpdatePayload(msg, formattedTotal);
+      const params = buildGoogleUpdatePayload(passId, msg, formattedTotal);
       await enqueueWalletPassUpdate(walletPasses.googleId, params);
     }
   }
