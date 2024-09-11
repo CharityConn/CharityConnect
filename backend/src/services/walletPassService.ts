@@ -134,6 +134,21 @@ export function buildAppleUpdatePayload(
           textAlignment: 'PKTextAlignmentNatural',
         },
       ],
+      primaryFields: [],
+      secondaryFields: [
+        {
+          label: 'TOKEN ID',
+          textAlignment: 'PKTextAlignmentLeft',
+          key: 'tokenId',
+          value: passId,
+        },
+        {
+          label: 'NETWORK',
+          textAlignment: 'PKTextAlignmentLeft',
+          key: 'network',
+          value: 'Ethereum',
+        },
+      ],
     },
   };
 
