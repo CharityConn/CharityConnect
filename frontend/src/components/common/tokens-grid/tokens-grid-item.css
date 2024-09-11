@@ -25,6 +25,7 @@
 	font-size: 18px;
 	display: flex;
 	align-items: center;
+  color: rgb(104, 104, 255);
 }
 
 .tokens-grid-item span {
@@ -49,6 +50,21 @@
 	margin: 8px 0;
 }
 
+.actions .btn-primary {
+  background-image: none;
+  background-color: rgb(104, 104, 255);
+  color: white;
+}
+
+.actions .ts-overflow-button {
+  color: rgb(104, 104, 255);
+}
+
+.actions .btn-secondary {
+  background-color: white;
+  color: rgb(104, 104, 255);
+}
+
 .more-actions-btn {
 	background: none !important;
 	border: none !important;
@@ -69,6 +85,10 @@
 	border: none !important;
 	padding: 0;
 	background: transparent !important;
+}
+
+.info-btn svg {
+  color: rgb(104, 104, 255)
 }
 
 .info-btn svg:hover {
