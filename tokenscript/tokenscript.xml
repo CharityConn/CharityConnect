@@ -139,6 +139,15 @@
             </ts:view>
 		</ts:card>
 
+		<ts:card type="action" name="Trade" origins="Points">
+            <ts:label>
+                <ts:string xml:lang="en">Trade</ts:string>
+            </ts:label>
+            <ts:view xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" urlFragment="trade" uiButton="false">
+                <ts:viewContent name="common"/>
+            </ts:view>
+		</ts:card>
+
 		<!-- TODO leaderboard-->
 <!--        <ts:card type="action" name="Leaderboard" origins="Token">-->
 <!--            <ts:label>-->
