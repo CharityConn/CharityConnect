@@ -5,6 +5,7 @@ import { Card } from '@tokenscript/engine-js/dist/lib.esm/tokenScript/Card';
 import { previewAddr } from '@tokenscript/engine-js/dist/lib.esm/utils';
 import { getCardButtonClass } from '../../viewers/util/getCardButtonClass';
 import { TokenGridContext } from '../../viewers/util/getTokensFlat';
+import { PASS_CONTRACT, POINTS_CONTRACT } from '../../../integration/constants';
 
 @Component({
   tag: 'tokens-grid-item',
@@ -101,12 +102,30 @@ export class TokensGridItem {
     } else {
       title = this.token.name;
     }
+    let imageURL: string
+    const fallbackImageURL = this.tokenScript.getMetadata().imageUrl ? this.tokenScript.getMetadata().imageUrl : this.token.image ?? this.tokenScript.getMetadata().iconUrl
+
+    // @ts-ignore
+    const contract = this.token.collectionId ?? this.token.contractAddress
+    if (contract) {
+      if (contract === PASS_CONTRACT) {
+        imageURL =
+          "assets/images/charity-connect-card.png"
+      } else if (contract === POINTS_CONTRACT) {
+        imageURL = "assets/images/charity-connect-card-points.png"
+      } else {
+        imageURL = fallbackImageURL
+      }
+    } else {
+      imageURL = fallbackImageURL
+    }
 
     return (
       <Host class="ts-token-container tokens-grid-item">
         <token-icon
-          src={this.tokenScript.getMetadata().imageUrl ? this.tokenScript.getMetadata().imageUrl : this.token.image ?? this.tokenScript.getMetadata().iconUrl}
+          src={imageURL}
           imageTitle={this.token.name}
+          style={{"background": "linear-gradient(90deg, rgba(220, 121, 255, 0.1), rgba(104, 104, 255, 0.1))"}}
         />
         <div class="tg-item-details">
           <div class="tg-item-heading">
