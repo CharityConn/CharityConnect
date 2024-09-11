@@ -8,8 +8,8 @@
 	<ts:meta>
 		<ts:description xml:lang="en">This is your Charity Membership Card, represented as an ERC-721 NFT.</ts:description>
         
-		<ts:aboutUrl xml:lang="en">https://d31vrfdo6b6g17.cloudfront.net/</ts:aboutUrl>
-		<ts:iconUrl xml:lang="en">https://d31vrfdo6b6g17.cloudfront.net/assets/icon/cc/charity-connect-card.png</ts:iconUrl>
+		<ts:aboutUrl xml:lang="en">https://testnet.charityconnect.io/</ts:aboutUrl>
+		<ts:iconUrl xml:lang="en">https://testnet.charityconnect.io/assets/icon/cc/charity-connect-card.png</ts:iconUrl>
 
 
 	</ts:meta>
