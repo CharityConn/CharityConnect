@@ -10,9 +10,9 @@
 	import { apiAdapter } from '../lib/apiAdapter';
 	import WaitApproveOrTransactionConfirmation from '../components/WaitApproveOrTransactionConfirmation.svelte';
 	import Failed from '../components/Failed.svelte';
-	import Succeeded from '../components/Succeeded.svelte';
+	import Succeeded from '../components/SucceededDonate.svelte';
 	import type { ITransactionStatus } from '@tokenscript/card-sdk/dist/types';
-	import Confirmation from '../components/Confirmation.svelte';
+	import Confirmation from '../components/ConfirmationDonate.svelte';
 	import { computeOperationalFee } from '../lib/donation';
 
 	let tokenId: string;
