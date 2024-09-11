@@ -10,9 +10,9 @@ export const passContract: { address: string } = isProd
 		};
 
 export const frontendHost = isProd
-	? 'www.charityconnect.io'
-	: 'https://d31vrfdo6b6g17.cloudfront.net';
+	? 'https://www.charityconnect.io'
+	: 'https://testnet.charityconnect.io';
 //:'http://localhost:3006';
 
 //TODO backend prod
-export const backendHost = isProd ? '' : 'https://d37i1m1hx1fc5p.cloudfront.net';
+export const backendHost = isProd ? 'https://backend.charityconnect.io' : 'https://d37i1m1hx1fc5p.cloudfront.net';

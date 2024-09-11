@@ -2,7 +2,9 @@ import { ethers, upgrades } from 'hardhat';
 const hre = require('hardhat');
 require('dotenv/config');
 
-const deployedAddress = '0x6E651E97D10D330b761b1759DA88616c4764093d'
+// const deployedAddress = null;
+// const deployedAddress = '0x6E651E97D10D330b761b1759DA88616c4764093d' // base testnet
+const deployedAddress = '0xce8FEC9a10D4642368f124593098f2E4dD643652' // base mainnet
 
 async function main() {
   let chainId = await hre.network.provider.send('eth_chainId');
@@ -27,7 +29,7 @@ async function main() {
     console.log(`contract upgraded at ${charityeet.target}`);
   } else {
     const contractFactory = (await ethers.getContractFactory('Charityeet')).connect(admin);
-    const charityeet = await upgrades.deployProxy(contractFactory, ['CHARITYeet', 'CYT', 0]);
+    const charityeet = await upgrades.deployProxy(contractFactory, ['CHARITYeet', 'CHTY', 0]);
     await charityeet.waitForDeployment();
   
     console.log(`contract deployed to ${charityeet.target}`);

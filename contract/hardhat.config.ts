@@ -39,6 +39,9 @@ const config: HardhatUserConfig = {
     sepolia: {
       url: `https://rpc2.sepolia.org`,
     },
+    base: {
+      url: `https://base-rpc.publicnode.com`,
+    },
     baseSepolia: {
       url: `https://base-sepolia-rpc.publicnode.com`,
     },
@@ -75,6 +78,7 @@ const config: HardhatUserConfig = {
     apiKey: {
       mainnet: `${process.env.ETHERSCAN_API_KEY}`,
       sepolia: `${process.env.ETHERSCAN_API_KEY}`,
+      base: `${process.env.ETHERSCAN_API_KEY}`,
       baseSepolia: `${process.env.ETHERSCAN_API_KEY}`,
       polygonAmoy: `${process.env.POLYGONSCAN_API_KEY}`,
       polygon: `${process.env.POLYGONSCAN_API_KEY}`,
@@ -104,6 +108,14 @@ const config: HardhatUserConfig = {
         urls: {
           apiURL: 'https://api-amoy.polygonscan.com/api',
           browserURL: 'https://amoy.polygonscan.com/',
+        },
+      },
+      {
+        network: 'base',
+        chainId: 8453,
+        urls: {
+          apiURL: 'https://api.basescan.org/api',
+          browserURL: 'https://basescan.org/',
         },
       },
       {
