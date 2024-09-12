@@ -15,10 +15,13 @@ export const errorResponseSchema = z.object({
 
 export const isProd = env.NODE_ENV === 'prod';
 export const CHAIN_ID = isProd ? 8453 : 84532;
+const rpcUrl = isProd
+  ? 'https://base.blockpi.network/v1/rpc/public'
+  : 'https://base-sepolia.blockpi.network/v1/rpc/public';
 
 const staticNetwork = Network.from(CHAIN_ID);
 export const serverProvider = new ethers.JsonRpcProvider(
-  'https://base-sepolia.blockpi.network/v1/rpc/public',
+  rpcUrl,
   staticNetwork,
   { staticNetwork }
 );
