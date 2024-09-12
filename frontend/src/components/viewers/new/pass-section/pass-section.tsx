@@ -1,5 +1,5 @@
 import { Component, Event, EventEmitter, h, State } from '@stencil/core';
-import { CC_PASS_ABI, CHAIN_ID, isProd, PASS_CONTRACT, PAYMASTER_URL } from '../../../../integration/constants';
+import { CC_PASS_ABI, CHAIN_CONFIG, CHAIN_ID, isProd, PASS_CONTRACT, PAYMASTER_URL } from '../../../../integration/constants';
 import { WalletConnection, Web3WalletProvider } from '../../../wallet/Web3WalletProvider';
 import { ShowToastEventArgs } from '../../../app/app';
 import { createWalletClient, custom, parseAbi } from 'viem';
@@ -97,7 +97,7 @@ export class PassSection {
               title: 'CharityConnect Pass claimed',
               description: (
                 <span>
-                  <a href={`https://sepolia.basescan.org/tx/${receipt.transactionHash}`} target="_blank">
+                  <a href={`${CHAIN_CONFIG[CHAIN_ID].explorer}${receipt.transactionHash}`} target="_blank">
                     {'View On Block Scanner'}
                   </a>
                 </span>
