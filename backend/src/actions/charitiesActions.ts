@@ -2,14 +2,22 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { z } from 'zod';
 import { Action } from '../_core/type';
 import { env } from '../env';
+import { isProd } from '../constant';
 
 const CHARITY_ICON_BASE_URL = `${env.FRONTEND_URL_ROOT}/assets/icon/charities`;
-const CHARITIES = [
-  {
-    name: 'BoonCharity',
-    icon: `${CHARITY_ICON_BASE_URL}/animal.svg`,
-  },
-];
+const CHARITIES = isProd
+  ? [
+      {
+        name: 'Charity Connect Foundation',
+        icon: `${CHARITY_ICON_BASE_URL}/other.svg`,
+      },
+    ]
+  : [
+      {
+        name: 'BoonCharity',
+        icon: `${CHARITY_ICON_BASE_URL}/animal.svg`,
+      },
+    ];
 
 export const getCharities: Action = {
   path: '/',
