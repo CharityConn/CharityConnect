@@ -247,7 +247,7 @@ Minimum version required to store current data is: `+o+`.
 
         <ts:card name="Vote" origins="Token" type="action">
             <ts:label>
-                <ts:string xml:lang="en">Vote for Charity Fund Allocation</ts:string>
+                <ts:string xml:lang="en">Governance</ts:string>
             </ts:label>
             <ts:view xmlns="http://www.w3.org/1999/xhtml" uiButton="false" urlFragment="vote" xml:lang="en">
                 <ts:viewContent name="common"/>
