@@ -1,6 +1,7 @@
 import { Component, h, State } from '@stencil/core';
 import { getWalletInfo, WalletInfo } from './WalletInfo';
 import { WalletConnection, Web3WalletProvider } from './Web3WalletProvider';
+import { CHAIN_ID, CHAIN_MAP } from '../../integration/constants';
 
 @Component({
   tag: 'wallet-button',
@@ -47,51 +48,77 @@ export class WalletButton {
 
   render() {
     return (
-      <div class="btn-container" onClick={e => e.stopPropagation()}>
-        <button
-          class={'btn ' + (this.walletInfo ? 'btn-connected' : 'btn-connect')}
-          onClick={() => {
-            if (this.walletInfo) {
-              // await Web3WalletProvider.disconnectWallet();
-              this.dropdownOpened = !this.dropdownOpened;
-            } else {
-              Web3WalletProvider.getWallet(true);
-            }
-          }}
-        >
-          {this.walletInfo ? (
-            <div class="wallet-info">
-              <div class="status-dot"></div>
-              <div title={this.walletInfo.providerType + ': ' + this.walletInfo.address}>{this.formatWalletAddress(this.walletInfo.address)}</div>
-              <div class="chevron"></div>
+      <div class="wallet-container">
+        {this.walletInfo && (
+          <div class="network-container">
+            <img src="https://base.org/document/favicon-32x32.png" width={24} height={24} />
+            <p class="network-name">{formatName(CHAIN_MAP[CHAIN_ID])}</p>
+          </div>
+        )}
+
+        <div class="btn-container" onClick={e => e.stopPropagation()}>
+          <button
+            class={'btn ' + (this.walletInfo ? 'btn-connected' : 'btn-connect')}
+            onClick={() => {
+              if (this.walletInfo) {
+                // await Web3WalletProvider.disconnectWallet();
+                this.dropdownOpened = !this.dropdownOpened;
+              } else {
+                Web3WalletProvider.getWallet(true);
+              }
+            }}
+          >
+            {this.walletInfo ? (
+              <div class="wallet-info">
+                <div class="status-dot"></div>
+                <div title={this.walletInfo.providerType + ': ' + this.walletInfo.address}>{this.formatWalletAddress(this.walletInfo.address)}</div>
+                <div class="chevron"></div>
+              </div>
+            ) : (
+              'Connect Wallet'
+            )}
+          </button>
+          {this.dropdownOpened ? (
+            <div class="btn-dropdown">
+              <button
+                onClick={async () => {
+                  this.dropdownOpened = false;
+                  await navigator.clipboard.writeText(this.walletInfo.address);
+                }}
+              >
+                Copy address
+              </button>
+              <button
+                onClick={() => {
+                  this.dropdownOpened = false;
+                  Web3WalletProvider.disconnectWallet();
+                }}
+              >
+                Disconnect
+              </button>
+              <button
+                onClick={() => {
+                  this.dropdownOpened = false;
+                  Web3WalletProvider.switchWallet();
+                }}
+              >
+                Switch
+              </button>
             </div>
           ) : (
-            'Connect Wallet'
+            ''
           )}
-        </button>
-        {this.dropdownOpened ? (
-          <div class="btn-dropdown">
-            <button
-              onClick={() => {
-                this.dropdownOpened = false;
-                Web3WalletProvider.disconnectWallet();
-              }}
-            >
-              Disconnect
-            </button>
-            <button
-              onClick={() => {
-                this.dropdownOpened = false;
-                Web3WalletProvider.switchWallet();
-              }}
-            >
-              Switch
-            </button>
-          </div>
-        ) : (
-          ''
-        )}
+        </div>
       </div>
     );
   }
+}
+
+function formatName(name: string) {
+  const parts = name.split('-');
+  return parts.map(capitalizeFirstLetter).join(' ');
+}
+
+function capitalizeFirstLetter(text: string) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 }

@@ -59,3 +59,10 @@ main {
   justify-content: center;
   background-color: rgba(87, 87, 87, 0.67);
 }
+
+@media screen and (max-width: 480px) {
+  .header-icon {
+    max-width: 170px;
+    padding-left: 10px;
+  }
+}

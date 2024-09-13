@@ -1,3 +1,23 @@
+.wallet-container {
+  display: flex;
+  gap: 8px;
+}
+
+.network-container {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  border: 0.5px solid #6868ff;
+  border-radius: 10px;
+  padding: 5px 8px;
+}
+
+.network-container .network-name {
+  margin: 0;
+  font-size: 14px;
+  color: #6868ff;
+}
+
 .btn-container {
   position: relative;
   display: inline-block;
@@ -77,4 +97,10 @@
   width: 8px;
   height: 8px;
   margin: 5px;
+}
+
+@media screen and (max-width: 480px) {
+  .network-container .network-name {
+    display: none;
+  }
 }
