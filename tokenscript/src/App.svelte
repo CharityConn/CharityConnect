@@ -32,7 +32,7 @@
 
 	function routeChange() {
 		if (document.location.hash == '#trade') {
-			window.open('https://app.uniswap.org/swap?chain=arbitrum&exactField=output&outputCurrency=0x3a65C4cBd896c3681C471EBa8dA44828c8912043&inputCurrency=0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9', '_blank');
+			window.open('https://app.uniswap.org/swap?chain=base&exactField=output&outputCurrency=0xce8FEC9a10D4642368f124593098f2E4dD643652&inputCurrency=eth', '_blank');
 			tokenscript.action.closeCard()
 			return
 		}
