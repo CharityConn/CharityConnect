@@ -1,0 +1,8 @@
+{
+  "rules": [
+    {
+      "pathPattern": "/**",
+      "apiPath": "https://d37i1m1hx1fc5p.cloudfront.net/actions/charity"
+    }
+  ]
+}
