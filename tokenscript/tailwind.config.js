@@ -3,6 +3,10 @@ export default {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
+			backgroundImage: {
+				'gradient-hover': 'linear-gradient(90deg, #6868FF 0%, #DC79FF 100%);',
+				'gradient-press': 'linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(90deg, #6868FF 0%, #DC79FF 100%)'
+			},
 			colors: {
 				'ccBlack': {
 					DEFAULT: '#2D2D2D',
@@ -17,7 +21,7 @@ export default {
 					border: '#DC79FF80'
 				},
 				'ccPurple': {
-					dark: '#6868FF'
+					dark: '#6868FF',
 				}
 			},
 			fontFamily: {

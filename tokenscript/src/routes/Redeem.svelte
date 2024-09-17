@@ -28,8 +28,10 @@
 		<h3 class="text-xl font-semibold mt-6 text-ccBlack">Coming soon!</h3>
 		<p class="text text-ccGray mt-3 text-center">Redeem will be available shortly!</p>
 		<div class="w-full mt-5">
-			<button type="button" on:click={tokenscript.action.closeCard} class="w-full py-4 bg-ccPurple-dark hover:bg-indigo-700 text-white rounded-xl text-xl">Ok</button>
+			<button type="button" on:click={tokenscript.action.closeCard} class="w-full py-4 bg-ccPurple-dark hover:bg-gradient-hover active:bg-gradient-press text-white rounded-xl text-xl">Ok</button>
+
 		</div>
+
 	</div>
 	<Loader show={loading} />
 </div>

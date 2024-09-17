@@ -45,7 +45,7 @@
 			<button
 				type="button"
 				on:click={confirm}
-				class="w-full py-4 bg-ccPurple-dark hover:bg-indigo-700 text-white rounded-xl text-xl"
+				class="w-full py-4 bg-ccPurple-dark hover:bg-gradient-hover active:bg-gradient-press text-white rounded-xl text-xl"
 				>Confirm</button
 			>
 		</div>
