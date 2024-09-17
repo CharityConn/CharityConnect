@@ -56,7 +56,8 @@ export class TokensGridItem {
 
         if (enabled === false) continue;
 
-        const cardElem = (
+        const cardButtonClass = getCardButtonClass(card, index);
+        let cardElem = (
           <button
             class={'ts-card-button btn ' + getCardButtonClass(card, index)}
             onClick={() => this.showCard(card, this.token, index)}
@@ -66,6 +67,14 @@ export class TokensGridItem {
             <span>{label}</span>
           </button>
         );
+
+        if (cardButtonClass === 'btn-secondary') {
+          cardElem = (
+            <div class={'btn-wrapper'}>
+              {cardElem}
+            </div>
+          )
+        }
 
         if (enabled !== true || cardButtons.length > 2) {
           overflowCardButtons.push(cardElem);

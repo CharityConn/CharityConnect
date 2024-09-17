@@ -25,7 +25,7 @@
 	font-size: 18px;
 	display: flex;
 	align-items: center;
-  color: rgb(104, 104, 255);
+  color: #6868FF;
 }
 
 .tokens-grid-item span {
@@ -52,17 +52,57 @@
 
 .actions .btn-primary {
   background-image: none;
-  background-color: rgb(104, 104, 255);
+  background-color: #6868FF;
   color: white;
 }
 
+.actions .btn-primary:hover {
+  background-image: linear-gradient(90deg, #6868FF 0%, #DC79FF 100%);
+}
+
+.actions .btn-primary:active {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(90deg, #6868FF 0%, #DC79FF 100%);
+}
+
 .actions .ts-overflow-button {
-  color: rgb(104, 104, 255);
+  color: #6868FF;
 }
 
 .actions .btn-secondary {
   background-color: white;
-  color: rgb(104, 104, 255);
+  color: #6868FF;
+}
+
+.actions .btn-secondary:hover {
+  background-color: white;
+}
+
+.actions .btn-wrapper {
+  background-color: #6868FF;
+  border-radius: 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 1px;
+}
+
+.actions .btn-wrapper:hover {
+  background-image: linear-gradient(90deg, #6868FF 0%, #DC79FF 100%);
+}
+
+.actions .btn-wrapper:active {
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(90deg, #6868FF 0%, #DC79FF 100%);
+}
+
+.actions .btn-wrapper .btn-secondary {
+  margin: 0;
+  width: 100%;
+  border-radius: 9px;
+  border-color: transparent;
+}
+
+.actions .btn-wrapper .btn-secondary:hover {
+  /* Needed to override style from TS viewer */
+  color: #6868FF !important;
 }
 
 .more-actions-btn {
@@ -88,7 +128,7 @@
 }
 
 .info-btn svg {
-  color: rgb(104, 104, 255)
+  color: #6868FF;
 }
 
 .info-btn svg:hover {
