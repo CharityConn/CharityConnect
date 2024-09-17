@@ -98,12 +98,12 @@
 				<h3 class="text-xl font-semibold mt-14 text-ccBlack">Transfer</h3>
 				<p class="text-sm text-ccGray mt-8 w-full ml-6">Amount</p>
 				<div class="w-full mt-1 px-3">
-					<div class="flex items-center rounded-md border border-ccGray-soft shadow-md">
+					<div class="flex items-center rounded-md border border-ccGray-soft focus-within:border-ccPurple-dark shadow-md">
 						<input
 							type="text"
 							bind:value={amount}
 							placeholder="0.00"
-							class="w-full bg-transparent h-14 px-4 py-4 text-3xl text-ccBlack"
+							class="w-full bg-transparent h-14 px-4 py-4 text-3xl text-ccBlack outline-none"
 						/>
 						<svg
 							width="25"
@@ -142,12 +142,12 @@
 
 				<p class="text-sm text-ccGray mt-8 w-full ml-6">Recipient address</p>
 				<div class="w-full mt-1 px-3">
-					<div class="flex items-center rounded-md border border-ccGray-soft shadow-md">
+					<div class="flex items-center rounded-md border border-ccGray-soft focus-within:border-ccPurple-dark shadow-md">
 						<input
 							type="text"
 							bind:value={recipientWalletAddress}
 							placeholder="0x3b…287"
-							class="w-full bg-transparent h-14 px-4 py-4 text-3xl text-ccBlack bg-red-300"
+							class="w-full bg-transparent h-14 px-4 py-4 text-3xl text-ccBlack outline-none"
 						/>
 					</div>
 				</div>
