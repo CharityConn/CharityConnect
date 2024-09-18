@@ -20,6 +20,9 @@ export class PopoverDialog {
   modalStyles: { [cssProp: string]: string } = {};
 
   @Prop()
+  closeButtonStyles: { [cssProp: string]: string } = {};
+
+  @Prop()
   dialogClasses: string[] = [];
 
   @Prop()
@@ -56,7 +59,7 @@ export class PopoverDialog {
             <button
               class="close-btn"
               disabled={this.disableClose}
-			  style={{"margin-right": "20px", "margin-top": "20px"}}
+              style={this.closeButtonStyles}
               onClick={() => {
                 this.open = false;
                 if (this.dismissCallback) {

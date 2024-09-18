@@ -39,6 +39,20 @@
   gap: 15px;
 }
 
+.token-info-attributes .network-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  font-size: 16px;
+  border-radius: 10px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #6868ff;
+  background: linear-gradient(to right, rgba(220, 121, 255, 0.15), rgba(104, 104, 255, 0.15));
+}
+
 .token-info-attributes .token-info-attribute {
   display: flex;
   flex-direction: column;

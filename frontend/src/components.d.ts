@@ -86,6 +86,7 @@ export namespace Components {
     interface PassSection {
     }
     interface PopoverDialog {
+        "closeButtonStyles": { [cssProp: string]: string };
         "closeDialog": () => Promise<void>;
         "dialogClasses": string[];
         "dialogStyles": { [cssProp: string]: string };
@@ -631,6 +632,7 @@ declare namespace LocalJSX {
         "onShowToast"?: (event: PassSectionCustomEvent<ShowToastEventArgs>) => void;
     }
     interface PopoverDialog {
+        "closeButtonStyles"?: { [cssProp: string]: string };
         "dialogClasses"?: string[];
         "dialogStyles"?: { [cssProp: string]: string };
         "disableClose"?: boolean;

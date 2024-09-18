@@ -52,6 +52,10 @@ export class TokenInfoPopover {
               <p class="token-info-subtitle">This is your Charity Connect Membership Card.</p>
             </div>
             <div class="token-info-attributes">
+              <div class="network-info">
+                <img src="https://base.org/document/favicon-32x32.png" width={24} height={24} />
+                <p class="network-name">Base Network</p>
+              </div>
               <div class="token-info-attribute">
                 <p class="label">CHARITYeet Balance</p>
                 <p class="value">$CHTY {Number(ethers.formatEther(this.tsAttributes['Charity Balance'])).toFixed(6)}</p>
