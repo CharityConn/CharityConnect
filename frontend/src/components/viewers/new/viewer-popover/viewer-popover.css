@@ -73,6 +73,7 @@ viewer-popover .meta-details a:hover {
 
 viewer-popover a.how-it-works {
 	width: fit-content;
+	color: #6868ff;
 }
 
 viewer-popover .meta-details a img {

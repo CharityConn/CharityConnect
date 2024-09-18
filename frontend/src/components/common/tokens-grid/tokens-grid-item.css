@@ -1,76 +1,77 @@
-
 .tokens-grid-item {
-	margin: 10px;
-	border-radius: 10px;
-	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-	width: 300px;
-	max-width: 350px;
-	overflow: hidden;
-	background: #FFFEFE;
-	position: relative;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  width: 300px;
+  max-width: 350px;
+  overflow: hidden;
+  background: #fffefe;
+  position: relative;
 }
 
 .tokens-grid-item token-icon img {
-	width: 100%;
+  width: 100%;
 }
 
 .tg-item-details {
-	padding: 10px;
-	overflow: hidden;
-	position: relative;
+  padding: 10px;
+  overflow: hidden;
+  position: relative;
 }
 
 .tokens-grid-item h5 {
-	margin: 10px 20px 5px 0;
-	font-size: 18px;
-	display: flex;
-	align-items: center;
-  color: #6868FF;
+  margin: 10px 20px 5px 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  color: #6868ff;
 }
 
 .tokens-grid-item span {
-	font-size: 14px;
-	margin-bottom: 5px;
-	display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
 }
 
-.tokens-grid-item span, .tokens-grid-item h5 {
-	overflow: hidden;
-	max-width: 100%;
-	text-overflow: ellipsis ellipsis;
+.tokens-grid-item span,
+.tokens-grid-item h5 {
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis ellipsis;
 }
 
 .actions {
-	text-align: center;
+  text-align: center;
 }
 
 .actions > button {
-	display: block;
-	width: 100%;
-	margin: 8px 0;
+  display: block;
+  width: 100%;
+  margin: 8px 0;
 }
 
 .actions .btn-primary {
   background-image: none;
-  background-color: #6868FF;
+  background-color: #6868ff;
   color: white;
 }
 
 .actions .btn-primary:hover {
-  background-image: linear-gradient(90deg, #6868FF 0%, #DC79FF 100%);
+  background-image: linear-gradient(90deg, #6868ff 0%, #dc79ff 100%);
 }
 
 .actions .btn-primary:active {
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(90deg, #6868FF 0%, #DC79FF 100%);
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(90deg, #6868ff 0%, #dc79ff 100%);
 }
 
-.actions .ts-overflow-button {
-  color: #6868FF;
+.actions button.ts-overflow-button {
+  color: #6868ff;
+  font-size: 14px;
 }
 
 .actions .btn-secondary {
   background-color: white;
-  color: #6868FF;
+  color: #6868ff;
 }
 
 .actions .btn-secondary:hover {
@@ -78,7 +79,7 @@
 }
 
 .actions .btn-wrapper {
-  background-color: #6868FF;
+  background-color: #6868ff;
   border-radius: 10px;
   margin-top: 8px;
   margin-bottom: 8px;
@@ -86,11 +87,11 @@
 }
 
 .actions .btn-wrapper:hover {
-  background-image: linear-gradient(90deg, #6868FF 0%, #DC79FF 100%);
+  background-image: linear-gradient(90deg, #6868ff 0%, #dc79ff 100%);
 }
 
 .actions .btn-wrapper:active {
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(90deg, #6868FF 0%, #DC79FF 100%);
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), linear-gradient(90deg, #6868ff 0%, #dc79ff 100%);
 }
 
 .actions .btn-wrapper .btn-secondary {
@@ -102,59 +103,58 @@
 
 .actions .btn-wrapper .btn-secondary:hover {
   /* Needed to override style from TS viewer */
-  color: #6868FF !important;
+  color: #6868ff !important;
 }
 
 .more-actions-btn {
-	background: none !important;
-	border: none !important;
-	font-weight: bold;
-	color: rgb(84, 84, 84);
+  background: none !important;
+  border: none !important;
+  color: rgb(84, 84, 84);
 }
 
 .info-btn {
-	position: absolute;
-	right: 0;
-	top: 0;
-	width: 25px;
-	min-width: unset !important;
-	font-weight: bold;
-	height: 25px !important;
-	margin: 18px 10px;
-	border-radius: 25px !important;
-	border: none !important;
-	padding: 0;
-	background: transparent !important;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 25px;
+  min-width: unset !important;
+  font-weight: bold;
+  height: 25px !important;
+  margin: 18px 10px;
+  border-radius: 25px !important;
+  border: none !important;
+  padding: 0;
+  background: transparent !important;
 }
 
 .info-btn svg {
-  color: #6868FF;
+  color: #6868ff;
 }
 
 .info-btn svg:hover {
-	filter: opacity(80%);
+  filter: opacity(80%);
 }
 
 token-security-status {
-	position: absolute;
-	top: 0;
-	left: 0;
-	margin: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px;
 }
 
 .delete-attest-btn {
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 10px;
-	background: none;
-	border: none;
-	font-weight: bold;
-	font-size: 20px;
-	cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  background: none;
+  border: none;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .tokens-grid-item > token-icon {
-	/*background: rgba(0, 26, 255, 0.13);*/
-	background: #0000000a;
+  /*background: rgba(0, 26, 255, 0.13);*/
+  background: #0000000a;
 }
