@@ -54,14 +54,15 @@ export class PassSection {
   }
 
   private async claim() {
-    const smprovider = Web3WalletProvider.smartWalletSdk.makeWeb3Provider();
-    try {
-      const [account] = (await smprovider.request({ method: 'eth_requestAccounts' })) as any[];
+    const connection = await Web3WalletProvider.getWallet(true);
+    const account = connection.address as `0x${string}`;
+    const provider = connection.eip1193Provider;
 
+    try {
       const walletClient = createWalletClient({
         chain: isProd ? base : baseSepolia,
         account,
-        transport: custom(smprovider),
+        transport: custom(provider),
       }).extend(eip5792Actions());
 
       const id = await walletClient.sendCalls({
@@ -91,7 +92,7 @@ export class PassSection {
           });
 
           if (status === 'CONFIRMED') {
-            await this.loadPass()
+            await this.loadPass();
             this.showToast.emit({
               type: 'success',
               title: 'CharityConnect Pass claimed',

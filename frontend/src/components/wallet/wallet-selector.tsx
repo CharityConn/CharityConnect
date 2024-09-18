@@ -33,18 +33,17 @@ export class WalletSelector {
   componentWillLoad() {
     const providers = [];
 
+    providers.push(getWalletInfo(SupportedWalletProviders.SmartWallet));
     // if (typeof window.ethereum !== 'undefined') {
     //   providers.push(getWalletInfo(SupportedWalletProviders.MetaMask));
     // }
-
     // providers.push(getWalletInfo(SupportedWalletProviders.WalletConnect));
-    //providers.push(getWalletInfo(SupportedWalletProviders.WalletConnectV2));
-    //providers.push(getWalletInfo(SupportedWalletProviders.Torus));
-    providers.push(getWalletInfo(SupportedWalletProviders.SmartWallet));
+    // providers.push(getWalletInfo(SupportedWalletProviders.WalletConnectV2));
+    // providers.push(getWalletInfo(SupportedWalletProviders.Torus));
 
-    if (typeof window.gatewallet !== 'undefined') {
-      providers.push(getWalletInfo(SupportedWalletProviders.Gate));
-    }
+    // if (typeof window.gatewallet !== 'undefined') {
+    //   providers.push(getWalletInfo(SupportedWalletProviders.Gate));
+    // }
 
     this.providerList = providers;
   }
@@ -56,7 +55,7 @@ export class WalletSelector {
   render() {
     return (
       <popover-dialog class="wallet-selector" ref={el => (this.dialog = el as HTMLPopoverDialogElement)}>
-        <p class="popover-title">Connect Coinbase Wallet</p>
+        <p class="popover-title">Connect Wallet</p>
         {this.providerList.map(provider => {
           return (
             <button
@@ -67,7 +66,7 @@ export class WalletSelector {
               }}
             >
               <div class="wallet-icon" innerHTML={provider.imgBig} style={{ overflow: 'hidden' }}></div>
-              <div class="wallet-name">Coinbase Wallet</div>
+              <div class="wallet-name">{provider.label}</div>
             </button>
           );
         })}

@@ -184,7 +184,7 @@ export function getWalletInfo(providerType: SupportedWalletProviders): WalletInf
     case SupportedWalletProviders.WalletConnectV2:
       return {
         name: providerType,
-        label: 'WalletConnect V2',
+        label: 'WalletConnect',
         imgBig: walletConnectV2SVG,
       };
     case SupportedWalletProviders.Torus:
@@ -196,7 +196,7 @@ export function getWalletInfo(providerType: SupportedWalletProviders): WalletInf
     case SupportedWalletProviders.SmartWallet:
       return {
         name: providerType,
-        label: 'SmartWallet',
+        label: 'Coinbase Smart Wallet',
         imgBig: samrtWalletSVG,
       };
   }

@@ -30,6 +30,7 @@ export interface WalletConnection {
   blockchain: SupportedBlockchainsParam;
   provider?: ethers.BrowserProvider | any; // solana(phantom) have different interface
   ethers?: any;
+  eip1193Provider?: any
 }
 
 export enum SupportedWalletProviders {
@@ -289,7 +290,7 @@ class Web3WalletProviderObj {
     eip1193Provider: any,
   ) {
     this.connections = {};
-    this.connections[address.toLowerCase()] = { address, chainId, providerType, provider, blockchain, ethers };
+    this.connections[address.toLowerCase()] = { address, chainId, providerType, provider, blockchain, ethers, eip1193Provider };
 
     eip1193Provider.on('accountsChanged', accounts => {
       if (Object.keys(this.connections).length === 0) return;
