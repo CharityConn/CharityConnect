@@ -17,7 +17,7 @@ export const config: Config = {
       serviceWorker: null,
       baseUrl: 'https://myapp.local/',
       polyfills: false,
-      copy: [{ src: './actions.json', dest: 'actions.json' }],
+      copy: [{ src: process.env.ENVIRONMENT === 'prod' ? './actions-prod.json' : './actions-staging.json', dest: 'actions.json' }],
     },
   ],
   env: {

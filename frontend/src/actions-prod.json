@@ -1,0 +1,8 @@
+{
+  "rules": [
+    {
+      "pathPattern": "/**",
+      "apiPath": "https://backend.charityconnect.io/actions/charity"
+    }
+  ]
+}
