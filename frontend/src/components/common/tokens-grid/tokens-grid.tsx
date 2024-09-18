@@ -150,7 +150,6 @@ export class TokensGrid {
       >
         <div class="bg-blur">
           <div class="tokens-grid">
-            <loading-spinner color="#1A42FF" size="small" style={{ display: this.loading ? 'block' : 'none' }}></loading-spinner>
             {this.currentTokensFlat?.length ? (
               this.currentTokensFlat.map(token => {
                 return (

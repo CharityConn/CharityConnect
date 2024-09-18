@@ -50,6 +50,11 @@
   margin: 8px 0;
 }
 
+.actions .loading-icon {
+  max-width: 48px;
+  margin: 20px auto;
+}
+
 .actions .btn-primary {
   background-image: none;
   background-color: #6868ff;

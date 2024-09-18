@@ -48,18 +48,6 @@ main {
   flex-grow: 1;
 }
 
-#ts-loader {
-  display: none;
-  position: fixed;
-  z-index: 100;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(87, 87, 87, 0.67);
-}
-
 @media screen and (max-width: 480px) {
   .header-icon {
     max-width: 170px;

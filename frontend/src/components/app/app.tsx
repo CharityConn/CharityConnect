@@ -167,7 +167,7 @@ export class AppRoot {
   }
 
   showTsLoader() {
-    this.loadTimer = setTimeout(() => (document.getElementById('ts-loader').style.display = 'flex'), 50);
+    // this.loadTimer = setTimeout(() => (document.getElementById('ts-loader').style.display = 'flex'), 50);
   }
 
   @Listen('hideLoader')

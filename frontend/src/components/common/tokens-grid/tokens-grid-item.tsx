@@ -69,11 +69,7 @@ export class TokensGridItem {
         );
 
         if (cardButtonClass === 'btn-secondary') {
-          cardElem = (
-            <div class={'btn-wrapper'}>
-              {cardElem}
-            </div>
-          )
+          cardElem = <div class={'btn-wrapper'}>{cardElem}</div>;
         }
 
         if (enabled !== true || cardButtons.length > 2) {
@@ -111,31 +107,26 @@ export class TokensGridItem {
     } else {
       title = this.token.name;
     }
-    let imageURL: string
-    const fallbackImageURL = this.tokenScript.getMetadata().imageUrl ? this.tokenScript.getMetadata().imageUrl : this.token.image ?? this.tokenScript.getMetadata().iconUrl
+    let imageURL: string;
+    const fallbackImageURL = this.tokenScript.getMetadata().imageUrl ? this.tokenScript.getMetadata().imageUrl : this.token.image ?? this.tokenScript.getMetadata().iconUrl;
 
     // @ts-ignore
-    const contract = this.token.collectionId ?? this.token.contractAddress
+    const contract = this.token.collectionId ?? this.token.contractAddress;
     if (contract) {
       if (contract === PASS_CONTRACT) {
-        imageURL =
-          "assets/images/charity-connect-card.png"
+        imageURL = 'assets/images/charity-connect-card.png';
       } else if (contract === POINTS_CONTRACT) {
-        imageURL = "assets/images/charity-connect-card-points.png"
+        imageURL = 'assets/images/charity-connect-card-points.png';
       } else {
-        imageURL = fallbackImageURL
+        imageURL = fallbackImageURL;
       }
     } else {
-      imageURL = fallbackImageURL
+      imageURL = fallbackImageURL;
     }
 
     return (
       <Host class="ts-token-container tokens-grid-item">
-        <token-icon
-          src={imageURL}
-          imageTitle={this.token.name}
-          style={{"background": "linear-gradient(90deg, rgba(220, 121, 255, 0.1), rgba(104, 104, 255, 0.1))"}}
-        />
+        <token-icon src={imageURL} imageTitle={this.token.name} style={{ background: 'linear-gradient(90deg, rgba(220, 121, 255, 0.1), rgba(104, 104, 255, 0.1))' }} />
         <div class="tg-item-details">
           <div class="tg-item-heading">
             <h5>
@@ -149,7 +140,7 @@ export class TokensGridItem {
             <img src="assets/icon/info-icon.svg" width={28} height={29} />
           </button>
           <div class="actions">
-            {this.cardButtons ? this.cardButtons : <loading-spinner color={'#595959'} size={'small'} style={{ textAlign: 'center' }} />}
+            {this.cardButtons ? this.cardButtons : <img class="loading-icon" alt="loading" src="assets/images/loading-icon.gif" />}
             {this.overflowCardButtons?.length ? (
               <button class="btn more-actions-btn ts-overflow-button" onClick={() => this.openActionOverflowModal(this.overflowCardButtons)}>
                 + More actions
