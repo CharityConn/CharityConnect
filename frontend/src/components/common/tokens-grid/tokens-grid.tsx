@@ -165,7 +165,7 @@ export class TokensGrid {
             ) : !this.loading ? (
               <h3>{Web3WalletProvider.isWalletConnected() ? "You don't have any tokens associated with this TokenScript" : 'Connect wallet to load tokens'}</h3>
             ) : (
-              ''
+              <img class="loading-icon" width={64} alt="loading" src="assets/images/loading-icon.gif" />
             )}
           </div>
         </div>

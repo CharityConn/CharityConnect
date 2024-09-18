@@ -6,6 +6,7 @@ import { ShowToastEventArgs } from '../../../app/app';
 import { getCardButtonClass } from '../../util/getCardButtonClass';
 import { TokenGridContext } from '../../util/getTokensFlat';
 import { handleTransactionError, showTransactionNotification } from '../../util/showTransactionNotification';
+import { WalletConnection, Web3WalletProvider } from '../../../wallet/Web3WalletProvider';
 
 @Component({
   tag: 'viewer-popover',
@@ -50,6 +51,12 @@ export class ViewerPopover {
   @State()
   private overflowCardButtons: JSX.Element[];
   private overflowDialog: HTMLActionOverflowModalElement;
+
+  componentWillLoad() {
+    Web3WalletProvider.registerWalletChangeListener(async (walletConnection?: WalletConnection) => {
+      if (!walletConnection) this.close();
+    });
+  }
 
   @Method()
   async open(tokenScript: TokenScript) {
@@ -157,6 +164,7 @@ export class ViewerPopover {
     params.delete('contract');
     params.delete('tsId');
     params.delete('tokenscriptUrl');
+    params.delete('tokenId');
     location.search = params.toString();
     history.pushState(undefined, undefined, location);
   }
