@@ -74,6 +74,8 @@ viewer-popover .meta-details a:hover {
 viewer-popover a.how-it-works {
 	width: fit-content;
 	color: #6868ff;
+	font-size: 18px;
+	line-height: 22px;
 }
 
 viewer-popover .meta-details a img {

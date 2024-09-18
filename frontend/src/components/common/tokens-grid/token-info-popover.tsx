@@ -58,7 +58,7 @@ export class TokenInfoPopover {
               </div>
               <div class="token-info-attribute">
                 <p class="label">CHARITYeet Balance</p>
-                <p class="value">$CHTY {Number(ethers.formatEther(this.tsAttributes['Charity Balance'])).toFixed(6)}</p>
+                <p class="value">{Number(ethers.formatEther(this.tsAttributes['Charity Balance'])).toFixed(6)} $CHTY</p>
               </div>
               <div class="token-info-attribute">
                 <p class="label">Donated</p>
