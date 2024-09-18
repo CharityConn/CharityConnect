@@ -10,6 +10,8 @@ import { CHAIN_ID, CHAIN_MAP } from '../../integration/constants';
   scoped: false,
 })
 export class WalletButton {
+  private dialog: HTMLPopoverDialogElement;
+
   @State()
   walletInfo?: WalletInfo & WalletConnection;
 
@@ -29,8 +31,9 @@ export class WalletButton {
     document.removeEventListener('click', this.dismissClickHandler.bind(this));
   }
 
-  private dismissClickHandler(_e: Event) {
+  private async dismissClickHandler(_e: Event) {
     this.dropdownOpened = false;
+    await this.dialog.closeDialog();
   }
 
   private async updateWalletConnectionState(wallet: WalletConnection) {
@@ -59,10 +62,11 @@ export class WalletButton {
         <div class="btn-container" onClick={e => e.stopPropagation()}>
           <button
             class={'btn ' + (this.walletInfo ? 'btn-connected' : 'btn-connect')}
-            onClick={() => {
+            onClick={async () => {
               if (this.walletInfo) {
                 // await Web3WalletProvider.disconnectWallet();
                 this.dropdownOpened = !this.dropdownOpened;
+                this.dropdownOpened ? await this.dialog.openDialog(this.dismissClickHandler.bind(this)) : await this.dialog.closeDialog();
               } else {
                 Web3WalletProvider.getWallet(true);
               }
@@ -78,36 +82,16 @@ export class WalletButton {
               'Connect Wallet'
             )}
           </button>
-          {this.dropdownOpened ? (
+          {this.dropdownOpened && (
             <div class="btn-dropdown">
-              <button
-                onClick={async () => {
-                  this.dropdownOpened = false;
-                  await navigator.clipboard.writeText(this.walletInfo.address);
-                }}
-              >
-                Copy address
-              </button>
-              <button
-                onClick={() => {
-                  this.dropdownOpened = false;
-                  Web3WalletProvider.disconnectWallet();
-                }}
-              >
-                Disconnect
-              </button>
-              <button
-                onClick={() => {
-                  this.dropdownOpened = false;
-                  Web3WalletProvider.switchWallet();
-                }}
-              >
-                Switch
-              </button>
+              <wallet-actions onClick={this.dismissClickHandler.bind(this)} />
             </div>
-          ) : (
-            ''
           )}
+          <div class="action-popover">
+            <popover-dialog ref={el => (this.dialog = el as HTMLPopoverDialogElement)} dialogClasses={['wallet-actions-container']}>
+              <wallet-actions onClick={this.dismissClickHandler.bind(this)} />
+            </popover-dialog>
+          </div>
         </div>
       </div>
     );

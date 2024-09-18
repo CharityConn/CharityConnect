@@ -1,0 +1,40 @@
+.action-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-items .action-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 8px;
+  border-radius: 4px;
+}
+
+.action-items .action-item button {
+  height: 36px;
+  border: none;
+  background: none;
+  font-size: 14px;
+  line-height: 20px;
+  color: #2d2d2d;
+}
+
+.action-item:hover {
+  background: #c4c4ff80;
+}
+
+@media screen and (max-width: 480px) {
+  .action-items {
+    gap: 16px;
+  }
+
+  .action-items .action-item {
+    gap: 4px;
+  }
+
+  .action-items .action-item button {
+    font-size: 16px;
+  }
+}

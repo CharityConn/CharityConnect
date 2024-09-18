@@ -184,6 +184,9 @@ export namespace Components {
         "tabId": string;
         "tokenScript": TokenScript;
     }
+    interface WalletActions {
+        "onClick": (e: Event) => void;
+    }
     interface WalletButton {
     }
     interface WalletSelector {
@@ -525,6 +528,12 @@ declare global {
         prototype: HTMLViewerTabElement;
         new (): HTMLViewerTabElement;
     };
+    interface HTMLWalletActionsElement extends Components.WalletActions, HTMLStencilElement {
+    }
+    var HTMLWalletActionsElement: {
+        prototype: HTMLWalletActionsElement;
+        new (): HTMLWalletActionsElement;
+    };
     interface HTMLWalletButtonElement extends Components.WalletButton, HTMLStencilElement {
     }
     var HTMLWalletButtonElement: {
@@ -573,6 +582,7 @@ declare global {
         "view-step": HTMLViewStepElement;
         "viewer-popover": HTMLViewerPopoverElement;
         "viewer-tab": HTMLViewerTabElement;
+        "wallet-actions": HTMLWalletActionsElement;
         "wallet-button": HTMLWalletButtonElement;
         "wallet-selector": HTMLWalletSelectorElement;
     }
@@ -728,6 +738,9 @@ declare namespace LocalJSX {
         "tabId"?: string;
         "tokenScript"?: TokenScript;
     }
+    interface WalletActions {
+        "onClick"?: (e: Event) => void;
+    }
     interface WalletButton {
     }
     interface WalletSelector {
@@ -768,6 +781,7 @@ declare namespace LocalJSX {
         "view-step": ViewStep;
         "viewer-popover": ViewerPopover;
         "viewer-tab": ViewerTab;
+        "wallet-actions": WalletActions;
         "wallet-button": WalletButton;
         "wallet-selector": WalletSelector;
     }
@@ -811,6 +825,7 @@ declare module "@stencil/core" {
             "view-step": LocalJSX.ViewStep & JSXBase.HTMLAttributes<HTMLViewStepElement>;
             "viewer-popover": LocalJSX.ViewerPopover & JSXBase.HTMLAttributes<HTMLViewerPopoverElement>;
             "viewer-tab": LocalJSX.ViewerTab & JSXBase.HTMLAttributes<HTMLViewerTabElement>;
+            "wallet-actions": LocalJSX.WalletActions & JSXBase.HTMLAttributes<HTMLWalletActionsElement>;
             "wallet-button": LocalJSX.WalletButton & JSXBase.HTMLAttributes<HTMLWalletButtonElement>;
             "wallet-selector": LocalJSX.WalletSelector & JSXBase.HTMLAttributes<HTMLWalletSelectorElement>;
         }
