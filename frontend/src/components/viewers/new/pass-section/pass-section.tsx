@@ -65,6 +65,8 @@ export class PassSection {
         transport: custom(provider),
       }).extend(eip5792Actions());
 
+      // const capabilities = await walletClient.getCapabilities({ account });
+
       const id = await walletClient.sendCalls({
         account,
         calls: [
