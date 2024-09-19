@@ -146,6 +146,8 @@ export class ViewerPopover {
         if (data.status === 'completed') this.hideLoader.emit();
 
         await showTransactionNotification(data, this.showToast);
+
+        await this.tokenScript.getTokenMetadata(true);
       });
     } catch (e) {
       console.error(e);
