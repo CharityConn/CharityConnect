@@ -24,6 +24,7 @@
 	let operationalFee: number;
 	let walletAddress: string;
 	let nativeBalance: string = '-';
+	let nativeBalanceFloat: number;
 	let txnLink: string | undefined;
 	let loading = true;
 	let isCharityListExpanded = false;
@@ -33,6 +34,9 @@
 		| 'pending sign or txn confirmation'
 		| 'succeeded'
 		| 'failed' = 'initial';
+	$: enoughBalance = checkEnoughBalance(amount, nativeBalanceFloat)
+	$: amountBorderColorStyle = computeAmountBorderColorStyle(enoughBalance)
+	$: amountBorderColorStyleFocused = computeAmountBorderColorStyleFocused(enoughBalance)
 
 	let selectedCharity: { name: string; icon: string } | null = null;
 	let charities: { name: string; icon: string }[] = [];
@@ -54,6 +58,8 @@
 			nativeBalance = String(
 				new BigNumber(result.balance).dividedBy(Math.pow(10, 18)).toFixed(4, 1)
 			);
+			//Not too accurate, but good enough for now
+			nativeBalanceFloat = Number(nativeBalance)
 		}
 
 		const charityListResponse = await fetch(`${backendHost}/charities`);
@@ -128,6 +134,22 @@
 	function selectCharity(charity: { name: string; icon: string }) {
 		selectedCharity = charity;
 		isCharityListExpanded = false;
+	}
+
+	function computeAmountBorderColorStyle(enoughBalance: boolean) {
+		return enoughBalance ? "border-ccGray-soft" : "border-ccRed";
+	}
+
+	function computeAmountBorderColorStyleFocused(enoughBalance: boolean) {
+		return enoughBalance ? "border-ccPurple-dark" : "border-ccRed";
+	}
+
+	function checkEnoughBalance(amount: string, nativeBalanceFloat: number) {
+		if (!nativeBalanceFloat) {
+			return true
+		}
+		const amountFloat = parseFloat(amount) || 0
+		return amountFloat <= nativeBalanceFloat
 	}
 </script>
 
@@ -222,7 +244,7 @@
 				</div>
 				<p class="text-sm text-ccGray mt-8 w-full ml-6">Amount</p>
 				<div class="w-full mt-1 px-3">
-					<div class="flex items-center rounded-md border border-ccGray-soft focus-within:border-ccPurple-dark shadow-md">
+					<div class={`flex items-center rounded-md border ${amountBorderColorStyle} focus-within:${amountBorderColorStyleFocused} shadow-md`}>
 						<input
 							type="text"
 							bind:value={amount}
@@ -252,7 +274,14 @@
 						<span class="text-xl pl-1.5 pr-4">ETH</span>
 					</div>
 				</div>
-				<div class="flex justify-between w-full px-3 mt-8">
+				<p class="text-sm text-ccRed mt-2 w-full ml-6">
+					{#if enoughBalance}
+						&nbsp;
+					{:else}
+						Not Enough Funds
+					{/if}
+				</p>
+				<div class="flex justify-between w-full px-3 mt-6">
 					<span class="text-sm text-ccGray">Suggested amounts</span><span
 						class="text-sm text-ccPurple-dark"
 						><span>Balance: </span><span class="underline">{nativeBalance} ETH</span></span

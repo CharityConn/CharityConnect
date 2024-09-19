@@ -97,7 +97,7 @@
 			</ts:view>
 		</ts:card>
 
-		<ts:card type="action" name="DonateToCharity" origins="Token" exclude="dummyForceDonationsToLoadAlwaysFalse">
+        <ts:card type="action" name="DonateToCharity" origins="Token" exclude="dummyForceDonationsToLoadAlwaysFalse">
 			<ts:label>
 				<ts:string xml:lang="en">Donate to Charity</ts:string>
 			</ts:label>
