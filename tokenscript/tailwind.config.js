@@ -22,6 +22,7 @@ export default {
 				},
 				'ccPurple': {
 					dark: '#6868FF',
+					light: '#C4C4FF',
 				}
 			},
 			fontFamily: {
