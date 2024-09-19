@@ -58,7 +58,7 @@ export class WalletSelector {
         <p class="popover-title">Connect Wallet</p>
         <div class="popover-notes">
           <img src="assets/icon/info-icon.svg" width="18" height="18" />
-          <p>Coinbase Smart Wallet will sponsor the transaction fee for membership card claiming</p>
+          <p>The membership card is free to claim! The Coinbase Smart Wallet will also save you claiming transaction fees.</p>
         </div>
         {this.providerList.map(provider => {
           return (
