@@ -35,6 +35,7 @@ export class PassSection {
     if (this.walletConnection) {
       this.isLoading = true;
 
+      await Web3WalletProvider.checkNetwork(this.walletConnection);
       const provider = this.walletConnection.provider;
       const ccPassContract = new ethers.Contract(PASS_CONTRACT, CC_PASS_ABI, provider);
       try {
@@ -54,20 +55,20 @@ export class PassSection {
   }
 
   private async claim() {
-    const connection = await Web3WalletProvider.getWallet(true);
-    const account = connection.address as `0x${string}`;
-    const provider = connection.eip1193Provider;
+    const account = this.walletConnection.address as `0x${string}`;
+    const provider = this.walletConnection.eip1193Provider;
 
     try {
       this.isLoading = true;
 
-      if (connection.providerType === SupportedWalletProviders.SmartWallet) {
+      await Web3WalletProvider.checkNetwork(this.walletConnection);
+      if (this.walletConnection.providerType === SupportedWalletProviders.SmartWallet) {
         await this.claimWithPaymaster(account, provider);
       } else {
         await this.claimWithPayment(account, provider);
       }
     } catch (e) {
-      this.isLoading = false
+      this.isLoading = false;
       this.showToast.emit({
         type: 'error',
         title: 'Failed to claim',

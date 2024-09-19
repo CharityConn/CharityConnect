@@ -251,7 +251,9 @@ class Web3WalletProviderObj {
 
     this.saveConnections();
 
-    this.emitWalletChangeEvent(Object.values(this.connections)[0]);
+    const currentConnection = Object.values(this.connections)[0];
+    // await this.checkNetwork(currentConnection)
+    this.emitWalletChangeEvent(currentConnection);
 
     return address;
   }
@@ -338,6 +340,18 @@ class Web3WalletProviderObj {
        */
       this.disconnectWallet();
     });
+  }
+
+  async checkNetwork(currentConnection: WalletConnection) {
+    const provider = currentConnection.eip1193Provider;
+    const currentChainId = await provider.request({ method: 'eth_chainId' });
+
+    if (CHAIN_ID !== parseInt(currentChainId)) {
+      await provider.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId: `0x${CHAIN_ID.toString(16)}` }],
+      });
+    }
   }
 
   private async registerEvmProvider(provider: ethers.BrowserProvider, providerName: SupportedWalletProviders, injectedProvider: any) {
@@ -447,7 +461,7 @@ class Web3WalletProviderObj {
         } else {
           // @ts-ignore
           connect = walletConnectV2.connect({
-            chains: [1],
+            chains: [CHAIN_ID],
             optionalChains: preSavedWalletOptions?.walletConnectV2?.chains ?? walletConnectProvider.WC_V2_DEFAULT_CHAINS,
             rpcMap: preSavedWalletOptions?.walletConnectV2?.rpcMap ?? walletConnectProvider.WC_DEFAULT_RPC_MAP,
           });
