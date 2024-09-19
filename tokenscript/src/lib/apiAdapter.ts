@@ -1,9 +1,7 @@
-import { backendHost } from './constants';
-
 class ApiAdapter {
 	private baseURI: string;
 
-	constructor() {
+	constructor(backendHost: string) {
 		this.baseURI = backendHost;
 	}
 
@@ -46,4 +44,8 @@ class ApiAdapter {
 	}
 }
 
-export const apiAdapter = new ApiAdapter();
+export function createApiAdapter(backendHost: string) {
+	apiAdapter = new ApiAdapter(backendHost);
+}
+
+export let apiAdapter: ApiAdapter

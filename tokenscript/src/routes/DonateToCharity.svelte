@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
-	import type { IWeb3LegacySDK } from '@tokenscript/card-sdk/dist/types';
+	import type { ITokenScriptSDK } from '@tokenscript/card-sdk/dist/types';
 
-	declare let tokenscript: IWeb3LegacySDK;
+	declare let tokenscript: ITokenScriptSDK;
 </script>
 
 <script lang="ts">
@@ -14,9 +14,7 @@
 	import type { ITransactionStatus } from '@tokenscript/card-sdk/dist/types';
 	import Confirmation from '../components/ConfirmationDonate.svelte';
 	import { computeOperationalFee } from '../lib/donation';
-	import { isProd } from '../lib/constants';
 	import BigNumber from 'bignumber.js';
-	import { backendHost } from '../lib/constants';
 
 	let tokenId: string;
 	let amount: string = '';
@@ -48,7 +46,7 @@
 		walletAddress = token.ownerAddress;
 		tokenId = token.tokenId;
 
-		const chain = isProd ? 'base' : 'base-sepolia';
+		const chain = tokenscript.env.CONTRACT_CHAIN === '8453' ? 'base' : 'base-sepolia';
 		const host = 'https://api.token-discovery.tokenscript.org';
 		//const host = 'http://localhost:3001';
 		const url = `${host}/get-owner-native-balance?chain=${chain}&blockchain=evm&owner=${walletAddress}`;
@@ -62,7 +60,7 @@
 			nativeBalanceFloat = Number(nativeBalance)
 		}
 
-		const charityListResponse = await fetch(`${backendHost}/charities`);
+		const charityListResponse = await fetch(`${tokenscript.env.BACKEND_HOST}/charities`);
 		if (charityListResponse.ok) {
 			charities = await charityListResponse.json();
 		}

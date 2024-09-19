@@ -31,8 +31,6 @@ Import the output `/out/tokenscript.tsml` file into a supported platform
 
 ### Production deployment
 
-1. Manually replace frontend servers references to production's
-2. Manually replace contract addresses and chains in `tokenscript.xml`
-3. Update `isProd` to `true`
-4. `pnpm run build`
-5. `cp frontend/src/assets/tokenscripts/charityconnect-pass.tsml frontend/src/assets/tokenscripts/charityconnect-pass-prod.tsml` and and only commit the TokenScript file in `frontend/src/assets/tokenscripts/charityconnect-pass-prod.tsml` and nothing else
+1. `pnpm run build:ts:prod`
+2. Commit
+3. Apply the commit to `prod` branch and push

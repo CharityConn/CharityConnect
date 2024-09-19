@@ -1,0 +1,25 @@
+{
+	"$schema": "https://tokenscript.org/schemas/project/tokenscript-project.schema.json",
+	"environment": {
+		"default": {
+			"CONTRACT_CHAIN": "84532",
+			"DONATION_CONTRACT_ADDRESS": "0x87Aa0A8d5E560F413Eb7C1E860EC3741Ad5cb7DD",
+			"NFT_CONTRACT_ADDRESS": "0x40dc7D0B5E11Ee259314C548a238b9c909A4B721",
+			"POINTS_CONTRACT_ADDRESS": "0x6E651E97D10D330b761b1759DA88616c4764093d",
+			"FRONTEND_HOST": "https://testnet.charityconnect.io",
+			"BACKEND_HOST": "https://d37i1m1hx1fc5p.cloudfront.net",
+			"ABOUT_URL": "https://testnet.charityconnect.io/",
+			"ICON_URL": "https://testnet.charityconnect.io/assets/icon/cc/charity-connect-card.png"
+		},
+		"base": {
+			"CONTRACT_CHAIN": "8453",
+			"DONATION_CONTRACT_ADDRESS": "0x504E041f9A381a7a52e1496f248908C664095b88",
+			"NFT_CONTRACT_ADDRESS": "0x2F6F12b68165aBb483484927919D0d3fE450462E",
+			"POINTS_CONTRACT_ADDRESS": "0xce8FEC9a10D4642368f124593098f2E4dD643652",
+			"FRONTEND_HOST": "https://www.charityconnect.io",
+			"BACKEND_HOST": "https://backend.charityconnect.io",
+			"ABOUT_URL": "https://www.charityconnect.io/",
+			"ICON_URL": "https://www.charityconnect.io/assets/icon/cc/charity-connect-card.png"
+		}
+	}
+}

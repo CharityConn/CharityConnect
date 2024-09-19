@@ -1,8 +1,13 @@
+<script context="module" lang="ts">
+	import type { ITokenScriptSDK} from '@tokenscript/card-sdk/dist/types';
+
+	declare let tokenscript: ITokenScriptSDK;
+</script>
+
 <script lang="ts">
 	import context from '../lib/context';
 	import { apiAdapter } from '../lib/apiAdapter';
 	import Loader from '../components/Loader.svelte';
-	import { frontendHost, isProd, passContract } from '../lib/constants';
 	import QRCode, { QRCodeToDataURLOptions } from 'qrcode';
 
 	let tokenId: string;
@@ -25,9 +30,9 @@
 		// You can load other data before hiding the loader
 
 		await fetchWalletPassLinks();
-		const blockchainTokenURL = isProd
-			? `https://basescan.org/nft/${passContract.address}/${tokenId}`
-			: `https://sepolia.basescan.org/nft/${passContract.address}/${tokenId}`;
+		const blockchainTokenURL = tokenscript.env.CONTRACT_CHAIN === '8453'
+			? `https://basescan.org/nft/${tokenscript.env.NFT_CONTRACT_ADDRESS}/${tokenId}`
+			: `https://sepolia.basescan.org/nft/${tokenscript.env.NFT_CONTRACT_ADDRESS}/${tokenId}`;
 		qrCodeDataURL = await QRCode.toDataURL(blockchainTokenURL, {
 			width: 512,
 			height: 512
@@ -112,7 +117,7 @@
 						on:click={installGoogleWalletPass}
 					>
 						<img
-							src={`${frontendHost}/assets/images/google-wallet-pass.svg`}
+							src={`${tokenscript.env.FRONTEND_HOST}/assets/images/google-wallet-pass.svg`}
 							alt="Google Wallet Pass"
 							class="pl-1"
 						/>
@@ -125,7 +130,7 @@
 						on:click={generateGoogleWalletPass}
 					>
 						<img
-							src={`${frontendHost}/assets/images/google-wallet-pass.svg`}
+							src={`${tokenscript.env.FRONTEND_HOST}/assets/images/google-wallet-pass.svg`}
 							alt="Google Wallet Pass"
 							class="pl-1"
 						/>
@@ -140,7 +145,7 @@
 						on:click={installAppleWalletPass}
 					>
 						<img
-							src={`${frontendHost}/assets/images/apple-wallet-pass.svg`}
+							src={`${tokenscript.env.FRONTEND_HOST}/assets/images/apple-wallet-pass.svg`}
 							alt="Apple Wallet Pass"
 						/>
 						<span>Install Apple Wallet Pass</span>
@@ -152,7 +157,7 @@
 						on:click={generateAppleWalletPass}
 					>
 						<img
-							src={`${frontendHost}/assets/images/apple-wallet-pass.svg`}
+							src={`${tokenscript.env.FRONTEND_HOST}/assets/images/apple-wallet-pass.svg`}
 							alt="Apple Wallet Pass"
 						/>
 						<span>Generate Apple Wallet Pass</span>

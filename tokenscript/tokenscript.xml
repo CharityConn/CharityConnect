@@ -13,25 +13,21 @@
 	</ts:label>
 	<ts:meta>
 		<ts:description xml:lang="en">This is your Charity Membership Card, and reward points CHARITYeet.</ts:description>
-        <!-- Toggle these pair to build for production, but do not commit to version control -->
-		<ts:aboutUrl xml:lang="en">https://testnet.charityconnect.io/</ts:aboutUrl>
-		<ts:iconUrl xml:lang="en">https://testnet.charityconnect.io/assets/icon/cc/charity-connect-card.png</ts:iconUrl>
-<!--		<ts:aboutUrl xml:lang="en">https://www.charityconnect.io/</ts:aboutUrl>-->
-<!--		<ts:iconUrl xml:lang="en">https://www.charityconnect.io/assets/icon/cc/charity-connect-card.png</ts:iconUrl>-->
+        <ts:aboutUrl xml:lang="en">$tst{ABOUT_URL}</ts:aboutUrl>
+        <ts:iconUrl xml:lang="en">$tst{ICON_URL}</ts:iconUrl>
+        <ts:env name="FRONTEND_HOST">$tst{FRONTEND_HOST}</ts:env>
+		<ts:env name="BACKEND_HOST">$tst{BACKEND_HOST}</ts:env>
+		<ts:env name="CONTRACT_CHAIN">$tst{CONTRACT_CHAIN}</ts:env>
 	</ts:meta>
     <!--Renaming `"Token"` to `"MembershipCard"` breaks filtering cards by origins. Don't do this without verifying cards are displayed correctly-->
-    <!-- Toggle these 3 contracts+chains to build for production, but do not commit to version control -->
 	<ts:contract interface="erc721" name="Token">
-		<ts:address network="84532">0x40dc7D0B5E11Ee259314C548a238b9c909A4B721</ts:address>
-<!--		<ts:address network="8453">0x2F6F12b68165aBb483484927919D0d3fE450462E</ts:address>-->
+            <ts:address network="$tst{CONTRACT_CHAIN}">$tst{NFT_CONTRACT_ADDRESS}</ts:address>
 	</ts:contract>
 	<ts:contract interface="erc20" name="Points">
-		<ts:address network="84532">0x6E651E97D10D330b761b1759DA88616c4764093d</ts:address>
-<!--		<ts:address network="8453">0xce8FEC9a10D4642368f124593098f2E4dD643652</ts:address>-->
+            <ts:address network="$tst{CONTRACT_CHAIN}">$tst{POINTS_CONTRACT_ADDRESS}</ts:address>
 	</ts:contract>
 	<ts:contract name="DonationManager">
-		<ts:address network="84532">0x87Aa0A8d5E560F413Eb7C1E860EC3741Ad5cb7DD</ts:address>
-<!--		<ts:address network="8453">0x504E041f9A381a7a52e1496f248908C664095b88</ts:address>-->
+            <ts:address network="$tst{CONTRACT_CHAIN}">$tst{DONATION_CONTRACT_ADDRESS}</ts:address>
 
         <ts:abi>
             <![CDATA[

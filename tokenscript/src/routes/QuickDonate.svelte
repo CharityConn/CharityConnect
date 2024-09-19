@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
-	import type { IWeb3LegacySDK } from '@tokenscript/card-sdk/dist/types';
+	import type { ITokenScriptSDK} from '@tokenscript/card-sdk/dist/types';
 
-	declare let tokenscript: IWeb3LegacySDK;
+	declare let tokenscript: ITokenScriptSDK;
 </script>
 
 <script lang="ts">

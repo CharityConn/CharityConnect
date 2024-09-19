@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
-	import type { IWeb3LegacySDK } from '@tokenscript/card-sdk/dist/types';
+	import type { ITokenScriptSDK } from '@tokenscript/card-sdk/dist/types';
 
-	declare let tokenscript: IWeb3LegacySDK;
+	declare let tokenscript: ITokenScriptSDK;
 </script>
 
 <script lang="ts">
@@ -14,9 +14,11 @@
 	import Vote from './routes/Vote.svelte';
 	import Redeem from './routes/Redeem.svelte';
 	import TransferERC20 from './routes/TransferERC20.svelte';
+	import { createApiAdapter } from './lib/apiAdapter';
 
 	let token;
 	let initialised = false;
+	createApiAdapter(tokenscript.env.BACKEND_HOST)
 
 	//#trade is not in this map, but hardcoded in `routeChange()`
 	const routingMap = {
