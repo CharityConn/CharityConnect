@@ -3,10 +3,10 @@ import { ScriptSourceType } from '@tokenscript/engine-js/dist/lib.esm/Engine';
 import { ITransactionStatus, TokenScript } from '@tokenscript/engine-js/dist/lib.esm/TokenScript';
 import { Card } from '@tokenscript/engine-js/dist/lib.esm/tokenScript/Card';
 import { ShowToastEventArgs } from '../../../app/app';
+import { WalletConnection, Web3WalletProvider } from '../../../wallet/Web3WalletProvider';
 import { getCardButtonClass } from '../../util/getCardButtonClass';
 import { TokenGridContext } from '../../util/getTokensFlat';
 import { handleTransactionError, showTransactionNotification } from '../../util/showTransactionNotification';
-import { WalletConnection, Web3WalletProvider } from '../../../wallet/Web3WalletProvider';
 
 @Component({
   tag: 'viewer-popover',
@@ -15,6 +15,9 @@ import { WalletConnection, Web3WalletProvider } from '../../../wallet/Web3Wallet
   scoped: false,
 })
 export class ViewerPopover {
+  @State()
+  private walletConnection: WalletConnection;
+
   @Element()
   host;
 
@@ -54,7 +57,11 @@ export class ViewerPopover {
 
   componentWillLoad() {
     Web3WalletProvider.registerWalletChangeListener(async (walletConnection?: WalletConnection) => {
-      if (!walletConnection) this.close();
+      // if wallet disconnected or switched, reload the pass from dashboard
+      if (!walletConnection || (this.walletConnection && this.walletConnection.address !== walletConnection.address)) {
+        this.close();
+      }
+      this.walletConnection = walletConnection;
     });
   }
 
@@ -193,7 +200,12 @@ export class ViewerPopover {
           )}
         </div>
         {this.onboardingCards ? <div class="onboarding-cards">{this.onboardingCards}</div> : ''}
-        <tokens-grid tokenScript={this.tokenScript} showCard={this.showCard.bind(this)} openActionOverflowModal={this.openActionOverflowModal.bind(this)} closeView={this.close.bind(this)}></tokens-grid>
+        <tokens-grid
+          tokenScript={this.tokenScript}
+          showCard={this.showCard.bind(this)}
+          openActionOverflowModal={this.openActionOverflowModal.bind(this)}
+          closeView={this.close.bind(this)}
+        ></tokens-grid>
         <action-overflow-modal ref={el => (this.overflowDialog = el as HTMLActionOverflowModalElement)}>
           <div class="actions">{this.overflowCardButtons}</div>
         </action-overflow-modal>
