@@ -56,6 +56,10 @@ export class WalletSelector {
     return (
       <popover-dialog class="wallet-selector" ref={el => (this.dialog = el as HTMLPopoverDialogElement)}>
         <p class="popover-title">Connect Wallet</p>
+        <div class="popover-notes">
+          <img src="assets/icon/info-icon.svg" width="18" height="18" />
+          <p>Coinbase Smart Wallet will sponsor the transaction fee for membership card claiming</p>
+        </div>
         {this.providerList.map(provider => {
           return (
             <button

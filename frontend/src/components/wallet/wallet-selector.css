@@ -5,6 +5,20 @@
   color: #0b0b0b;
 }
 
+.wallet-selector .popover-notes {
+  display: flex;
+  gap: 4px;
+  margin: 10px 0;
+}
+
+.wallet-selector .popover-notes p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #707070;
+}
+
 .wallet-selector .wallet-btn {
   width: 100%;
   display: flex;
