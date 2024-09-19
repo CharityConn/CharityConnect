@@ -1,8 +1,8 @@
 import { Component, Event, EventEmitter, h, State } from '@stencil/core';
 import { CC_PASS_ABI, CHAIN_CONFIG, CHAIN_ID, isProd, PASS_CONTRACT, PAYMASTER_URL } from '../../../../integration/constants';
-import { WalletConnection, Web3WalletProvider } from '../../../wallet/Web3WalletProvider';
+import { SupportedWalletProviders, WalletConnection, Web3WalletProvider } from '../../../wallet/Web3WalletProvider';
 import { ShowToastEventArgs } from '../../../app/app';
-import { createWalletClient, custom, parseAbi } from 'viem';
+import { createPublicClient, createWalletClient, custom, parseAbi } from 'viem';
 import { base, baseSepolia } from 'viem/chains';
 import { eip5792Actions } from 'viem/experimental';
 import { ethers } from 'ethers';
@@ -59,67 +59,104 @@ export class PassSection {
     const provider = connection.eip1193Provider;
 
     try {
-      const walletClient = createWalletClient({
-        chain: isProd ? base : baseSepolia,
-        account,
-        transport: custom(provider),
-      }).extend(eip5792Actions());
+      this.isLoading = true;
 
-      // const capabilities = await walletClient.getCapabilities({ account });
-
-      const id = await walletClient.sendCalls({
-        account,
-        calls: [
-          {
-            to: PASS_CONTRACT,
-            abi: parseAbi(CC_PASS_ABI),
-            functionName: 'claim',
-          },
-        ],
-        capabilities: {
-          paymasterService: {
-            url: PAYMASTER_URL,
-          },
-        },
-      });
-
-      const checkClaimStatus = (id: string) => {
-        setTimeout(async () => {
-          // When it's pending status, it will not return receipts
-          const {
-            status,
-            receipts: [receipt],
-          } = await walletClient.getCallsStatus({
-            id,
-          });
-
-          if (status === 'CONFIRMED') {
-            await this.loadPass();
-            this.showToast.emit({
-              type: 'success',
-              title: 'CharityConnect Pass claimed',
-              description: (
-                <span>
-                  <a href={`${CHAIN_CONFIG[CHAIN_ID].explorer}${receipt.transactionHash}`} target="_blank">
-                    {'View On Block Scanner'}
-                  </a>
-                </span>
-              ),
-            });
-          } else {
-            checkClaimStatus(id);
-          }
-        }, 5000);
-      };
-
-      checkClaimStatus(id);
+      if (connection.providerType === SupportedWalletProviders.SmartWallet) {
+        await this.claimWithPaymaster(account, provider);
+      } else {
+        await this.claimWithPayment(account, provider);
+      }
     } catch (e) {
+      this.isLoading = false
       this.showToast.emit({
         type: 'error',
         title: 'Failed to claim',
         description: e.message,
       });
     }
+  }
+
+  private async claimWithPaymaster(account: `0x${string}`, provider: any) {
+    const walletClient = createWalletClient({
+      chain: isProd ? base : baseSepolia,
+      account,
+      transport: custom(provider),
+    }).extend(eip5792Actions());
+
+    const id = await walletClient.sendCalls({
+      account,
+      calls: [
+        {
+          to: PASS_CONTRACT,
+          abi: parseAbi(CC_PASS_ABI),
+          functionName: 'claim',
+        },
+      ],
+      capabilities: {
+        paymasterService: {
+          url: PAYMASTER_URL,
+        },
+      },
+    });
+
+    const checkClaimStatus = (id: string) => {
+      setTimeout(async () => {
+        // When it's pending status, it will not return receipts
+        const {
+          status,
+          receipts: [receipt],
+        } = await walletClient.getCallsStatus({
+          id,
+        });
+
+        if (status === 'CONFIRMED') {
+          await this.onClaimed(receipt.transactionHash);
+        } else {
+          checkClaimStatus(id);
+        }
+      }, 5000);
+    };
+
+    checkClaimStatus(id);
+  }
+
+  private async claimWithPayment(account: `0x${string}`, provider: any) {
+    const walletClient = createWalletClient({
+      chain: isProd ? base : baseSepolia,
+      account,
+      transport: custom(provider),
+    });
+    const publicClient = createPublicClient({
+      chain: isProd ? base : baseSepolia,
+      transport: custom(provider),
+    });
+
+    const { request } = await publicClient.simulateContract({
+      account,
+      chain: isProd ? base : baseSepolia,
+      address: PASS_CONTRACT,
+      abi: parseAbi(CC_PASS_ABI),
+      functionName: 'claim',
+    });
+    const hash = await walletClient.writeContract(request);
+    await publicClient.waitForTransactionReceipt({ hash });
+
+    await this.onClaimed(hash);
+  }
+
+  private async onClaimed(hash: string) {
+    await this.loadPass();
+    this.showToast.emit({
+      type: 'success',
+      title: 'CharityConnect Pass claimed',
+      description: (
+        <span>
+          <a href={`${CHAIN_CONFIG[CHAIN_ID].explorer}${hash}`} target="_blank">
+            {'View On Block Scanner'}
+          </a>
+        </span>
+      ),
+    });
   }
 
   render() {

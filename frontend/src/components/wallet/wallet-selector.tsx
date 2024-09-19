@@ -34,16 +34,16 @@ export class WalletSelector {
     const providers = [];
 
     providers.push(getWalletInfo(SupportedWalletProviders.SmartWallet));
-    // if (typeof window.ethereum !== 'undefined') {
-    //   providers.push(getWalletInfo(SupportedWalletProviders.MetaMask));
-    // }
+    if (typeof window.ethereum !== 'undefined') {
+      providers.push(getWalletInfo(SupportedWalletProviders.MetaMask));
+    }
     // providers.push(getWalletInfo(SupportedWalletProviders.WalletConnect));
-    // providers.push(getWalletInfo(SupportedWalletProviders.WalletConnectV2));
-    // providers.push(getWalletInfo(SupportedWalletProviders.Torus));
+    providers.push(getWalletInfo(SupportedWalletProviders.WalletConnectV2));
+    providers.push(getWalletInfo(SupportedWalletProviders.Torus));
 
-    // if (typeof window.gatewallet !== 'undefined') {
-    //   providers.push(getWalletInfo(SupportedWalletProviders.Gate));
-    // }
+    if (typeof window.gatewallet !== 'undefined') {
+      providers.push(getWalletInfo(SupportedWalletProviders.Gate));
+    }
 
     this.providerList = providers;
   }
