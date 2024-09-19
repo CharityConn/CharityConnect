@@ -193,7 +193,7 @@ export class ViewerPopover {
           )}
         </div>
         {this.onboardingCards ? <div class="onboarding-cards">{this.onboardingCards}</div> : ''}
-        <tokens-grid tokenScript={this.tokenScript} showCard={this.showCard.bind(this)} openActionOverflowModal={this.openActionOverflowModal.bind(this)}></tokens-grid>
+        <tokens-grid tokenScript={this.tokenScript} showCard={this.showCard.bind(this)} openActionOverflowModal={this.openActionOverflowModal.bind(this)} closeView={this.close.bind(this)}></tokens-grid>
         <action-overflow-modal ref={el => (this.overflowDialog = el as HTMLActionOverflowModalElement)}>
           <div class="actions">{this.overflowCardButtons}</div>
         </action-overflow-modal>

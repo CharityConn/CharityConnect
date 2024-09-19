@@ -150,6 +150,7 @@ export namespace Components {
         "openDialog": (tokenSecInfo: Partial<IOriginSecurityInfo>) => Promise<void>;
     }
     interface TokensGrid {
+        "closeView": () => void;
         "openActionOverflowModal": (buttons: JSX.Element[]) => void;
         "showCard": (card: Card, token?: TokenGridContext, cardIndex?: number) => void;
         "tokenScript": TokenScript;
@@ -698,6 +699,7 @@ declare namespace LocalJSX {
     interface TokenSecurityStatusPopover {
     }
     interface TokensGrid {
+        "closeView"?: () => void;
         "onHideLoader"?: (event: TokensGridCustomEvent<void>) => void;
         "onShowLoader"?: (event: TokensGridCustomEvent<void>) => void;
         "onShowToast"?: (event: TokensGridCustomEvent<ShowToastEventArgs>) => void;

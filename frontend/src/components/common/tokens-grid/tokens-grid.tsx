@@ -19,6 +19,8 @@ export class TokensGrid {
 
   @Prop() openActionOverflowModal: (buttons: JSX.Element[]) => void;
 
+  @Prop() closeView: () => void;
+
   currentTokens?: { [key: string]: ITokenCollection };
 
   @State()
@@ -81,8 +83,12 @@ export class TokensGrid {
 
     // TODO: Move to parent component OR ensure parent component is rendered before calling
     setTimeout(async () => {
-      await this.populateTokens(await this.tokenScript.getTokenMetadata());
-      this.invokeUrlAction();
+      if (Web3WalletProvider.isWalletConnected()) {
+        await this.populateTokens(await this.tokenScript.getTokenMetadata());
+        this.invokeUrlAction();
+      } else {
+        this.closeView();
+      }
     }, 500);
   }
 
