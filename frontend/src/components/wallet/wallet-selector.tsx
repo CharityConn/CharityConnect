@@ -10,7 +10,10 @@ import { getWalletInfo, WalletInfo } from './WalletInfo';
 })
 export class WalletSelector {
   @State()
-  providerList: WalletInfo[];
+  smartWallet: WalletInfo;
+
+  @State()
+  otherWallets: WalletInfo[];
 
   private dialog;
 
@@ -33,19 +36,19 @@ export class WalletSelector {
   componentWillLoad() {
     const providers = [];
 
-    providers.push(getWalletInfo(SupportedWalletProviders.SmartWallet));
     if (typeof window.ethereum !== 'undefined') {
       providers.push(getWalletInfo(SupportedWalletProviders.MetaMask));
     }
-    // providers.push(getWalletInfo(SupportedWalletProviders.WalletConnect));
+
     providers.push(getWalletInfo(SupportedWalletProviders.WalletConnectV2));
-    providers.push(getWalletInfo(SupportedWalletProviders.Torus));
+    // providers.push(getWalletInfo(SupportedWalletProviders.Torus));
 
-    if (typeof window.gatewallet !== 'undefined') {
-      providers.push(getWalletInfo(SupportedWalletProviders.Gate));
-    }
+    // if (typeof window.gatewallet !== 'undefined') {
+    //   providers.push(getWalletInfo(SupportedWalletProviders.Gate));
+    // }
 
-    this.providerList = providers;
+    this.smartWallet = getWalletInfo(SupportedWalletProviders.SmartWallet);
+    this.otherWallets = providers;
   }
 
   componentDidLoad() {
@@ -55,12 +58,27 @@ export class WalletSelector {
   render() {
     return (
       <popover-dialog class="wallet-selector" ref={el => (this.dialog = el as HTMLPopoverDialogElement)}>
-        <p class="popover-title">Connect Wallet</p>
+        <p class="popover-title">New to Crypto? Start Here</p>
         <div class="popover-notes">
-          <img src="assets/icon/info-icon.svg" width="18" height="18" />
-          <p>The membership card is free to claim! The Coinbase Smart Wallet will also save you claiming transaction fees.</p>
+          <p>Claim and use your free membership card with Smart Wallet - no fees required!</p>
         </div>
-        {this.providerList.map(provider => {
+        <button
+          class="btn wallet-btn"
+          onClick={() => {
+            this.selectCallback(this.smartWallet.name);
+            this.dialog.closeDialog();
+          }}
+        >
+          <div class="wallet-icon" innerHTML={this.smartWallet.imgBig} style={{ overflow: 'hidden' }}></div>
+          <div class="wallet-name">{this.smartWallet.label}</div>
+        </button>
+
+        <p class="popover-title">Already Have a Wallet?</p>
+        <div class="popover-notes">
+          <p>Claim and use your membership card with your preferred wallet.</p>
+        </div>
+
+        {this.otherWallets.map(provider => {
           return (
             <button
               class="btn wallet-btn"
